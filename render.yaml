@@ -4,6 +4,7 @@ services:
     env: python
     buildCommand: pip install pyrogram tgcrypto motor pymongo flask requests aiofiles
     startCommand: python main.py
+    plan: starter
     envVars:
       - key: API_ID
         sync: false
