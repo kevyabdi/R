@@ -13,7 +13,7 @@ class Config:
         # Required Telegram API credentials
         self.API_ID = int(os.getenv("API_ID", "27965918"))
         self.API_HASH = os.getenv("API_HASH", "d5ca408334552615fa7e8f48c2dac999")
-        self.BOT_TOKEN = os.getenv("BOT_TOKEN", "7328446393:AAFceXXhDL-nS6Yd7n_LbRzKgaaEI3SKUYs")
+        self.BOT_TOKEN = os.getenv("BOT_TOKEN", "6473112369:AAEMaBgoPmXHiK5IUoVjPpykbJCyQPS3PB8")
         
         # Database configuration
         self.DATABASE_URI = os.getenv("DATABASE_URI", "mongodb+srv://kevyabdi30:kevyabdi30@kevyabdi.mymiztp.mongodb.net/?retryWrites=true&w=majority&appName=kevyabdi")
