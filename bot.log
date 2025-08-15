@@ -1,0 +1,877 @@
+2025-08-15 14:30:12 - config - ERROR - Configuration errors:
+- API_ID is required
+- API_HASH is required
+- BOT_TOKEN is required
+- DATABASE_URI is required
+- At least one ADMIN is required
+2025-08-15 14:30:12 - __main__ - ERROR - 💥 Fatal error: Configuration errors:
+- API_ID is required
+- API_HASH is required
+- BOT_TOKEN is required
+- DATABASE_URI is required
+- At least one ADMIN is required
+2025-08-15 14:32:44 - config - ERROR - Configuration errors:
+- API_ID is required
+- API_HASH is required
+- BOT_TOKEN is required
+- DATABASE_URI is required
+- At least one ADMIN is required
+2025-08-15 14:32:44 - __main__ - ERROR - 💥 Fatal error: Configuration errors:
+- API_ID is required
+- API_HASH is required
+- BOT_TOKEN is required
+- DATABASE_URI is required
+- At least one ADMIN is required
+2025-08-15 14:32:48 - config - INFO - ✅ Configuration validated successfully
+2025-08-15 14:32:48 - config - INFO - ✅ Configuration validated successfully
+2025-08-15 14:32:48 - __main__ - INFO - Starting Media Search Bot...
+2025-08-15 14:32:48 - pyrogram.session.auth - INFO - Start creating a new auth key on DC2
+2025-08-15 14:32:48 - pyrogram.connection.connection - INFO - Connecting...
+2025-08-15 14:32:48 - pyrogram.connection.connection - INFO - Connected! Production DC2 - IPv4
+2025-08-15 14:32:50 - pyrogram.session.auth - INFO - Done auth key exchange: DhGenOk
+2025-08-15 14:32:50 - pyrogram.connection.connection - INFO - Disconnected
+2025-08-15 14:32:50 - pyrogram.connection.connection - INFO - Connecting...
+2025-08-15 14:32:50 - pyrogram.connection.connection - INFO - Connected! Production DC2 - IPv4
+2025-08-15 14:32:50 - pyrogram.session.session - INFO - NetworkTask started
+2025-08-15 14:32:51 - pyrogram.session.session - INFO - Session initialized: Layer 158
+2025-08-15 14:32:51 - pyrogram.session.session - INFO - Device: CPython 3.11.13 - Pyrogram 2.0.106
+2025-08-15 14:32:51 - pyrogram.session.session - INFO - System: Linux 6.2.16 (en)
+2025-08-15 14:32:51 - pyrogram.session.session - INFO - Session started
+2025-08-15 14:32:51 - pyrogram.session.session - INFO - PingTask started
+2025-08-15 14:32:51 - pyrogram.session.session - INFO - PingTask stopped
+2025-08-15 14:32:51 - pyrogram.connection.connection - INFO - Disconnected
+2025-08-15 14:32:51 - pyrogram.session.session - INFO - NetworkTask stopped
+2025-08-15 14:32:51 - pyrogram.session.session - INFO - Session stopped
+2025-08-15 14:32:51 - pyrogram.session.auth - INFO - Start creating a new auth key on DC4
+2025-08-15 14:32:51 - pyrogram.connection.connection - INFO - Connecting...
+2025-08-15 14:32:51 - pyrogram.connection.connection - INFO - Connected! Production DC4 - IPv4
+2025-08-15 14:32:53 - pyrogram.session.auth - INFO - Done auth key exchange: DhGenOk
+2025-08-15 14:32:53 - pyrogram.connection.connection - INFO - Disconnected
+2025-08-15 14:32:53 - pyrogram.connection.connection - INFO - Connecting...
+2025-08-15 14:32:53 - pyrogram.connection.connection - INFO - Connected! Production DC4 - IPv4
+2025-08-15 14:32:53 - pyrogram.session.session - INFO - NetworkTask started
+2025-08-15 14:32:54 - pyrogram.session.session - INFO - Session initialized: Layer 158
+2025-08-15 14:32:54 - pyrogram.session.session - INFO - Device: CPython 3.11.13 - Pyrogram 2.0.106
+2025-08-15 14:32:54 - pyrogram.session.session - INFO - System: Linux 6.2.16 (en)
+2025-08-15 14:32:54 - pyrogram.session.session - INFO - Session started
+2025-08-15 14:32:54 - pyrogram.session.session - INFO - PingTask started
+2025-08-15 14:32:54 - config - INFO - ✅ Configuration validated successfully
+2025-08-15 14:32:54 - config - INFO - ✅ Configuration validated successfully
+2025-08-15 14:32:54 - pyrogram.client - INFO - [MediaSearchBot] [LOAD] MessageHandler("channel_media_handler") in group 0 from "plugins.channel_post"
+2025-08-15 14:32:54 - pyrogram.client - INFO - [MediaSearchBot] [LOAD] MessageHandler("manual_index_command") in group 0 from "plugins.channel_post"
+2025-08-15 14:32:54 - pyrogram.client - INFO - [MediaSearchBot] [LOAD] MessageHandler("channel_info_command") in group 0 from "plugins.channel_post"
+2025-08-15 14:32:54 - config - INFO - ✅ Configuration validated successfully
+2025-08-15 14:32:54 - config - INFO - ✅ Configuration validated successfully
+2025-08-15 14:32:54 - pyrogram.client - INFO - [MediaSearchBot] [LOAD] MessageHandler("start_command") in group 0 from "plugins.commands"
+2025-08-15 14:32:54 - pyrogram.client - INFO - [MediaSearchBot] [LOAD] MessageHandler("stats_command") in group 0 from "plugins.commands"
+2025-08-15 14:32:54 - pyrogram.client - INFO - [MediaSearchBot] [LOAD] MessageHandler("ban_command") in group 0 from "plugins.commands"
+2025-08-15 14:32:54 - pyrogram.client - INFO - [MediaSearchBot] [LOAD] MessageHandler("unban_command") in group 0 from "plugins.commands"
+2025-08-15 14:32:54 - pyrogram.client - INFO - [MediaSearchBot] [LOAD] MessageHandler("broadcast_command") in group 0 from "plugins.commands"
+2025-08-15 14:32:54 - pyrogram.client - INFO - [MediaSearchBot] [LOAD] MessageHandler("total_command") in group 0 from "plugins.commands"
+2025-08-15 14:32:54 - pyrogram.client - INFO - [MediaSearchBot] [LOAD] MessageHandler("delete_command") in group 0 from "plugins.commands"
+2025-08-15 14:32:54 - pyrogram.client - INFO - [MediaSearchBot] [LOAD] MessageHandler("logger_command") in group 0 from "plugins.commands"
+2025-08-15 14:32:54 - pyrogram.client - INFO - [MediaSearchBot] [LOAD] CallbackQueryHandler("show_public_stats") in group 0 from "plugins.commands"
+2025-08-15 14:32:54 - pyrogram.client - INFO - [MediaSearchBot] [LOAD] CallbackQueryHandler("show_help") in group 0 from "plugins.commands"
+2025-08-15 14:32:54 - config - INFO - ✅ Configuration validated successfully
+2025-08-15 14:32:54 - config - INFO - ✅ Configuration validated successfully
+2025-08-15 14:32:54 - pyrogram.client - INFO - [MediaSearchBot] [LOAD] InlineQueryHandler("inline_query_handler") in group 0 from "plugins.inline_query"
+2025-08-15 14:32:54 - pyrogram.client - INFO - [MediaSearchBot] [LOAD] ChosenInlineResultHandler("chosen_inline_result_handler") in group 0 from "plugins.inline_query"
+2025-08-15 14:32:54 - pyrogram.client - INFO - [MediaSearchBot] Successfully loaded 15 plugins from "plugins"
+2025-08-15 14:32:54 - pyrogram.dispatcher - INFO - Started 50 HandlerTasks
+2025-08-15 14:32:58 - database - INFO - 📊 Database indexes created successfully
+2025-08-15 14:32:58 - database - INFO - ✅ Database connected: MediaSearchBot
+2025-08-15 14:32:58 - storage - INFO - 📋 Loaded 0 banned users
+2025-08-15 14:32:58 - storage - INFO - 📊 Bot statistics loaded
+2025-08-15 14:32:58 - storage - INFO - ✅ Storage data loaded successfully
+2025-08-15 14:32:58 - __main__ - INFO - 🚀 test started successfully!
+📊 Pyrogram v2.0.106 (Layer 158)
+🔗 Username: Narocoin_bot
+💾 Database: MediaSearchBot
+👥 Admins: 1
+📺 Channels: 1
+2025-08-15 14:33:10 - config - INFO - ✅ Configuration validated successfully
+2025-08-15 14:33:10 - config - INFO - ✅ Configuration validated successfully
+2025-08-15 14:33:10 - __main__ - INFO - Starting Media Search Bot...
+2025-08-15 14:33:10 - pyrogram.connection.connection - INFO - Connecting...
+2025-08-15 14:33:10 - pyrogram.connection.connection - INFO - Connected! Production DC4 - IPv4
+2025-08-15 14:33:10 - pyrogram.session.session - INFO - NetworkTask started
+2025-08-15 14:33:11 - pyrogram.session.session - INFO - Session initialized: Layer 158
+2025-08-15 14:33:11 - pyrogram.session.session - INFO - Device: CPython 3.11.13 - Pyrogram 2.0.106
+2025-08-15 14:33:11 - pyrogram.session.session - INFO - System: Linux 6.2.16 (en)
+2025-08-15 14:33:11 - pyrogram.session.session - INFO - Session started
+2025-08-15 14:33:11 - pyrogram.session.session - INFO - PingTask started
+2025-08-15 14:33:11 - config - INFO - ✅ Configuration validated successfully
+2025-08-15 14:33:11 - config - INFO - ✅ Configuration validated successfully
+2025-08-15 14:33:11 - pyrogram.client - INFO - [MediaSearchBot] [LOAD] MessageHandler("channel_media_handler") in group 0 from "plugins.channel_post"
+2025-08-15 14:33:11 - pyrogram.client - INFO - [MediaSearchBot] [LOAD] MessageHandler("manual_index_command") in group 0 from "plugins.channel_post"
+2025-08-15 14:33:11 - pyrogram.client - INFO - [MediaSearchBot] [LOAD] MessageHandler("channel_info_command") in group 0 from "plugins.channel_post"
+2025-08-15 14:33:11 - config - INFO - ✅ Configuration validated successfully
+2025-08-15 14:33:11 - config - INFO - ✅ Configuration validated successfully
+2025-08-15 14:33:11 - pyrogram.client - INFO - [MediaSearchBot] [LOAD] MessageHandler("start_command") in group 0 from "plugins.commands"
+2025-08-15 14:33:11 - pyrogram.client - INFO - [MediaSearchBot] [LOAD] MessageHandler("stats_command") in group 0 from "plugins.commands"
+2025-08-15 14:33:11 - pyrogram.client - INFO - [MediaSearchBot] [LOAD] MessageHandler("ban_command") in group 0 from "plugins.commands"
+2025-08-15 14:33:11 - pyrogram.client - INFO - [MediaSearchBot] [LOAD] MessageHandler("unban_command") in group 0 from "plugins.commands"
+2025-08-15 14:33:11 - pyrogram.client - INFO - [MediaSearchBot] [LOAD] MessageHandler("broadcast_command") in group 0 from "plugins.commands"
+2025-08-15 14:33:11 - pyrogram.client - INFO - [MediaSearchBot] [LOAD] MessageHandler("total_command") in group 0 from "plugins.commands"
+2025-08-15 14:33:11 - pyrogram.client - INFO - [MediaSearchBot] [LOAD] MessageHandler("delete_command") in group 0 from "plugins.commands"
+2025-08-15 14:33:11 - pyrogram.client - INFO - [MediaSearchBot] [LOAD] MessageHandler("logger_command") in group 0 from "plugins.commands"
+2025-08-15 14:33:11 - pyrogram.client - INFO - [MediaSearchBot] [LOAD] CallbackQueryHandler("show_public_stats") in group 0 from "plugins.commands"
+2025-08-15 14:33:11 - pyrogram.client - INFO - [MediaSearchBot] [LOAD] CallbackQueryHandler("show_help") in group 0 from "plugins.commands"
+2025-08-15 14:33:11 - config - INFO - ✅ Configuration validated successfully
+2025-08-15 14:33:11 - config - INFO - ✅ Configuration validated successfully
+2025-08-15 14:33:11 - pyrogram.client - INFO - [MediaSearchBot] [LOAD] InlineQueryHandler("inline_query_handler") in group 0 from "plugins.inline_query"
+2025-08-15 14:33:11 - pyrogram.client - INFO - [MediaSearchBot] [LOAD] ChosenInlineResultHandler("chosen_inline_result_handler") in group 0 from "plugins.inline_query"
+2025-08-15 14:33:11 - pyrogram.client - INFO - [MediaSearchBot] Successfully loaded 15 plugins from "plugins"
+2025-08-15 14:33:11 - pyrogram.dispatcher - INFO - Started 50 HandlerTasks
+2025-08-15 14:33:15 - database - INFO - 📊 Database indexes created successfully
+2025-08-15 14:33:15 - database - INFO - ✅ Database connected: MediaSearchBot
+2025-08-15 14:33:15 - storage - INFO - 📋 Loaded 0 banned users
+2025-08-15 14:33:15 - storage - INFO - 📊 Bot statistics loaded
+2025-08-15 14:33:15 - storage - INFO - ✅ Storage data loaded successfully
+2025-08-15 14:33:15 - __main__ - INFO - 🚀 test started successfully!
+📊 Pyrogram v2.0.106 (Layer 158)
+🔗 Username: Narocoin_bot
+💾 Database: MediaSearchBot
+👥 Admins: 1
+📺 Channels: 1
+2025-08-15 14:33:41 - database - ERROR - ❌ Database not connected
+2025-08-15 14:34:08 - database - ERROR - ❌ Database not connected
+2025-08-15 14:34:16 - database - ERROR - ❌ Database not connected
+2025-08-15 14:34:23 - database - ERROR - ❌ Database not connected
+2025-08-15 14:34:28 - database - ERROR - ❌ Database not connected
+2025-08-15 14:35:59 - config - INFO - ✅ Configuration validated successfully
+2025-08-15 14:35:59 - config - INFO - ✅ Configuration validated successfully
+2025-08-15 14:35:59 - __main__ - INFO - Starting Media Search Bot...
+2025-08-15 14:36:00 - pyrogram.connection.connection - INFO - Connecting...
+2025-08-15 14:36:00 - pyrogram.connection.connection - INFO - Connected! Production DC4 - IPv4
+2025-08-15 14:36:00 - pyrogram.session.session - INFO - NetworkTask started
+2025-08-15 14:36:01 - pyrogram.session.session - INFO - Session initialized: Layer 158
+2025-08-15 14:36:01 - pyrogram.session.session - INFO - Device: CPython 3.11.13 - Pyrogram 2.0.106
+2025-08-15 14:36:01 - pyrogram.session.session - INFO - System: Linux 6.2.16 (en)
+2025-08-15 14:36:01 - pyrogram.session.session - INFO - Session started
+2025-08-15 14:36:01 - pyrogram.session.session - INFO - PingTask started
+2025-08-15 14:36:01 - config - INFO - ✅ Configuration validated successfully
+2025-08-15 14:36:01 - config - INFO - ✅ Configuration validated successfully
+2025-08-15 14:36:01 - pyrogram.client - INFO - [MediaSearchBot] [LOAD] MessageHandler("channel_media_handler") in group 0 from "plugins.channel_post"
+2025-08-15 14:36:01 - pyrogram.client - INFO - [MediaSearchBot] [LOAD] MessageHandler("manual_index_command") in group 0 from "plugins.channel_post"
+2025-08-15 14:36:01 - pyrogram.client - INFO - [MediaSearchBot] [LOAD] MessageHandler("channel_info_command") in group 0 from "plugins.channel_post"
+2025-08-15 14:36:01 - config - INFO - ✅ Configuration validated successfully
+2025-08-15 14:36:01 - config - INFO - ✅ Configuration validated successfully
+2025-08-15 14:36:01 - pyrogram.client - INFO - [MediaSearchBot] [LOAD] MessageHandler("start_command") in group 0 from "plugins.commands"
+2025-08-15 14:36:01 - pyrogram.client - INFO - [MediaSearchBot] [LOAD] MessageHandler("stats_command") in group 0 from "plugins.commands"
+2025-08-15 14:36:01 - pyrogram.client - INFO - [MediaSearchBot] [LOAD] MessageHandler("ban_command") in group 0 from "plugins.commands"
+2025-08-15 14:36:01 - pyrogram.client - INFO - [MediaSearchBot] [LOAD] MessageHandler("unban_command") in group 0 from "plugins.commands"
+2025-08-15 14:36:01 - pyrogram.client - INFO - [MediaSearchBot] [LOAD] MessageHandler("broadcast_command") in group 0 from "plugins.commands"
+2025-08-15 14:36:01 - pyrogram.client - INFO - [MediaSearchBot] [LOAD] MessageHandler("total_command") in group 0 from "plugins.commands"
+2025-08-15 14:36:01 - pyrogram.client - INFO - [MediaSearchBot] [LOAD] MessageHandler("delete_command") in group 0 from "plugins.commands"
+2025-08-15 14:36:01 - pyrogram.client - INFO - [MediaSearchBot] [LOAD] MessageHandler("logger_command") in group 0 from "plugins.commands"
+2025-08-15 14:36:01 - pyrogram.client - INFO - [MediaSearchBot] [LOAD] CallbackQueryHandler("show_public_stats") in group 0 from "plugins.commands"
+2025-08-15 14:36:01 - pyrogram.client - INFO - [MediaSearchBot] [LOAD] CallbackQueryHandler("show_help") in group 0 from "plugins.commands"
+2025-08-15 14:36:01 - config - INFO - ✅ Configuration validated successfully
+2025-08-15 14:36:01 - config - INFO - ✅ Configuration validated successfully
+2025-08-15 14:36:01 - pyrogram.client - INFO - [MediaSearchBot] [LOAD] InlineQueryHandler("inline_query_handler") in group 0 from "plugins.inline_query"
+2025-08-15 14:36:01 - pyrogram.client - INFO - [MediaSearchBot] [LOAD] ChosenInlineResultHandler("chosen_inline_result_handler") in group 0 from "plugins.inline_query"
+2025-08-15 14:36:01 - pyrogram.client - INFO - [MediaSearchBot] Successfully loaded 15 plugins from "plugins"
+2025-08-15 14:36:01 - pyrogram.dispatcher - INFO - Started 50 HandlerTasks
+2025-08-15 14:36:04 - database - INFO - 📊 Database indexes created successfully
+2025-08-15 14:36:04 - database - INFO - ✅ Database connected: kevyavdi30
+2025-08-15 14:36:04 - storage - INFO - 📋 Loaded 0 banned users
+2025-08-15 14:36:04 - storage - INFO - 📊 Bot statistics loaded
+2025-08-15 14:36:04 - storage - INFO - ✅ Storage data loaded successfully
+2025-08-15 14:36:05 - __main__ - INFO - 🚀 test started successfully!
+📊 Pyrogram v2.0.106 (Layer 158)
+🔗 Username: Narocoin_bot
+💾 Database: kevyavdi30
+👥 Admins: 1
+📺 Channels: 1
+2025-08-15 14:36:38 - config - INFO - ✅ Configuration validated successfully
+2025-08-15 14:36:38 - config - INFO - ✅ Configuration validated successfully
+2025-08-15 14:36:38 - __main__ - INFO - Starting Media Search Bot...
+2025-08-15 14:36:39 - pyrogram.connection.connection - INFO - Connecting...
+2025-08-15 14:36:39 - pyrogram.connection.connection - INFO - Connected! Production DC4 - IPv4
+2025-08-15 14:36:39 - pyrogram.session.session - INFO - NetworkTask started
+2025-08-15 14:36:40 - pyrogram.session.session - INFO - Session initialized: Layer 158
+2025-08-15 14:36:40 - pyrogram.session.session - INFO - Device: CPython 3.11.13 - Pyrogram 2.0.106
+2025-08-15 14:36:40 - pyrogram.session.session - INFO - System: Linux 6.2.16 (en)
+2025-08-15 14:36:40 - pyrogram.session.session - INFO - Session started
+2025-08-15 14:36:40 - pyrogram.session.session - INFO - PingTask started
+2025-08-15 14:36:40 - config - INFO - ✅ Configuration validated successfully
+2025-08-15 14:36:40 - config - INFO - ✅ Configuration validated successfully
+2025-08-15 14:36:40 - pyrogram.client - INFO - [MediaSearchBot] [LOAD] MessageHandler("channel_media_handler") in group 0 from "plugins.channel_post"
+2025-08-15 14:36:40 - pyrogram.client - INFO - [MediaSearchBot] [LOAD] MessageHandler("manual_index_command") in group 0 from "plugins.channel_post"
+2025-08-15 14:36:40 - pyrogram.client - INFO - [MediaSearchBot] [LOAD] MessageHandler("channel_info_command") in group 0 from "plugins.channel_post"
+2025-08-15 14:36:40 - config - INFO - ✅ Configuration validated successfully
+2025-08-15 14:36:40 - config - INFO - ✅ Configuration validated successfully
+2025-08-15 14:36:40 - pyrogram.client - INFO - [MediaSearchBot] [LOAD] MessageHandler("start_command") in group 0 from "plugins.commands"
+2025-08-15 14:36:40 - pyrogram.client - INFO - [MediaSearchBot] [LOAD] MessageHandler("stats_command") in group 0 from "plugins.commands"
+2025-08-15 14:36:40 - pyrogram.client - INFO - [MediaSearchBot] [LOAD] MessageHandler("ban_command") in group 0 from "plugins.commands"
+2025-08-15 14:36:40 - pyrogram.client - INFO - [MediaSearchBot] [LOAD] MessageHandler("unban_command") in group 0 from "plugins.commands"
+2025-08-15 14:36:40 - pyrogram.client - INFO - [MediaSearchBot] [LOAD] MessageHandler("broadcast_command") in group 0 from "plugins.commands"
+2025-08-15 14:36:40 - pyrogram.client - INFO - [MediaSearchBot] [LOAD] MessageHandler("total_command") in group 0 from "plugins.commands"
+2025-08-15 14:36:40 - pyrogram.client - INFO - [MediaSearchBot] [LOAD] MessageHandler("delete_command") in group 0 from "plugins.commands"
+2025-08-15 14:36:40 - pyrogram.client - INFO - [MediaSearchBot] [LOAD] MessageHandler("logger_command") in group 0 from "plugins.commands"
+2025-08-15 14:36:40 - pyrogram.client - INFO - [MediaSearchBot] [LOAD] CallbackQueryHandler("show_public_stats") in group 0 from "plugins.commands"
+2025-08-15 14:36:40 - pyrogram.client - INFO - [MediaSearchBot] [LOAD] CallbackQueryHandler("show_help") in group 0 from "plugins.commands"
+2025-08-15 14:36:40 - config - INFO - ✅ Configuration validated successfully
+2025-08-15 14:36:40 - config - INFO - ✅ Configuration validated successfully
+2025-08-15 14:36:40 - pyrogram.client - INFO - [MediaSearchBot] [LOAD] InlineQueryHandler("inline_query_handler") in group 0 from "plugins.inline_query"
+2025-08-15 14:36:40 - pyrogram.client - INFO - [MediaSearchBot] [LOAD] ChosenInlineResultHandler("chosen_inline_result_handler") in group 0 from "plugins.inline_query"
+2025-08-15 14:36:40 - pyrogram.client - INFO - [MediaSearchBot] Successfully loaded 15 plugins from "plugins"
+2025-08-15 14:36:40 - pyrogram.dispatcher - INFO - Started 50 HandlerTasks
+2025-08-15 14:36:43 - database - INFO - 📊 Database indexes created successfully
+2025-08-15 14:36:43 - database - INFO - ✅ Database connected: kevyavdi30
+2025-08-15 14:36:43 - storage - INFO - 📋 Loaded 0 banned users
+2025-08-15 14:36:43 - storage - INFO - 📊 Bot statistics loaded
+2025-08-15 14:36:43 - storage - INFO - ✅ Storage data loaded successfully
+2025-08-15 14:36:44 - __main__ - INFO - 🚀 test started successfully!
+📊 Pyrogram v2.0.106 (Layer 158)
+🔗 Username: Narocoin_bot
+💾 Database: kevyavdi30
+👥 Admins: 1
+📺 Channels: 1
+2025-08-15 14:37:08 - config - INFO - ✅ Configuration validated successfully
+2025-08-15 14:37:08 - config - INFO - ✅ Configuration validated successfully
+2025-08-15 14:37:08 - __main__ - INFO - Starting Media Search Bot...
+2025-08-15 14:37:08 - pyrogram.connection.connection - INFO - Connecting...
+2025-08-15 14:37:09 - pyrogram.connection.connection - INFO - Connected! Production DC4 - IPv4
+2025-08-15 14:37:09 - pyrogram.session.session - INFO - NetworkTask started
+2025-08-15 14:37:09 - pyrogram.session.session - INFO - Session initialized: Layer 158
+2025-08-15 14:37:09 - pyrogram.session.session - INFO - Device: CPython 3.11.13 - Pyrogram 2.0.106
+2025-08-15 14:37:09 - pyrogram.session.session - INFO - System: Linux 6.2.16 (en)
+2025-08-15 14:37:09 - pyrogram.session.session - INFO - Session started
+2025-08-15 14:37:09 - pyrogram.session.session - INFO - PingTask started
+2025-08-15 14:37:10 - config - INFO - ✅ Configuration validated successfully
+2025-08-15 14:37:10 - config - INFO - ✅ Configuration validated successfully
+2025-08-15 14:37:10 - pyrogram.client - INFO - [MediaSearchBot] [LOAD] MessageHandler("channel_media_handler") in group 0 from "plugins.channel_post"
+2025-08-15 14:37:10 - pyrogram.client - INFO - [MediaSearchBot] [LOAD] MessageHandler("manual_index_command") in group 0 from "plugins.channel_post"
+2025-08-15 14:37:10 - pyrogram.client - INFO - [MediaSearchBot] [LOAD] MessageHandler("channel_info_command") in group 0 from "plugins.channel_post"
+2025-08-15 14:37:10 - config - INFO - ✅ Configuration validated successfully
+2025-08-15 14:37:10 - config - INFO - ✅ Configuration validated successfully
+2025-08-15 14:37:10 - pyrogram.client - INFO - [MediaSearchBot] [LOAD] MessageHandler("start_command") in group 0 from "plugins.commands"
+2025-08-15 14:37:10 - pyrogram.client - INFO - [MediaSearchBot] [LOAD] MessageHandler("stats_command") in group 0 from "plugins.commands"
+2025-08-15 14:37:10 - pyrogram.client - INFO - [MediaSearchBot] [LOAD] MessageHandler("ban_command") in group 0 from "plugins.commands"
+2025-08-15 14:37:10 - pyrogram.client - INFO - [MediaSearchBot] [LOAD] MessageHandler("unban_command") in group 0 from "plugins.commands"
+2025-08-15 14:37:10 - pyrogram.client - INFO - [MediaSearchBot] [LOAD] MessageHandler("broadcast_command") in group 0 from "plugins.commands"
+2025-08-15 14:37:10 - pyrogram.client - INFO - [MediaSearchBot] [LOAD] MessageHandler("total_command") in group 0 from "plugins.commands"
+2025-08-15 14:37:10 - pyrogram.client - INFO - [MediaSearchBot] [LOAD] MessageHandler("test_command") in group 0 from "plugins.commands"
+2025-08-15 14:37:10 - pyrogram.client - INFO - [MediaSearchBot] [LOAD] MessageHandler("delete_command") in group 0 from "plugins.commands"
+2025-08-15 14:37:10 - pyrogram.client - INFO - [MediaSearchBot] [LOAD] MessageHandler("logger_command") in group 0 from "plugins.commands"
+2025-08-15 14:37:10 - pyrogram.client - INFO - [MediaSearchBot] [LOAD] CallbackQueryHandler("show_public_stats") in group 0 from "plugins.commands"
+2025-08-15 14:37:10 - pyrogram.client - INFO - [MediaSearchBot] [LOAD] CallbackQueryHandler("show_help") in group 0 from "plugins.commands"
+2025-08-15 14:37:10 - config - INFO - ✅ Configuration validated successfully
+2025-08-15 14:37:10 - config - INFO - ✅ Configuration validated successfully
+2025-08-15 14:37:10 - pyrogram.client - INFO - [MediaSearchBot] [LOAD] InlineQueryHandler("inline_query_handler") in group 0 from "plugins.inline_query"
+2025-08-15 14:37:10 - pyrogram.client - INFO - [MediaSearchBot] [LOAD] ChosenInlineResultHandler("chosen_inline_result_handler") in group 0 from "plugins.inline_query"
+2025-08-15 14:37:10 - pyrogram.client - INFO - [MediaSearchBot] Successfully loaded 16 plugins from "plugins"
+2025-08-15 14:37:10 - pyrogram.dispatcher - INFO - Started 50 HandlerTasks
+2025-08-15 14:37:13 - database - INFO - 📊 Database indexes created successfully
+2025-08-15 14:37:13 - database - INFO - ✅ Database connected: kevyavdi30
+2025-08-15 14:37:13 - storage - INFO - 📋 Loaded 0 banned users
+2025-08-15 14:37:13 - storage - INFO - 📊 Bot statistics loaded
+2025-08-15 14:37:13 - storage - INFO - ✅ Storage data loaded successfully
+2025-08-15 14:37:13 - __main__ - INFO - 🚀 test started successfully!
+📊 Pyrogram v2.0.106 (Layer 158)
+🔗 Username: Narocoin_bot
+💾 Database: kevyavdi30
+👥 Admins: 1
+📺 Channels: 1
+2025-08-15 14:37:40 - plugins.channel_post - INFO - 📥 Received message from channel -1002076814765 (TV)
+2025-08-15 14:37:40 - plugins.channel_post - INFO - 🔍 Found video in message 323
+2025-08-15 14:37:40 - plugins.channel_post - INFO - 📝 Created document for Borbaad (2025) CAAWIYE.mp4
+2025-08-15 14:37:40 - database - ERROR - ❌ Database not connected
+2025-08-15 14:37:40 - plugins.channel_post - WARNING - 🔄 File already indexed: Borbaad (2025) CAAWIYE.mp4
+2025-08-15 14:38:27 - plugins.channel_post - INFO - 📥 Received message from channel -1002076814765 (TV)
+2025-08-15 14:38:27 - plugins.channel_post - INFO - 🔍 Found video in message 324
+2025-08-15 14:38:27 - plugins.channel_post - INFO - 📝 Created document for Total Dhamaal (2019) CAAWIYE.mp4
+2025-08-15 14:38:27 - database - ERROR - ❌ Database not connected
+2025-08-15 14:38:27 - plugins.channel_post - WARNING - 🔄 File already indexed: Total Dhamaal (2019) CAAWIYE.mp4
+2025-08-15 14:41:47 - config - INFO - ✅ Configuration validated successfully
+2025-08-15 14:41:47 - config - INFO - ✅ Configuration validated successfully
+2025-08-15 14:41:47 - __main__ - INFO - Starting Media Search Bot...
+2025-08-15 14:41:47 - pyrogram.connection.connection - INFO - Connecting...
+2025-08-15 14:41:48 - pyrogram.connection.connection - INFO - Connected! Production DC4 - IPv4
+2025-08-15 14:41:48 - pyrogram.session.session - INFO - NetworkTask started
+2025-08-15 14:41:48 - pyrogram.session.session - INFO - Session initialized: Layer 158
+2025-08-15 14:41:48 - pyrogram.session.session - INFO - Device: CPython 3.11.13 - Pyrogram 2.0.106
+2025-08-15 14:41:48 - pyrogram.session.session - INFO - System: Linux 6.2.16 (en)
+2025-08-15 14:41:48 - pyrogram.session.session - INFO - Session started
+2025-08-15 14:41:48 - pyrogram.session.session - INFO - PingTask started
+2025-08-15 14:41:49 - config - INFO - ✅ Configuration validated successfully
+2025-08-15 14:41:49 - pyrogram.client - INFO - [MediaSearchBot] [LOAD] MessageHandler("channel_media_handler") in group 0 from "plugins.channel_post"
+2025-08-15 14:41:49 - pyrogram.client - INFO - [MediaSearchBot] [LOAD] MessageHandler("manual_index_command") in group 0 from "plugins.channel_post"
+2025-08-15 14:41:49 - pyrogram.client - INFO - [MediaSearchBot] [LOAD] MessageHandler("channel_info_command") in group 0 from "plugins.channel_post"
+2025-08-15 14:41:49 - config - INFO - ✅ Configuration validated successfully
+2025-08-15 14:41:49 - pyrogram.client - INFO - [MediaSearchBot] [LOAD] MessageHandler("start_command") in group 0 from "plugins.commands"
+2025-08-15 14:41:49 - pyrogram.client - INFO - [MediaSearchBot] [LOAD] MessageHandler("stats_command") in group 0 from "plugins.commands"
+2025-08-15 14:41:49 - pyrogram.client - INFO - [MediaSearchBot] [LOAD] MessageHandler("ban_command") in group 0 from "plugins.commands"
+2025-08-15 14:41:49 - pyrogram.client - INFO - [MediaSearchBot] [LOAD] MessageHandler("unban_command") in group 0 from "plugins.commands"
+2025-08-15 14:41:49 - pyrogram.client - INFO - [MediaSearchBot] [LOAD] MessageHandler("broadcast_command") in group 0 from "plugins.commands"
+2025-08-15 14:41:49 - pyrogram.client - INFO - [MediaSearchBot] [LOAD] MessageHandler("total_command") in group 0 from "plugins.commands"
+2025-08-15 14:41:49 - pyrogram.client - INFO - [MediaSearchBot] [LOAD] MessageHandler("test_command") in group 0 from "plugins.commands"
+2025-08-15 14:41:49 - pyrogram.client - INFO - [MediaSearchBot] [LOAD] MessageHandler("delete_command") in group 0 from "plugins.commands"
+2025-08-15 14:41:49 - pyrogram.client - INFO - [MediaSearchBot] [LOAD] MessageHandler("logger_command") in group 0 from "plugins.commands"
+2025-08-15 14:41:49 - pyrogram.client - INFO - [MediaSearchBot] [LOAD] CallbackQueryHandler("show_public_stats") in group 0 from "plugins.commands"
+2025-08-15 14:41:49 - pyrogram.client - INFO - [MediaSearchBot] [LOAD] CallbackQueryHandler("show_help") in group 0 from "plugins.commands"
+2025-08-15 14:41:49 - config - INFO - ✅ Configuration validated successfully
+2025-08-15 14:41:49 - pyrogram.client - INFO - [MediaSearchBot] [LOAD] InlineQueryHandler("inline_query_handler") in group 0 from "plugins.inline_query"
+2025-08-15 14:41:49 - pyrogram.client - INFO - [MediaSearchBot] [LOAD] ChosenInlineResultHandler("chosen_inline_result_handler") in group 0 from "plugins.inline_query"
+2025-08-15 14:41:49 - pyrogram.client - INFO - [MediaSearchBot] Successfully loaded 16 plugins from "plugins"
+2025-08-15 14:41:49 - pyrogram.dispatcher - INFO - Started 50 HandlerTasks
+2025-08-15 14:41:52 - database - INFO - 📊 Database indexes created successfully
+2025-08-15 14:41:52 - database - INFO - ✅ Database connected: kevyavdi30
+2025-08-15 14:41:52 - storage - INFO - 📋 Loaded 0 banned users
+2025-08-15 14:41:52 - storage - INFO - 📊 Bot statistics loaded
+2025-08-15 14:41:52 - storage - INFO - ✅ Storage data loaded successfully
+2025-08-15 14:41:52 - __main__ - INFO - 🚀 test started successfully!
+📊 Pyrogram v2.0.106 (Layer 158)
+🔗 Username: Narocoin_bot
+💾 Database: kevyavdi30
+👥 Admins: 1
+📺 Channels: 1
+2025-08-15 14:42:13 - config - INFO - ✅ Configuration validated successfully
+2025-08-15 14:42:17 - database - INFO - 📊 Database indexes created successfully
+2025-08-15 14:42:17 - database - INFO - ✅ Database connected: kevyavdi30
+2025-08-15 14:42:28 - plugins.channel_post - INFO - 📥 Received message from channel -1002076814765 (TV)
+2025-08-15 14:42:28 - plugins.channel_post - INFO - 🔍 Found video in message 325
+2025-08-15 14:42:28 - plugins.channel_post - INFO - 📝 Created document for Total Dhamaal (2019) CAAWIYE.mp4
+2025-08-15 14:42:28 - config - INFO - ✅ Configuration validated successfully
+2025-08-15 14:42:32 - database - INFO - 📊 Database indexes created successfully
+2025-08-15 14:42:32 - database - INFO - ✅ Database connected: kevyavdi30
+2025-08-15 14:42:32 - plugins.channel_post - INFO - 💾 Successfully indexed video: Total Dhamaal (2019) CAAWIYE.mp4 from TV
+2025-08-15 14:43:03 - config - INFO - ✅ Configuration validated successfully
+2025-08-15 14:43:07 - database - INFO - 📊 Database indexes created successfully
+2025-08-15 14:43:07 - database - INFO - ✅ Database connected: kevyavdi30
+2025-08-15 14:43:07 - plugins.inline_query - ERROR - ❌ Error handling inline query: Telegram says: [400 Bad Request] - [400 FILE_CONTENT_TYPE_INVALID] (caused by "messages.SetInlineBotResults")
+2025-08-15 14:43:31 - plugins.inline_query - ERROR - ❌ Error handling inline query: Telegram says: [400 Bad Request] - [400 FILE_CONTENT_TYPE_INVALID] (caused by "messages.SetInlineBotResults")
+2025-08-15 14:44:56 - config - INFO - ✅ Configuration validated successfully
+2025-08-15 14:44:56 - config - INFO - ✅ Configuration validated successfully
+2025-08-15 14:44:56 - __main__ - INFO - Starting Media Search Bot...
+2025-08-15 14:44:57 - __main__ - ERROR - ❌ Failed to start bot: database is locked
+2025-08-15 14:44:57 - __main__ - INFO - 🛑 Stopping Media Search Bot...
+2025-08-15 14:44:57 - storage - INFO - 💾 Storage data saved successfully
+2025-08-15 14:44:57 - __main__ - ERROR - ❌ Error during bot shutdown: Client is already terminated
+2025-08-15 14:47:17 - config - INFO - ✅ Configuration validated successfully
+2025-08-15 14:47:17 - config - INFO - ✅ Configuration validated successfully
+2025-08-15 14:47:17 - __main__ - INFO - Starting Media Search Bot...
+2025-08-15 14:47:18 - pyrogram.session.auth - INFO - Start creating a new auth key on DC2
+2025-08-15 14:47:18 - pyrogram.connection.connection - INFO - Connecting...
+2025-08-15 14:47:18 - pyrogram.connection.connection - INFO - Connected! Production DC2 - IPv4
+2025-08-15 14:47:20 - pyrogram.session.auth - INFO - Done auth key exchange: DhGenOk
+2025-08-15 14:47:20 - pyrogram.connection.connection - INFO - Disconnected
+2025-08-15 14:47:20 - pyrogram.connection.connection - INFO - Connecting...
+2025-08-15 14:47:20 - pyrogram.connection.connection - INFO - Connected! Production DC2 - IPv4
+2025-08-15 14:47:20 - pyrogram.session.session - INFO - NetworkTask started
+2025-08-15 14:47:21 - pyrogram.session.session - INFO - Session initialized: Layer 158
+2025-08-15 14:47:21 - pyrogram.session.session - INFO - Device: CPython 3.11.13 - Pyrogram 2.0.106
+2025-08-15 14:47:21 - pyrogram.session.session - INFO - System: Linux 6.2.16 (en)
+2025-08-15 14:47:21 - pyrogram.session.session - INFO - Session started
+2025-08-15 14:47:21 - pyrogram.session.session - INFO - PingTask started
+2025-08-15 14:47:21 - pyrogram.session.session - INFO - PingTask stopped
+2025-08-15 14:47:21 - pyrogram.connection.connection - INFO - Disconnected
+2025-08-15 14:47:21 - pyrogram.session.session - INFO - NetworkTask stopped
+2025-08-15 14:47:21 - pyrogram.session.session - INFO - Session stopped
+2025-08-15 14:47:21 - pyrogram.session.auth - INFO - Start creating a new auth key on DC4
+2025-08-15 14:47:21 - pyrogram.connection.connection - INFO - Connecting...
+2025-08-15 14:47:21 - pyrogram.connection.connection - INFO - Connected! Production DC4 - IPv4
+2025-08-15 14:47:23 - pyrogram.session.auth - INFO - Done auth key exchange: DhGenOk
+2025-08-15 14:47:23 - pyrogram.connection.connection - INFO - Disconnected
+2025-08-15 14:47:23 - pyrogram.connection.connection - INFO - Connecting...
+2025-08-15 14:47:23 - pyrogram.connection.connection - INFO - Connected! Production DC4 - IPv4
+2025-08-15 14:47:23 - pyrogram.session.session - INFO - NetworkTask started
+2025-08-15 14:47:24 - pyrogram.session.session - INFO - Session initialized: Layer 158
+2025-08-15 14:47:24 - pyrogram.session.session - INFO - Device: CPython 3.11.13 - Pyrogram 2.0.106
+2025-08-15 14:47:24 - pyrogram.session.session - INFO - System: Linux 6.2.16 (en)
+2025-08-15 14:47:24 - pyrogram.session.session - INFO - Session started
+2025-08-15 14:47:24 - pyrogram.session.session - INFO - PingTask started
+2025-08-15 14:47:25 - config - INFO - ✅ Configuration validated successfully
+2025-08-15 14:47:25 - pyrogram.client - INFO - [MediaSearchBot] [LOAD] MessageHandler("channel_media_handler") in group 0 from "plugins.channel_post"
+2025-08-15 14:47:25 - pyrogram.client - INFO - [MediaSearchBot] [LOAD] MessageHandler("manual_index_command") in group 0 from "plugins.channel_post"
+2025-08-15 14:47:25 - pyrogram.client - INFO - [MediaSearchBot] [LOAD] MessageHandler("channel_info_command") in group 0 from "plugins.channel_post"
+2025-08-15 14:47:25 - config - INFO - ✅ Configuration validated successfully
+2025-08-15 14:47:25 - pyrogram.client - INFO - [MediaSearchBot] [LOAD] MessageHandler("start_command") in group 0 from "plugins.commands"
+2025-08-15 14:47:25 - pyrogram.client - INFO - [MediaSearchBot] [LOAD] MessageHandler("stats_command") in group 0 from "plugins.commands"
+2025-08-15 14:47:25 - pyrogram.client - INFO - [MediaSearchBot] [LOAD] MessageHandler("ban_command") in group 0 from "plugins.commands"
+2025-08-15 14:47:25 - pyrogram.client - INFO - [MediaSearchBot] [LOAD] MessageHandler("unban_command") in group 0 from "plugins.commands"
+2025-08-15 14:47:25 - pyrogram.client - INFO - [MediaSearchBot] [LOAD] MessageHandler("broadcast_command") in group 0 from "plugins.commands"
+2025-08-15 14:47:25 - pyrogram.client - INFO - [MediaSearchBot] [LOAD] MessageHandler("total_command") in group 0 from "plugins.commands"
+2025-08-15 14:47:25 - pyrogram.client - INFO - [MediaSearchBot] [LOAD] MessageHandler("test_command") in group 0 from "plugins.commands"
+2025-08-15 14:47:25 - pyrogram.client - INFO - [MediaSearchBot] [LOAD] MessageHandler("delete_command") in group 0 from "plugins.commands"
+2025-08-15 14:47:25 - pyrogram.client - INFO - [MediaSearchBot] [LOAD] MessageHandler("logger_command") in group 0 from "plugins.commands"
+2025-08-15 14:47:25 - pyrogram.client - INFO - [MediaSearchBot] [LOAD] CallbackQueryHandler("show_public_stats") in group 0 from "plugins.commands"
+2025-08-15 14:47:25 - pyrogram.client - INFO - [MediaSearchBot] [LOAD] CallbackQueryHandler("show_help") in group 0 from "plugins.commands"
+2025-08-15 14:47:25 - config - INFO - ✅ Configuration validated successfully
+2025-08-15 14:47:25 - pyrogram.client - INFO - [MediaSearchBot] [LOAD] InlineQueryHandler("inline_query_handler") in group 0 from "plugins.inline_query"
+2025-08-15 14:47:25 - pyrogram.client - INFO - [MediaSearchBot] [LOAD] ChosenInlineResultHandler("chosen_inline_result_handler") in group 0 from "plugins.inline_query"
+2025-08-15 14:47:25 - pyrogram.client - INFO - [MediaSearchBot] Successfully loaded 16 plugins from "plugins"
+2025-08-15 14:47:25 - pyrogram.dispatcher - INFO - Started 50 HandlerTasks
+2025-08-15 14:47:28 - database - INFO - 📊 Database indexes created successfully
+2025-08-15 14:47:28 - database - INFO - ✅ Database connected: kevyavdi30
+2025-08-15 14:47:28 - storage - INFO - 📋 Loaded 0 banned users
+2025-08-15 14:47:28 - storage - INFO - 📊 Bot statistics loaded
+2025-08-15 14:47:28 - storage - INFO - ✅ Storage data loaded successfully
+2025-08-15 14:47:28 - __main__ - INFO - 🚀 test started successfully!
+📊 Pyrogram v2.0.106 (Layer 158)
+🔗 Username: Narocoin_bot
+💾 Database: kevyavdi30
+👥 Admins: 1
+📺 Channels: 1
+2025-08-15 14:48:16 - config - INFO - ✅ Configuration validated successfully
+2025-08-15 14:48:19 - database - INFO - 📊 Database indexes created successfully
+2025-08-15 14:48:19 - database - INFO - ✅ Database connected: kevyavdi30
+2025-08-15 14:48:19 - database_manager - INFO - 🔄 Database manager initialized
+2025-08-15 14:52:00 - config - INFO - ✅ Configuration validated successfully
+2025-08-15 14:52:00 - config - INFO - ✅ Configuration validated successfully
+2025-08-15 14:52:00 - __main__ - INFO - Starting Media Search Bot...
+2025-08-15 14:52:00 - pyrogram.connection.connection - INFO - Connecting...
+2025-08-15 14:52:01 - pyrogram.connection.connection - INFO - Connected! Production DC4 - IPv4
+2025-08-15 14:52:01 - pyrogram.session.session - INFO - NetworkTask started
+2025-08-15 14:52:01 - pyrogram.session.session - INFO - Session initialized: Layer 158
+2025-08-15 14:52:01 - pyrogram.session.session - INFO - Device: CPython 3.11.13 - Pyrogram 2.0.106
+2025-08-15 14:52:01 - pyrogram.session.session - INFO - System: Linux 6.2.16 (en)
+2025-08-15 14:52:01 - pyrogram.session.session - INFO - Session started
+2025-08-15 14:52:01 - pyrogram.session.session - INFO - PingTask started
+2025-08-15 14:52:02 - config - INFO - ✅ Configuration validated successfully
+2025-08-15 14:52:02 - pyrogram.client - INFO - [MediaSearchBot] [LOAD] MessageHandler("channel_media_handler") in group 0 from "plugins.channel_post"
+2025-08-15 14:52:02 - pyrogram.client - INFO - [MediaSearchBot] [LOAD] MessageHandler("manual_index_command") in group 0 from "plugins.channel_post"
+2025-08-15 14:52:02 - pyrogram.client - INFO - [MediaSearchBot] [LOAD] MessageHandler("channel_info_command") in group 0 from "plugins.channel_post"
+2025-08-15 14:52:02 - config - INFO - ✅ Configuration validated successfully
+2025-08-15 14:52:02 - pyrogram.client - INFO - [MediaSearchBot] [LOAD] MessageHandler("start_command") in group 0 from "plugins.commands"
+2025-08-15 14:52:02 - pyrogram.client - INFO - [MediaSearchBot] [LOAD] MessageHandler("stats_command") in group 0 from "plugins.commands"
+2025-08-15 14:52:02 - pyrogram.client - INFO - [MediaSearchBot] [LOAD] MessageHandler("ban_command") in group 0 from "plugins.commands"
+2025-08-15 14:52:02 - pyrogram.client - INFO - [MediaSearchBot] [LOAD] MessageHandler("unban_command") in group 0 from "plugins.commands"
+2025-08-15 14:52:02 - pyrogram.client - INFO - [MediaSearchBot] [LOAD] MessageHandler("broadcast_command") in group 0 from "plugins.commands"
+2025-08-15 14:52:02 - pyrogram.client - INFO - [MediaSearchBot] [LOAD] MessageHandler("total_command") in group 0 from "plugins.commands"
+2025-08-15 14:52:02 - pyrogram.client - INFO - [MediaSearchBot] [LOAD] MessageHandler("test_command") in group 0 from "plugins.commands"
+2025-08-15 14:52:02 - pyrogram.client - INFO - [MediaSearchBot] [LOAD] MessageHandler("delete_command") in group 0 from "plugins.commands"
+2025-08-15 14:52:02 - pyrogram.client - INFO - [MediaSearchBot] [LOAD] MessageHandler("logger_command") in group 0 from "plugins.commands"
+2025-08-15 14:52:02 - pyrogram.client - INFO - [MediaSearchBot] [LOAD] CallbackQueryHandler("show_public_stats") in group 0 from "plugins.commands"
+2025-08-15 14:52:02 - pyrogram.client - INFO - [MediaSearchBot] [LOAD] CallbackQueryHandler("show_help") in group 0 from "plugins.commands"
+2025-08-15 14:52:02 - config - INFO - ✅ Configuration validated successfully
+2025-08-15 14:52:02 - pyrogram.client - INFO - [MediaSearchBot] [LOAD] InlineQueryHandler("inline_query_handler") in group 0 from "plugins.inline_query"
+2025-08-15 14:52:02 - pyrogram.client - INFO - [MediaSearchBot] [LOAD] ChosenInlineResultHandler("chosen_inline_result_handler") in group 0 from "plugins.inline_query"
+2025-08-15 14:52:02 - pyrogram.client - INFO - [MediaSearchBot] Successfully loaded 16 plugins from "plugins"
+2025-08-15 14:52:02 - pyrogram.dispatcher - INFO - Started 50 HandlerTasks
+2025-08-15 14:52:05 - database - INFO - 📊 Database indexes created successfully
+2025-08-15 14:52:05 - database - INFO - ✅ Database connected: kevyavdi30
+2025-08-15 14:52:05 - storage - INFO - 📋 Loaded 0 banned users
+2025-08-15 14:52:05 - storage - INFO - 📊 Bot statistics loaded
+2025-08-15 14:52:05 - storage - INFO - ✅ Storage data loaded successfully
+2025-08-15 14:52:05 - __main__ - INFO - 🚀 test started successfully!
+📊 Pyrogram v2.0.106 (Layer 158)
+🔗 Username: Narocoin_bot
+💾 Database: kevyavdi30
+👥 Admins: 1
+📺 Channels: 1
+2025-08-15 14:52:37 - config - INFO - ✅ Configuration validated successfully
+2025-08-15 14:52:40 - database - INFO - 📊 Database indexes created successfully
+2025-08-15 14:52:40 - database - INFO - ✅ Database connected: kevyavdi30
+2025-08-15 14:52:40 - database_manager - INFO - 🔄 Database manager initialized
+2025-08-15 14:53:04 - plugins.inline_query - INFO - 🔍 Inline query 'total' by user 5616403687 returned 1 results
+2025-08-15 14:53:38 - plugins.channel_post - INFO - 📥 Received message from channel -1002076814765 (TV)
+2025-08-15 14:53:38 - plugins.channel_post - INFO - 🔍 Found video in message 408
+2025-08-15 14:53:38 - plugins.channel_post - INFO - 📝 Created document for GTMAX_2025 CAAWIYE.mp4
+2025-08-15 14:53:38 - plugins.channel_post - INFO - 📥 Received message from channel -1002076814765 (TV)
+2025-08-15 14:53:38 - plugins.channel_post - INFO - 🔍 Found video in message 409
+2025-08-15 14:53:38 - plugins.channel_post - INFO - 📝 Created document for Sniper.The.Last.Stand.2025 CAAWIYE.mp4
+2025-08-15 14:53:38 - plugins.channel_post - INFO - 📥 Received message from channel -1002076814765 (TV)
+2025-08-15 14:53:38 - plugins.channel_post - INFO - 🔍 Found video in message 410
+2025-08-15 14:53:38 - plugins.channel_post - INFO - 📝 Created document for Flight.Risk.2025 CAAWIYE.mp4
+2025-08-15 14:53:38 - plugins.channel_post - INFO - 📥 Received message from channel -1002076814765 (TV)
+2025-08-15 14:53:38 - plugins.channel_post - INFO - 🔍 Found video in message 411
+2025-08-15 14:53:38 - plugins.channel_post - INFO - 📝 Created document for Blood-Red-Sky_2021 CAAWIYE.mp4
+2025-08-15 14:53:38 - plugins.channel_post - INFO - 📥 Received message from channel -1002076814765 (TV)
+2025-08-15 14:53:38 - plugins.channel_post - INFO - 🔍 Found video in message 412
+2025-08-15 14:53:38 - plugins.channel_post - INFO - 📝 Created document for @STREAMNXTV12.mp4
+2025-08-15 14:53:38 - plugins.channel_post - INFO - 📥 Received message from channel -1002076814765 (TV)
+2025-08-15 14:53:38 - plugins.channel_post - INFO - 🔍 Found video in message 413
+2025-08-15 14:53:38 - plugins.channel_post - INFO - 📝 Created document for .mp4
+2025-08-15 14:53:38 - plugins.channel_post - INFO - 📥 Received message from channel -1002076814765 (TV)
+2025-08-15 14:53:38 - plugins.channel_post - INFO - 🔍 Found video in message 414
+2025-08-15 14:53:38 - plugins.channel_post - INFO - 📝 Created document for .mp4.mp4
+2025-08-15 14:53:38 - plugins.channel_post - INFO - 📥 Received message from channel -1002076814765 (TV)
+2025-08-15 14:53:38 - plugins.channel_post - INFO - 🔍 Found video in message 415
+2025-08-15 14:53:38 - plugins.channel_post - INFO - 📝 Created document for Love.Hurts.2025 CAAWIYE.mp4
+2025-08-15 14:53:38 - plugins.channel_post - INFO - 📥 Received message from channel -1002076814765 (TV)
+2025-08-15 14:53:38 - plugins.channel_post - INFO - 🔍 Found video in message 416
+2025-08-15 14:53:38 - plugins.channel_post - INFO - 📝 Created document for Weekend.In.Taipei.2024 CAAWIYE.mp4
+2025-08-15 14:53:38 - plugins.channel_post - INFO - 📥 Received message from channel -1002076814765 (TV)
+2025-08-15 14:53:38 - plugins.channel_post - INFO - 🔍 Found video in message 417
+2025-08-15 14:53:38 - plugins.channel_post - INFO - 📝 Created document for Twilight of the Warriors Walled In (2024) CAAWIYE.mp4
+2025-08-15 14:53:38 - plugins.channel_post - INFO - 📥 Received message from channel -1002076814765 (TV)
+2025-08-15 14:53:38 - plugins.channel_post - INFO - 🔍 Found video in message 418
+2025-08-15 14:53:38 - plugins.channel_post - INFO - 📝 Created document for Boy Kills World 2023 CAAWIYE.mp4
+2025-08-15 14:53:38 - plugins.channel_post - INFO - 📥 Received message from channel -1002076814765 (TV)
+2025-08-15 14:53:38 - plugins.channel_post - INFO - 🔍 Found video in message 419
+2025-08-15 14:53:38 - plugins.channel_post - INFO - 📝 Created document for Agents.2024 CAAWIYE.mp4
+2025-08-15 14:53:38 - plugins.channel_post - INFO - 📥 Received message from channel -1002076814765 (TV)
+2025-08-15 14:53:38 - plugins.channel_post - INFO - 🔍 Found video in message 420
+2025-08-15 14:53:38 - plugins.channel_post - INFO - 📝 Created document for Counterstrike.2025 CAAWIYE.mp4
+2025-08-15 14:53:38 - plugins.channel_post - INFO - 📥 Received message from channel -1002076814765 (TV)
+2025-08-15 14:53:38 - plugins.channel_post - INFO - 🔍 Found video in message 421
+2025-08-15 14:53:38 - plugins.channel_post - INFO - 📝 Created document for Logan.mp4
+2025-08-15 14:53:38 - plugins.channel_post - INFO - 📥 Received message from channel -1002076814765 (TV)
+2025-08-15 14:53:38 - plugins.channel_post - INFO - 🔍 Found video in message 422
+2025-08-15 14:53:38 - plugins.channel_post - INFO - 📝 Created document for video_2022-06-24_08-26-21..mp4
+2025-08-15 14:53:38 - plugins.channel_post - INFO - 📥 Received message from channel -1002076814765 (TV)
+2025-08-15 14:53:38 - plugins.channel_post - INFO - 🔍 Found video in message 423
+2025-08-15 14:53:38 - plugins.channel_post - INFO - 📝 Created document for Thd a.mp4
+2025-08-15 14:53:38 - plugins.channel_post - INFO - 📥 Received message from channel -1002076814765 (TV)
+2025-08-15 14:53:38 - plugins.channel_post - INFO - 🔍 Found video in message 424
+2025-08-15 14:53:38 - plugins.channel_post - INFO - 📝 Created document for mp4
+2025-08-15 14:53:38 - plugins.channel_post - INFO - 📥 Received message from channel -1002076814765 (TV)
+2025-08-15 14:53:38 - plugins.channel_post - INFO - 🔍 Found video in message 425
+2025-08-15 14:53:38 - plugins.channel_post - INFO - 📝 Created document for The Target.mp4
+2025-08-15 14:53:38 - plugins.channel_post - INFO - 💾 Successfully indexed video: GTMAX_2025 CAAWIYE.mp4 from TV
+2025-08-15 14:53:39 - plugins.channel_post - INFO - 💾 Successfully indexed video: Blood-Red-Sky_2021 CAAWIYE.mp4 from TV
+2025-08-15 14:53:39 - plugins.channel_post - INFO - 💾 Successfully indexed video: @STREAMNXTV12.mp4 from TV
+2025-08-15 14:53:39 - plugins.channel_post - INFO - 💾 Successfully indexed video: .mp4 from TV
+2025-08-15 14:53:39 - plugins.channel_post - INFO - 💾 Successfully indexed video: .mp4.mp4 from TV
+2025-08-15 14:53:40 - plugins.channel_post - INFO - 💾 Successfully indexed video: Love.Hurts.2025 CAAWIYE.mp4 from TV
+2025-08-15 14:53:40 - plugins.channel_post - INFO - 💾 Successfully indexed video: Flight.Risk.2025 CAAWIYE.mp4 from TV
+2025-08-15 14:53:40 - plugins.channel_post - INFO - 💾 Successfully indexed video: Sniper.The.Last.Stand.2025 CAAWIYE.mp4 from TV
+2025-08-15 14:53:40 - plugins.channel_post - INFO - 💾 Successfully indexed video: Boy Kills World 2023 CAAWIYE.mp4 from TV
+2025-08-15 14:53:40 - plugins.channel_post - INFO - 💾 Successfully indexed video: Agents.2024 CAAWIYE.mp4 from TV
+2025-08-15 14:53:40 - plugins.channel_post - INFO - 💾 Successfully indexed video: Counterstrike.2025 CAAWIYE.mp4 from TV
+2025-08-15 14:53:40 - plugins.channel_post - INFO - 💾 Successfully indexed video: Logan.mp4 from TV
+2025-08-15 14:53:40 - plugins.channel_post - INFO - 💾 Successfully indexed video: video_2022-06-24_08-26-21..mp4 from TV
+2025-08-15 14:53:40 - plugins.channel_post - INFO - 💾 Successfully indexed video: Thd a.mp4 from TV
+2025-08-15 14:53:40 - plugins.channel_post - INFO - 💾 Successfully indexed video: mp4 from TV
+2025-08-15 14:53:40 - plugins.channel_post - INFO - 💾 Successfully indexed video: The Target.mp4 from TV
+2025-08-15 14:53:41 - plugins.channel_post - INFO - 💾 Successfully indexed video: Weekend.In.Taipei.2024 CAAWIYE.mp4 from TV
+2025-08-15 14:53:41 - plugins.channel_post - INFO - 💾 Successfully indexed video: Twilight of the Warriors Walled In (2024) CAAWIYE.mp4 from TV
+2025-08-15 14:53:48 - plugins.channel_post - INFO - 📥 Received message from channel -1002076814765 (TV)
+2025-08-15 14:53:48 - plugins.channel_post - INFO - 🔍 Found video in message 426
+2025-08-15 14:53:48 - plugins.channel_post - INFO - 📝 Created document for A Quiet Place Part II.mp4
+2025-08-15 14:53:48 - plugins.channel_post - INFO - 📥 Received message from channel -1002076814765 (TV)
+2025-08-15 14:53:48 - plugins.channel_post - INFO - 🔍 Found video in message 427
+2025-08-15 14:53:48 - plugins.channel_post - INFO - 📝 Created document for Carter.mp4
+2025-08-15 14:53:48 - plugins.channel_post - INFO - 📥 Received message from channel -1002076814765 (TV)
+2025-08-15 14:53:48 - plugins.channel_post - INFO - 🔍 Found video in message 428
+2025-08-15 14:53:48 - plugins.channel_post - INFO - 📝 Created document for The.Price.Of.Money.A.Largo.Winch.Adventure.2024 CAAWIYE.mp4
+2025-08-15 14:53:48 - plugins.channel_post - INFO - 📥 Received message from channel -1002076814765 (TV)
+2025-08-15 14:53:48 - plugins.channel_post - INFO - 🔍 Found video in message 429
+2025-08-15 14:53:48 - plugins.channel_post - INFO - 📝 Created document for Homefront.2013 CAAWIYE.mp4
+2025-08-15 14:53:48 - plugins.channel_post - INFO - 📥 Received message from channel -1002076814765 (TV)
+2025-08-15 14:53:48 - plugins.channel_post - INFO - 🔍 Found video in message 430
+2025-08-15 14:53:48 - plugins.channel_post - INFO - 📝 Created document for Faste &amp; furious hops show.mp4
+2025-08-15 14:53:48 - plugins.channel_post - INFO - 📥 Received message from channel -1002076814765 (TV)
+2025-08-15 14:53:48 - plugins.channel_post - INFO - 🔍 Found video in message 431
+2025-08-15 14:53:48 - plugins.channel_post - INFO - 📝 Created document for High.Rollers.2025 CAAWIYE.mp4
+2025-08-15 14:53:48 - plugins.channel_post - INFO - 📥 Received message from channel -1002076814765 (TV)
+2025-08-15 14:53:48 - plugins.channel_post - INFO - 🔍 Found video in message 432
+2025-08-15 14:53:48 - plugins.channel_post - INFO - 📝 Created document for video_2025-04-18_07-34-40..mp4
+2025-08-15 14:53:48 - plugins.channel_post - INFO - 📥 Received message from channel -1002076814765 (TV)
+2025-08-15 14:53:48 - plugins.channel_post - INFO - 🔍 Found video in message 433
+2025-08-15 14:53:48 - plugins.channel_post - INFO - 📝 Created document for Balveer.mp4
+2025-08-15 14:53:48 - plugins.channel_post - INFO - 📥 Received message from channel -1002076814765 (TV)
+2025-08-15 14:53:48 - plugins.channel_post - INFO - 🔍 Found video in message 434
+2025-08-15 14:53:48 - plugins.channel_post - INFO - 📝 Created document for The Wages of Fear (2024) CAAWIYE.mp4
+2025-08-15 14:53:48 - plugins.channel_post - INFO - 📥 Received message from channel -1002076814765 (TV)
+2025-08-15 14:53:48 - plugins.channel_post - INFO - 🔍 Found video in message 435
+2025-08-15 14:53:48 - plugins.channel_post - INFO - 📝 Created document for lv_0_20250423163015.mp4
+2025-08-15 14:53:48 - plugins.channel_post - INFO - 📥 Received message from channel -1002076814765 (TV)
+2025-08-15 14:53:48 - plugins.channel_post - INFO - 🔍 Found video in message 436
+2025-08-15 14:53:48 - plugins.channel_post - INFO - 📝 Created document for A.Working.Man.2025 CAAWIYE.mp4
+2025-08-15 14:53:48 - plugins.channel_post - INFO - 📥 Received message from channel -1002076814765 (TV)
+2025-08-15 14:53:48 - plugins.channel_post - INFO - 🔍 Found video in message 437
+2025-08-15 14:53:48 - plugins.channel_post - INFO - 📝 Created document for video_437.mp4
+2025-08-15 14:53:48 - plugins.channel_post - INFO - 📥 Received message from channel -1002076814765 (TV)
+2025-08-15 14:53:48 - plugins.channel_post - INFO - 🔍 Found video in message 438
+2025-08-15 14:53:48 - plugins.channel_post - INFO - 📝 Created document for video_438.mp4
+2025-08-15 14:53:48 - plugins.channel_post - INFO - 📥 Received message from channel -1002076814765 (TV)
+2025-08-15 14:53:48 - plugins.channel_post - INFO - 🔍 Found video in message 439
+2025-08-15 14:53:48 - plugins.channel_post - INFO - 📝 Created document for Novocaine 2025 CAAWIYE.mp4
+2025-08-15 14:53:48 - plugins.channel_post - INFO - 📥 Received message from channel -1002076814765 (TV)
+2025-08-15 14:53:48 - plugins.channel_post - INFO - 🔍 Found video in message 440
+2025-08-15 14:53:48 - plugins.channel_post - INFO - 📝 Created document for Silent Zone 2025 CAAWIYE.mp4
+2025-08-15 14:53:48 - plugins.channel_post - INFO - 📥 Received message from channel -1002076814765 (TV)
+2025-08-15 14:53:48 - plugins.channel_post - INFO - 🔍 Found video in message 441
+2025-08-15 14:53:48 - plugins.channel_post - INFO - 📝 Created document for In.The.Lost.Lands.2025 CAAWIYE.mp4
+2025-08-15 14:53:48 - plugins.channel_post - INFO - 📥 Received message from channel -1002076814765 (TV)
+2025-08-15 14:53:48 - plugins.channel_post - INFO - 🔍 Found video in message 442
+2025-08-15 14:53:48 - plugins.channel_post - INFO - 📝 Created document for Last-Bullet_2025 CAAWIYE.mp4
+2025-08-15 14:53:48 - plugins.channel_post - INFO - 📥 Received message from channel -1002076814765 (TV)
+2025-08-15 14:53:48 - plugins.channel_post - INFO - 🔍 Found video in message 443
+2025-08-15 14:53:48 - plugins.channel_post - INFO - 📝 Created document for Valiant One 2025 CAAWIYE.mp4
+2025-08-15 14:53:48 - plugins.channel_post - INFO - 📥 Received message from channel -1002076814765 (TV)
+2025-08-15 14:53:48 - plugins.channel_post - INFO - 🔍 Found video in message 444
+2025-08-15 14:53:48 - plugins.channel_post - INFO - 📝 Created document for video_444.mp4
+2025-08-15 14:53:48 - plugins.channel_post - INFO - 📥 Received message from channel -1002076814765 (TV)
+2025-08-15 14:53:48 - plugins.channel_post - INFO - 🔍 Found video in message 445
+2025-08-15 14:53:48 - plugins.channel_post - INFO - 📝 Created document for The.Prosecutor.2024 CAAWIYE.mp4
+2025-08-15 14:53:48 - plugins.channel_post - INFO - 📥 Received message from channel -1002076814765 (TV)
+2025-08-15 14:53:48 - plugins.channel_post - INFO - 🔍 Found video in message 446
+2025-08-15 14:53:48 - plugins.channel_post - INFO - 📝 Created document for Home Sweet Home Rebirth 2025 CAAWIYE.mp4
+2025-08-15 14:53:48 - plugins.channel_post - INFO - 📥 Received message from channel -1002076814765 (TV)
+2025-08-15 14:53:48 - plugins.channel_post - INFO - 🔍 Found video in message 447
+2025-08-15 14:53:48 - plugins.channel_post - INFO - 📝 Created document for The.Bayou.2025 CAAWIYE.mp4
+2025-08-15 14:53:48 - plugins.channel_post - INFO - 📥 Received message from channel -1002076814765 (TV)
+2025-08-15 14:53:48 - plugins.channel_post - INFO - 🔍 Found video in message 448
+2025-08-15 14:53:48 - plugins.channel_post - INFO - 📝 Created document for Last-Breath_2025 CAAWIYE.mp4
+2025-08-15 14:53:48 - plugins.channel_post - INFO - 📥 Received message from channel -1002076814765 (TV)
+2025-08-15 14:53:48 - plugins.channel_post - INFO - 🔍 Found video in message 449
+2025-08-15 14:53:48 - plugins.channel_post - INFO - 📝 Created document for Black-Bag 2025 CAAWIYE.mp4
+2025-08-15 14:53:48 - plugins.channel_post - INFO - 📥 Received message from channel -1002076814765 (TV)
+2025-08-15 14:53:48 - plugins.channel_post - INFO - 🔍 Found video in message 450
+2025-08-15 14:53:48 - plugins.channel_post - INFO - 📝 Created document for Gunslingers.2025 CAAWIYE.mp4
+2025-08-15 14:53:48 - plugins.channel_post - INFO - 📥 Received message from channel -1002076814765 (TV)
+2025-08-15 14:53:48 - plugins.channel_post - INFO - 🔍 Found video in message 451
+2025-08-15 14:53:48 - plugins.channel_post - INFO - 📝 Created document for Drug Mafia (2024) CAAWIYE.mp4
+2025-08-15 14:53:48 - plugins.channel_post - INFO - 📥 Received message from channel -1002076814765 (TV)
+2025-08-15 14:53:48 - plugins.channel_post - INFO - 🔍 Found video in message 452
+2025-08-15 14:53:48 - plugins.channel_post - INFO - 📝 Created document for Until Dawn (2025) CAAWIYE.mp4
+2025-08-15 14:53:48 - plugins.channel_post - INFO - 📥 Received message from channel -1002076814765 (TV)
+2025-08-15 14:53:48 - plugins.channel_post - INFO - 🔍 Found video in message 453
+2025-08-15 14:53:48 - plugins.channel_post - INFO - 📝 Created document for Hello.mp4
+2025-08-15 14:53:48 - plugins.channel_post - INFO - 📥 Received message from channel -1002076814765 (TV)
+2025-08-15 14:53:48 - plugins.channel_post - INFO - 🔍 Found video in message 454
+2025-08-15 14:53:48 - plugins.channel_post - INFO - 📝 Created document for Bb.mp4
+2025-08-15 14:53:48 - plugins.channel_post - INFO - 📥 Received message from channel -1002076814765 (TV)
+2025-08-15 14:53:48 - plugins.channel_post - INFO - 🔍 Found video in message 455
+2025-08-15 14:53:48 - plugins.channel_post - INFO - 📝 Created document for Shadow-Force_2025 CAAWIYE.mp4
+2025-08-15 14:53:48 - plugins.channel_post - INFO - 📥 Received message from channel -1002076814765 (TV)
+2025-08-15 14:53:48 - plugins.channel_post - INFO - 🔍 Found video in message 456
+2025-08-15 14:53:48 - plugins.channel_post - INFO - 📝 Created document for KingLeech the ghost rider 2011.mp4
+2025-08-15 14:53:48 - plugins.channel_post - INFO - 📥 Received message from channel -1002076814765 (TV)
+2025-08-15 14:53:48 - plugins.channel_post - INFO - 🔍 Found video in message 457
+2025-08-15 14:53:48 - plugins.channel_post - INFO - 📝 Created document for STRAW_2025 CAAWIYE.mp4
+2025-08-15 14:53:48 - plugins.channel_post - INFO - 📥 Received message from channel -1002076814765 (TV)
+2025-08-15 14:53:48 - plugins.channel_post - INFO - 🔍 Found video in message 458
+2025-08-15 14:53:48 - plugins.channel_post - INFO - 📝 Created document for Morbius.2022.CAAWIYE.mp4
+2025-08-15 14:53:48 - plugins.channel_post - INFO - 📥 Received message from channel -1002076814765 (TV)
+2025-08-15 14:53:48 - plugins.channel_post - INFO - 🔍 Found video in message 459
+2025-08-15 14:53:48 - plugins.channel_post - INFO - 📝 Created document for Cre.mp4
+2025-08-15 14:53:48 - plugins.channel_post - INFO - 📥 Received message from channel -1002076814765 (TV)
+2025-08-15 14:53:48 - plugins.channel_post - INFO - 🔍 Found video in message 460
+2025-08-15 14:53:48 - plugins.channel_post - INFO - 📝 Created document for video_460.mp4
+2025-08-15 14:53:48 - plugins.channel_post - INFO - 📥 Received message from channel -1002076814765 (TV)
+2025-08-15 14:53:48 - plugins.channel_post - INFO - 🔍 Found video in message 461
+2025-08-15 14:53:48 - plugins.channel_post - INFO - 📝 Created document for Squad.36.2025 CAAWIYE.mp4
+2025-08-15 14:53:48 - plugins.channel_post - INFO - 📥 Received message from channel -1002076814765 (TV)
+2025-08-15 14:53:48 - plugins.channel_post - INFO - 🔍 Found video in message 462
+2025-08-15 14:53:48 - plugins.channel_post - INFO - 📝 Created document for K.O..2025 CAAWIYE.mp4
+2025-08-15 14:53:48 - plugins.channel_post - INFO - 📥 Received message from channel -1002076814765 (TV)
+2025-08-15 14:53:48 - plugins.channel_post - INFO - 🔍 Found video in message 463
+2025-08-15 14:53:48 - plugins.channel_post - INFO - 📝 Created document for My Video-3.mp4
+2025-08-15 14:53:48 - plugins.channel_post - INFO - 📥 Received message from channel -1002076814765 (TV)
+2025-08-15 14:53:48 - plugins.channel_post - INFO - 🔍 Found video in message 464
+2025-08-15 14:53:48 - plugins.channel_post - INFO - 📝 Created document for From the World of John Wick Ballerina (2025) CAAWIYE.mp4
+2025-08-15 14:53:48 - plugins.channel_post - INFO - 📥 Received message from channel -1002076814765 (TV)
+2025-08-15 14:53:48 - plugins.channel_post - INFO - 🔍 Found video in message 465
+2025-08-15 14:53:48 - plugins.channel_post - INFO - 📝 Created document for Vg.mp4
+2025-08-15 14:53:48 - plugins.channel_post - INFO - 📥 Received message from channel -1002076814765 (TV)
+2025-08-15 14:53:48 - plugins.channel_post - INFO - 🔍 Found video in message 466
+2025-08-15 14:53:48 - plugins.channel_post - INFO - 📝 Created document for The.Accountant.2.2025 CAAWIYE.mp4
+2025-08-15 14:53:48 - plugins.channel_post - INFO - 📥 Received message from channel -1002076814765 (TV)
+2025-08-15 14:53:48 - plugins.channel_post - INFO - 🔍 Found video in message 467
+2025-08-15 14:53:48 - plugins.channel_post - INFO - 📝 Created document for Diablo.2025 CAAWIYE.mp4
+2025-08-15 14:53:48 - plugins.channel_post - INFO - 📥 Received message from channel -1002076814765 (TV)
+2025-08-15 14:53:48 - plugins.channel_post - INFO - 🔍 Found video in message 468
+2025-08-15 14:53:48 - plugins.channel_post - INFO - 📝 Created document for The Batman.mp4
+2025-08-15 14:53:48 - plugins.channel_post - INFO - 📥 Received message from channel -1002076814765 (TV)
+2025-08-15 14:53:48 - plugins.channel_post - INFO - 🔍 Found video in message 469
+2025-08-15 14:53:48 - plugins.channel_post - INFO - 📝 Created document for Ice Road Vengeance 2025 CAAWIYE.mp4
+2025-08-15 14:53:48 - plugins.channel_post - INFO - 📥 Received message from channel -1002076814765 (TV)
+2025-08-15 14:53:48 - plugins.channel_post - INFO - 🔍 Found video in message 470
+2025-08-15 14:53:48 - plugins.channel_post - INFO - 📝 Created document for Clown in a Cornfield 2025 CAAWIYE.mp4
+2025-08-15 14:53:48 - plugins.channel_post - INFO - 📥 Received message from channel -1002076814765 (TV)
+2025-08-15 14:53:48 - plugins.channel_post - INFO - 🔍 Found video in message 471
+2025-08-15 14:53:48 - plugins.channel_post - INFO - 📝 Created document for Ziam 2025 CAAWIYE.mp4
+2025-08-15 14:53:48 - plugins.channel_post - INFO - 📥 Received message from channel -1002076814765 (TV)
+2025-08-15 14:53:48 - plugins.channel_post - INFO - 🔍 Found video in message 472
+2025-08-15 14:53:48 - plugins.channel_post - INFO - 📝 Created document for The Old Guard 2 2025 CAAWIYE.mp4
+2025-08-15 14:53:48 - plugins.channel_post - INFO - 📥 Received message from channel -1002076814765 (TV)
+2025-08-15 14:53:48 - plugins.channel_post - INFO - 🔍 Found video in message 473
+2025-08-15 14:53:48 - plugins.channel_post - INFO - 📝 Created document for .mp4.mp4
+2025-08-15 14:53:48 - plugins.channel_post - INFO - 📥 Received message from channel -1002076814765 (TV)
+2025-08-15 14:53:48 - plugins.channel_post - INFO - 🔍 Found video in message 474
+2025-08-15 14:53:48 - plugins.channel_post - INFO - 📝 Created document for Hunting Grounds 2025 CAAWIYE.mp4
+2025-08-15 14:53:48 - plugins.channel_post - INFO - 📥 Received message from channel -1002076814765 (TV)
+2025-08-15 14:53:48 - plugins.channel_post - INFO - 🔍 Found video in message 475
+2025-08-15 14:53:48 - plugins.channel_post - INFO - 📝 Created document for Stand your Ground 2025 CAAWIYE.mp4
+2025-08-15 14:53:48 - plugins.channel_post - INFO - 💾 Successfully indexed video: A Quiet Place Part II.mp4 from TV
+2025-08-15 14:53:48 - plugins.channel_post - INFO - 📥 Received message from channel -1002076814765 (TV)
+2025-08-15 14:53:48 - plugins.channel_post - INFO - 🔍 Found video in message 476
+2025-08-15 14:53:48 - plugins.channel_post - INFO - 📝 Created document for The.Amateur.2025.1080p.mp4
+2025-08-15 14:53:48 - plugins.channel_post - INFO - 💾 Successfully indexed video: Carter.mp4 from TV
+2025-08-15 14:53:48 - plugins.channel_post - INFO - 📥 Received message from channel -1002076814765 (TV)
+2025-08-15 14:53:48 - plugins.channel_post - INFO - 🔍 Found video in message 477
+2025-08-15 14:53:48 - plugins.channel_post - INFO - 📝 Created document for M3GAN 2.0 (2025) CAAWIYE.mp4
+2025-08-15 14:53:48 - plugins.channel_post - INFO - 💾 Successfully indexed video: Homefront.2013 CAAWIYE.mp4 from TV
+2025-08-15 14:53:48 - plugins.channel_post - INFO - 📥 Received message from channel -1002076814765 (TV)
+2025-08-15 14:53:48 - plugins.channel_post - INFO - 🔍 Found video in message 478
+2025-08-15 14:53:48 - plugins.channel_post - INFO - 📝 Created document for Fury.mp4
+2025-08-15 14:53:48 - plugins.channel_post - INFO - 💾 Successfully indexed video: The.Price.Of.Money.A.Largo.Winch.Adventure.2024 CAAWIYE.mp4 from TV
+2025-08-15 14:53:48 - plugins.channel_post - INFO - 📥 Received message from channel -1002076814765 (TV)
+2025-08-15 14:53:48 - plugins.channel_post - INFO - 🔍 Found video in message 479
+2025-08-15 14:53:48 - plugins.channel_post - INFO - 📝 Created document for Osiris.2025 CAAWIYE.mp4
+2025-08-15 14:53:48 - plugins.channel_post - INFO - 💾 Successfully indexed video: Faste &amp; furious hops show.mp4 from TV
+2025-08-15 14:53:48 - plugins.channel_post - INFO - 📥 Received message from channel -1002076814765 (TV)
+2025-08-15 14:53:48 - plugins.channel_post - INFO - 🔍 Found video in message 480
+2025-08-15 14:53:48 - plugins.channel_post - INFO - 📝 Created document for video_2022-07-04_02-16-08..mp4
+2025-08-15 14:53:49 - plugins.channel_post - INFO - 💾 Successfully indexed video: Balveer.mp4 from TV
+2025-08-15 14:53:49 - plugins.channel_post - INFO - 📥 Received message from channel -1002076814765 (TV)
+2025-08-15 14:53:49 - plugins.channel_post - INFO - 🔍 Found video in message 481
+2025-08-15 14:53:49 - plugins.channel_post - INFO - 📝 Created document for 28 Years Later 2025 CAAWIYE.mp4
+2025-08-15 14:53:49 - plugins.channel_post - INFO - 💾 Successfully indexed video: The Batman.mp4 from TV
+2025-08-15 14:53:49 - plugins.channel_post - INFO - 📥 Received message from channel -1002076814765 (TV)
+2025-08-15 14:53:49 - plugins.channel_post - INFO - 🔍 Found video in message 482
+2025-08-15 14:53:49 - plugins.channel_post - INFO - 📝 Created document for Wolf.mp4
+2025-08-15 14:53:49 - plugins.channel_post - INFO - 💾 Successfully indexed video: The Wages of Fear (2024) CAAWIYE.mp4 from TV
+2025-08-15 14:53:49 - plugins.channel_post - INFO - 📥 Received message from channel -1002076814765 (TV)
+2025-08-15 14:53:49 - plugins.channel_post - INFO - 🔍 Found video in message 483
+2025-08-15 14:53:49 - plugins.channel_post - INFO - 📝 Created document for Conquer.Lahad.Datu.2024 CAAWIYE.mp4
+2025-08-15 14:53:49 - plugins.channel_post - INFO - 💾 Successfully indexed video: Ice Road Vengeance 2025 CAAWIYE.mp4 from TV
+2025-08-15 14:53:49 - plugins.channel_post - INFO - 📥 Received message from channel -1002076814765 (TV)
+2025-08-15 14:53:49 - plugins.channel_post - INFO - 🔍 Found video in message 484
+2025-08-15 14:53:49 - plugins.channel_post - INFO - 📝 Created document for Brick 2025 CAAWIYE.mp4
+2025-08-15 14:53:49 - plugins.channel_post - INFO - 💾 Successfully indexed video: Clown in a Cornfield 2025 CAAWIYE.mp4 from TV
+2025-08-15 14:53:49 - plugins.channel_post - INFO - 📥 Received message from channel -1002076814765 (TV)
+2025-08-15 14:53:49 - plugins.channel_post - INFO - 🔍 Found video in message 485
+2025-08-15 14:53:49 - plugins.channel_post - INFO - 📝 Created document for Zombies.4.Dawn.of.the.Vampires.2025 CAAWIYE.mp4
+2025-08-15 14:53:49 - plugins.channel_post - INFO - 💾 Successfully indexed video: Ziam 2025 CAAWIYE.mp4 from TV
+2025-08-15 14:53:49 - plugins.channel_post - INFO - 📥 Received message from channel -1002076814765 (TV)
+2025-08-15 14:53:49 - plugins.channel_post - INFO - 🔍 Found video in message 486
+2025-08-15 14:53:49 - plugins.channel_post - INFO - 📝 Created document for Th.mp4
+2025-08-15 14:53:49 - plugins.channel_post - INFO - 💾 Successfully indexed video: The Old Guard 2 2025 CAAWIYE.mp4 from TV
+2025-08-15 14:53:49 - plugins.channel_post - INFO - 📥 Received message from channel -1002076814765 (TV)
+2025-08-15 14:53:49 - plugins.channel_post - INFO - 🔍 Found video in message 487
+2025-08-15 14:53:49 - plugins.channel_post - INFO - 📝 Created document for Brick 2025 CAAWIYE.mp4
+2025-08-15 14:53:49 - plugins.channel_post - INFO - 💾 Successfully indexed video: Silent Zone 2025 CAAWIYE.mp4 from TV
+2025-08-15 14:53:49 - plugins.channel_post - INFO - 📥 Received message from channel -1002076814765 (TV)
+2025-08-15 14:53:49 - plugins.channel_post - INFO - 🔍 Found video in message 488
+2025-08-15 14:53:49 - plugins.channel_post - INFO - 📝 Created document for Ronth 2025 Afsomali.mp4
+2025-08-15 14:53:49 - plugins.channel_post - INFO - 💾 Successfully indexed video: In.The.Lost.Lands.2025 CAAWIYE.mp4 from TV
+2025-08-15 14:53:49 - plugins.channel_post - INFO - 📥 Received message from channel -1002076814765 (TV)
+2025-08-15 14:53:49 - plugins.channel_post - INFO - 🔍 Found video in message 489
+2025-08-15 14:53:49 - plugins.channel_post - INFO - 📝 Created document for Paper boy.Mp4
+2025-08-15 14:53:49 - plugins.channel_post - INFO - 💾 Successfully indexed video: Last-Bullet_2025 CAAWIYE.mp4 from TV
+2025-08-15 14:53:49 - plugins.channel_post - INFO - 📥 Received message from channel -1002076814765 (TV)
+2025-08-15 14:53:49 - plugins.channel_post - INFO - 🔍 Found video in message 490
+2025-08-15 14:53:49 - plugins.channel_post - INFO - 📝 Created document for Game Changer (2024) CAAWIYE-1.mp4
+2025-08-15 14:53:49 - plugins.channel_post - INFO - 💾 Successfully indexed video: The.Amateur.2025.1080p.mp4 from TV
+2025-08-15 14:53:49 - plugins.channel_post - INFO - 📥 Received message from channel -1002076814765 (TV)
+2025-08-15 14:53:49 - plugins.channel_post - INFO - 🔍 Found video in message 491
+2025-08-15 14:53:49 - plugins.channel_post - INFO - 📝 Created document for Borbaad (2025) CAAWIYE.mp4
+2025-08-15 14:53:49 - plugins.channel_post - INFO - 💾 Successfully indexed video: M3GAN 2.0 (2025) CAAWIYE.mp4 from TV
+2025-08-15 14:53:49 - plugins.channel_post - INFO - 📥 Received message from channel -1002076814765 (TV)
+2025-08-15 14:53:49 - plugins.channel_post - INFO - 🔍 Found video in message 492
+2025-08-15 14:53:49 - plugins.channel_post - INFO - 📝 Created document for Total Dhamaal (2019) CAAWIYE.mp4
+2025-08-15 14:53:49 - plugins.channel_post - INFO - 💾 Successfully indexed video: Fury.mp4 from TV
+2025-08-15 14:53:49 - plugins.channel_post - INFO - 📥 Received message from channel -1002076814765 (TV)
+2025-08-15 14:53:49 - plugins.channel_post - INFO - 🔍 Found video in message 493
+2025-08-15 14:53:49 - plugins.channel_post - INFO - 📝 Created document for Total Dhamaal (2019) CAAWIYE.mp4
+2025-08-15 14:53:49 - plugins.channel_post - INFO - 💾 Successfully indexed video: Osiris.2025 CAAWIYE.mp4 from TV
+2025-08-15 14:53:49 - plugins.channel_post - INFO - 💾 Successfully indexed video: video_2022-07-04_02-16-08..mp4 from TV
+2025-08-15 14:53:49 - plugins.channel_post - INFO - 💾 Successfully indexed video: 28 Years Later 2025 CAAWIYE.mp4 from TV
+2025-08-15 14:53:49 - plugins.channel_post - INFO - 💾 Successfully indexed video: Black-Bag 2025 CAAWIYE.mp4 from TV
+2025-08-15 14:53:49 - plugins.channel_post - INFO - 💾 Successfully indexed video: Conquer.Lahad.Datu.2024 CAAWIYE.mp4 from TV
+2025-08-15 14:53:49 - plugins.channel_post - INFO - 💾 Successfully indexed video: Brick 2025 CAAWIYE.mp4 from TV
+2025-08-15 14:53:49 - plugins.channel_post - INFO - 💾 Successfully indexed video: Zombies.4.Dawn.of.the.Vampires.2025 CAAWIYE.mp4 from TV
+2025-08-15 14:53:50 - plugins.channel_post - INFO - 💾 Successfully indexed video: Hello.mp4 from TV
+2025-08-15 14:53:50 - plugins.channel_post - INFO - 💾 Successfully indexed video: Brick 2025 CAAWIYE.mp4 from TV
+2025-08-15 14:53:50 - plugins.channel_post - INFO - 💾 Successfully indexed video: Shadow-Force_2025 CAAWIYE.mp4 from TV
+2025-08-15 14:53:50 - plugins.channel_post - INFO - 💾 Successfully indexed video: KingLeech the ghost rider 2011.mp4 from TV
+2025-08-15 14:53:50 - plugins.channel_post - INFO - 💾 Successfully indexed video: video_2025-04-18_07-34-40..mp4 from TV
+2025-08-15 14:53:50 - plugins.channel_post - INFO - 💾 Successfully indexed video: High.Rollers.2025 CAAWIYE.mp4 from TV
+2025-08-15 14:53:50 - plugins.channel_post - INFO - 💾 Successfully indexed video: Cre.mp4 from TV
+2025-08-15 14:53:50 - plugins.channel_post - INFO - 💾 Successfully indexed video: video_460.mp4 from TV
+2025-08-15 14:53:50 - plugins.channel_post - INFO - 💾 Successfully indexed video: Squad.36.2025 CAAWIYE.mp4 from TV
+2025-08-15 14:53:50 - plugins.channel_post - INFO - 💾 Successfully indexed video: Total Dhamaal (2019) CAAWIYE.mp4 from TV
+2025-08-15 14:53:50 - plugins.channel_post - INFO - 💾 Successfully indexed video: My Video-3.mp4 from TV
+2025-08-15 14:53:50 - plugins.channel_post - INFO - 💾 Successfully indexed video: Vg.mp4 from TV
+2025-08-15 14:53:50 - plugins.channel_post - INFO - 💾 Successfully indexed video: From the World of John Wick Ballerina (2025) CAAWIYE.mp4 from TV
+2025-08-15 14:53:50 - plugins.channel_post - INFO - 💾 Successfully indexed video: The.Accountant.2.2025 CAAWIYE.mp4 from TV
+2025-08-15 14:53:50 - plugins.channel_post - INFO - 💾 Successfully indexed video: Diablo.2025 CAAWIYE.mp4 from TV
+2025-08-15 14:53:50 - plugins.channel_post - INFO - 💾 Successfully indexed video: lv_0_20250423163015.mp4 from TV
+2025-08-15 14:53:50 - plugins.channel_post - INFO - 💾 Successfully indexed video: A.Working.Man.2025 CAAWIYE.mp4 from TV
+2025-08-15 14:53:50 - plugins.channel_post - INFO - 💾 Successfully indexed video: video_437.mp4 from TV
+2025-08-15 14:53:50 - plugins.channel_post - INFO - 💾 Successfully indexed video: video_438.mp4 from TV
+2025-08-15 14:53:50 - plugins.channel_post - INFO - 💾 Successfully indexed video: Novocaine 2025 CAAWIYE.mp4 from TV
+2025-08-15 14:53:50 - plugins.channel_post - INFO - 💾 Successfully indexed video: .mp4.mp4 from TV
+2025-08-15 14:53:50 - plugins.channel_post - INFO - 💾 Successfully indexed video: Hunting Grounds 2025 CAAWIYE.mp4 from TV
+2025-08-15 14:53:50 - plugins.channel_post - INFO - 💾 Successfully indexed video: Stand your Ground 2025 CAAWIYE.mp4 from TV
+2025-08-15 14:53:50 - plugins.channel_post - INFO - 💾 Successfully indexed video: Valiant One 2025 CAAWIYE.mp4 from TV
+2025-08-15 14:53:50 - plugins.channel_post - INFO - 💾 Successfully indexed video: video_444.mp4 from TV
+2025-08-15 14:53:50 - plugins.channel_post - INFO - 💾 Successfully indexed video: The.Prosecutor.2024 CAAWIYE.mp4 from TV
+2025-08-15 14:53:50 - plugins.channel_post - INFO - 💾 Successfully indexed video: Home Sweet Home Rebirth 2025 CAAWIYE.mp4 from TV
+2025-08-15 14:53:50 - plugins.channel_post - INFO - 💾 Successfully indexed video: The.Bayou.2025 CAAWIYE.mp4 from TV
+2025-08-15 14:53:51 - plugins.channel_post - INFO - 💾 Successfully indexed video: Last-Breath_2025 CAAWIYE.mp4 from TV
+2025-08-15 14:53:51 - plugins.channel_post - INFO - 💾 Successfully indexed video: Gunslingers.2025 CAAWIYE.mp4 from TV
+2025-08-15 14:53:51 - plugins.channel_post - INFO - 💾 Successfully indexed video: Wolf.mp4 from TV
+2025-08-15 14:53:51 - plugins.channel_post - INFO - 💾 Successfully indexed video: Drug Mafia (2024) CAAWIYE.mp4 from TV
+2025-08-15 14:53:51 - plugins.channel_post - INFO - 💾 Successfully indexed video: Until Dawn (2025) CAAWIYE.mp4 from TV
+2025-08-15 14:53:51 - plugins.channel_post - INFO - 💾 Successfully indexed video: Th.mp4 from TV
+2025-08-15 14:53:51 - plugins.channel_post - INFO - 💾 Successfully indexed video: Bb.mp4 from TV
+2025-08-15 14:53:51 - plugins.channel_post - INFO - 💾 Successfully indexed video: Ronth 2025 Afsomali.mp4 from TV
+2025-08-15 14:53:51 - plugins.channel_post - INFO - 💾 Successfully indexed video: Paper boy.Mp4 from TV
+2025-08-15 14:53:51 - plugins.channel_post - INFO - 💾 Successfully indexed video: Game Changer (2024) CAAWIYE-1.mp4 from TV
+2025-08-15 14:53:51 - plugins.channel_post - INFO - 💾 Successfully indexed video: Borbaad (2025) CAAWIYE.mp4 from TV
+2025-08-15 14:53:51 - plugins.channel_post - INFO - 💾 Successfully indexed video: Total Dhamaal (2019) CAAWIYE.mp4 from TV
+2025-08-15 14:53:51 - plugins.channel_post - INFO - 💾 Successfully indexed video: K.O..2025 CAAWIYE.mp4 from TV
+2025-08-15 14:53:51 - plugins.channel_post - INFO - 💾 Successfully indexed video: Morbius.2022.CAAWIYE.mp4 from TV
+2025-08-15 14:53:51 - plugins.channel_post - INFO - 💾 Successfully indexed video: STRAW_2025 CAAWIYE.mp4 from TV
+2025-08-15 14:53:52 - plugins.inline_query - INFO - 🔍 Inline query 'ronth' by user 5616403687 returned 1 results
+2025-08-15 14:54:24 - plugins.inline_query - INFO - 🔍 Inline query 'Paper' by user 5616403687 returned 1 results
+2025-08-15 14:54:47 - plugins.inline_query - INFO - 🔍 Inline query 'ronth' by user 5616403687 returned 1 results
+2025-08-15 14:56:14 - plugins.commands - ERROR - Error in stats command: name 'database' is not defined
+2025-08-15 14:56:27 - plugins.commands - ERROR - Error in ban command: Telegram says: [400 ENTITY_BOUNDS_INVALID] - The message entity bounds are invalid (caused by "messages.SendMessage")
+2025-08-15 14:56:32 - plugins.commands - ERROR - Error in broadcast command: Telegram says: [400 ENTITY_BOUNDS_INVALID] - The message entity bounds are invalid (caused by "messages.SendMessage")
+2025-08-15 14:57:05 - storage - INFO - 💾 Storage data saved successfully
+2025-08-15 15:01:33 - config - INFO - ✅ Configuration validated successfully
+2025-08-15 15:01:33 - config - INFO - ✅ Configuration validated successfully
+2025-08-15 15:01:33 - __main__ - INFO - Starting Media Search Bot...
+2025-08-15 15:01:34 - pyrogram.connection.connection - INFO - Connecting...
+2025-08-15 15:01:34 - pyrogram.connection.connection - INFO - Connected! Production DC4 - IPv4
+2025-08-15 15:01:34 - pyrogram.session.session - INFO - NetworkTask started
+2025-08-15 15:01:35 - pyrogram.session.session - INFO - Session initialized: Layer 158
+2025-08-15 15:01:35 - pyrogram.session.session - INFO - Device: CPython 3.11.13 - Pyrogram 2.0.106
+2025-08-15 15:01:35 - pyrogram.session.session - INFO - System: Linux 6.2.16 (en)
+2025-08-15 15:01:35 - pyrogram.session.session - INFO - Session started
+2025-08-15 15:01:35 - pyrogram.session.session - INFO - PingTask started
+2025-08-15 15:01:35 - config - INFO - ✅ Configuration validated successfully
+2025-08-15 15:01:35 - pyrogram.client - INFO - [MediaSearchBot] [LOAD] MessageHandler("channel_media_handler") in group 0 from "plugins.channel_post"
+2025-08-15 15:01:35 - pyrogram.client - INFO - [MediaSearchBot] [LOAD] MessageHandler("manual_index_command") in group 0 from "plugins.channel_post"
+2025-08-15 15:01:35 - pyrogram.client - INFO - [MediaSearchBot] [LOAD] MessageHandler("channel_info_command") in group 0 from "plugins.channel_post"
+2025-08-15 15:01:35 - config - INFO - ✅ Configuration validated successfully
+2025-08-15 15:01:35 - pyrogram.client - INFO - [MediaSearchBot] [LOAD] MessageHandler("start_command") in group 0 from "plugins.commands"
+2025-08-15 15:01:35 - pyrogram.client - INFO - [MediaSearchBot] [LOAD] MessageHandler("stats_command") in group 0 from "plugins.commands"
+2025-08-15 15:01:35 - pyrogram.client - INFO - [MediaSearchBot] [LOAD] MessageHandler("ban_command") in group 0 from "plugins.commands"
+2025-08-15 15:01:35 - pyrogram.client - INFO - [MediaSearchBot] [LOAD] MessageHandler("unban_command") in group 0 from "plugins.commands"
+2025-08-15 15:01:35 - pyrogram.client - INFO - [MediaSearchBot] [LOAD] MessageHandler("broadcast_command") in group 0 from "plugins.commands"
+2025-08-15 15:01:35 - pyrogram.client - INFO - [MediaSearchBot] [LOAD] MessageHandler("total_command") in group 0 from "plugins.commands"
+2025-08-15 15:01:35 - pyrogram.client - INFO - [MediaSearchBot] [LOAD] MessageHandler("test_command") in group 0 from "plugins.commands"
+2025-08-15 15:01:35 - pyrogram.client - INFO - [MediaSearchBot] [LOAD] MessageHandler("delete_command") in group 0 from "plugins.commands"
+2025-08-15 15:01:35 - pyrogram.client - INFO - [MediaSearchBot] [LOAD] MessageHandler("logger_command") in group 0 from "plugins.commands"
+2025-08-15 15:01:35 - pyrogram.client - INFO - [MediaSearchBot] [LOAD] CallbackQueryHandler("show_public_stats") in group 0 from "plugins.commands"
+2025-08-15 15:01:35 - pyrogram.client - INFO - [MediaSearchBot] [LOAD] CallbackQueryHandler("show_help") in group 0 from "plugins.commands"
+2025-08-15 15:01:35 - config - INFO - ✅ Configuration validated successfully
+2025-08-15 15:01:35 - pyrogram.client - INFO - [MediaSearchBot] [LOAD] InlineQueryHandler("inline_query_handler") in group 0 from "plugins.inline_query"
+2025-08-15 15:01:35 - pyrogram.client - INFO - [MediaSearchBot] [LOAD] ChosenInlineResultHandler("chosen_inline_result_handler") in group 0 from "plugins.inline_query"
+2025-08-15 15:01:35 - pyrogram.client - INFO - [MediaSearchBot] Successfully loaded 16 plugins from "plugins"
+2025-08-15 15:01:35 - pyrogram.dispatcher - INFO - Started 50 HandlerTasks
+2025-08-15 15:01:39 - database - INFO - 📊 Database indexes created successfully
+2025-08-15 15:01:39 - database - INFO - ✅ Database connected: kevyavdi30
+2025-08-15 15:01:39 - storage - INFO - 📋 Loaded 0 banned users
+2025-08-15 15:01:39 - storage - INFO - 📊 Bot statistics loaded
+2025-08-15 15:01:39 - storage - INFO - ✅ Storage data loaded successfully
+2025-08-15 15:01:39 - __main__ - INFO - 🚀 test started successfully!
+📊 Pyrogram v2.0.106 (Layer 158)
+🔗 Username: Narocoin_bot
+💾 Database: kevyavdi30
+👥 Admins: 1
+📺 Channels: 1
+2025-08-15 15:02:03 - plugins.commands - ERROR - Error in broadcast command: Telegram says: [400 ENTITY_BOUNDS_INVALID] - The message entity bounds are invalid (caused by "messages.SendMessage")
+2025-08-15 15:02:05 - plugins.commands - ERROR - Error in ban command: Telegram says: [400 ENTITY_BOUNDS_INVALID] - The message entity bounds are invalid (caused by "messages.SendMessage")
+2025-08-15 15:02:08 - config - INFO - ✅ Configuration validated successfully
+2025-08-15 15:02:11 - database - INFO - 📊 Database indexes created successfully
+2025-08-15 15:02:11 - database - INFO - ✅ Database connected: kevyavdi30
+2025-08-15 15:02:11 - database_manager - INFO - 🔄 Database manager initialized
+2025-08-15 15:02:11 - plugins.commands - ERROR - Error in ban command: Telegram says: [400 ENTITY_BOUNDS_INVALID] - The message entity bounds are invalid (caused by "messages.SendMessage")
+2025-08-15 15:02:26 - plugins.commands - ERROR - Error in broadcast command: Telegram says: [400 ENTITY_BOUNDS_INVALID] - The message entity bounds are invalid (caused by "messages.SendMessage")
+2025-08-15 15:02:37 - plugins.channel_post - ERROR - ❌ Error indexing channel -1002076814765: Telegram says: [400 BOT_METHOD_INVALID] - The method can't be used by bots (caused by "messages.GetHistory")
+2025-08-15 15:03:02 - plugins.commands - ERROR - Error in ban command: Telegram says: [400 ENTITY_BOUNDS_INVALID] - The message entity bounds are invalid (caused by "messages.SendMessage")
+2025-08-15 15:03:53 - plugins.channel_post - INFO - 📥 Received message from channel -1002076814765 (TV)
+2025-08-15 15:03:53 - plugins.channel_post - INFO - 🔍 Found video in message 494
+2025-08-15 15:03:53 - plugins.channel_post - INFO - 📝 Created document for War 2 2025 Hindi CAAWIYE.mp4
+2025-08-15 15:03:54 - plugins.channel_post - INFO - 💾 Successfully indexed video: War 2 2025 Hindi CAAWIYE.mp4 from TV

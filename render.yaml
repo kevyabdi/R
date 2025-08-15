@@ -1,0 +1,30 @@
+services:
+  - type: web
+    name: media-search-bot
+    env: python
+    buildCommand: pip install pyrogram tgcrypto motor pymongo flask requests aiofiles
+    startCommand: python main.py
+    envVars:
+      - key: API_ID
+        sync: false
+      - key: API_HASH
+        sync: false
+      - key: BOT_TOKEN
+        sync: false
+      - key: DATABASE_URI
+        sync: false
+      - key: DATABASE_NAME
+        sync: false
+      - key: ADMINS
+        sync: false
+      - key: CHANNELS
+        sync: false
+      - key: AUTH_CHANNEL
+        sync: false
+      - key: COLLECTION_NAME
+        value: "telegram_files"
+      - key: CACHE_TIME
+        value: "300"
+      - key: USE_CAPTION_FILTER
+        value: "True"
+    autoDeploy: false
