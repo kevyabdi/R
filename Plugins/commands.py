@@ -1,386 +1,232 @@
-"""
-Command handlers for Media Search Bot
-Handles admin commands and user interactions
-"""
-
-from pyrogram import Client, filters
-from pyrogram.types import Message, InlineKeyboardMarkup, InlineKeyboardButton
 import logging
 import os
-import asyncio
-from config import Config
-from storage import Storage
-from database_manager import db_manager
+from datetime import datetime
 
-logger = logging.getLogger(__name__)
+from telegram import Update, InlineQueryResultArticle, InputTextMessageContent
+from telegram.ext import (
+    Application,
+    CommandHandler,
+    MessageHandler,
+    filters,
+    ContextTypes,
+    CallbackQueryHandler,
+    InlineQueryHandler,
+)
 
-# Initialize components
-config = Config()
-storage = Storage()
+from telegram.constants import ParseMode
 
-@Client.on_message(filters.command("start") & filters.private)
-async def start_command(client: Client, message: Message):
-    """Handle /start command"""
+from dotenv import load_dotenv
+
+load_dotenv()
+
+TELEGRAM_BOT_TOKEN = os.getenv("TELEGRAM_BOT_TOKEN")
+ADMIN_ID = int(os.getenv("ADMIN_ID"))
+
+
+def get_logger():
+    logging.basicConfig(
+        format="%(asctime)s - %(name)s - %(levelname)s - %(message)s", level=logging.INFO
+    )
+    logging.getLogger("httpx").setLevel(logging.WARNING)
+    logger = logging.getLogger(__name__)
+    return logger
+
+
+logger = get_logger()
+
+
+async def start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    """Send a message when the command /start is issued."""
+    user = update.effective_user
+    await update.message.reply_html(
+        rf"Hi {user.mention_html()}!",
+        reply_markup=context.bot_data.get("keyboard"),
+    )
+
+
+async def help_command(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    """Send a message when the command /help is issued."""
+    help_text = """
+Here are the available commands:
+/start - Start the bot
+/help - Show this help message
+/ban <user> - Ban a user
+/unban <user> - Unban a user
+/broadcast <message> - Send a message to all users
+/stats - Show bot statistics
+"""
+    await update.message.reply_text(help_text)
+
+
+async def ban_user(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    """Ban a user."""
     try:
-        user_id = message.from_user.id
-        
-        # Check if user is banned
-        if storage.is_banned(user_id):
-            await message.reply("❌ You are banned from using this bot.")
-            return
-        
-        # Check authorization
-        if config.AUTH_USERS and not config.is_auth_user(user_id):
-            await message.reply("❌ You are not authorized to use this bot.")
-            return
-        
-        # Check channel subscription if required
-        if config.AUTH_CHANNEL:
-            try:
-                member = await client.get_chat_member(config.AUTH_CHANNEL, user_id)
-                if member.status in ["left", "kicked"]:
-                    keyboard = InlineKeyboardMarkup([
-                        [InlineKeyboardButton("Join Channel", url=f"https://t.me/{config.AUTH_CHANNEL.replace('@', '')}")]
-                    ])
-                    await message.reply(config.INVITE_MSG, reply_markup=keyboard)
-                    return
-            except Exception as e:
-                logger.error(f"Error checking channel membership: {e}")
-        
-        # Get bot info
-        me = await client.get_me()
-        username = me.username
-        
-        # Create start message with inline keyboard
-        start_text = config.START_MSG.format(username=f"@{username}")
-        
-        keyboard = InlineKeyboardMarkup([
-            [InlineKeyboardButton("🔍 Search Inline", switch_inline_query_current_chat="")],
-            [InlineKeyboardButton("📊 Bot Stats", callback_data="show_stats")],
-            [InlineKeyboardButton("❓ Help", callback_data="show_help")]
-        ])
-        
-        await message.reply(start_text, reply_markup=keyboard, disable_web_page_preview=True)
-        
-        # Update statistics
-        await storage.increment_stat("start_commands")
-        
-    except Exception as e:
-        logger.error(f"Error in start command: {e}")
-        await message.reply("❌ An error occurred. Please try again later.")
-
-@Client.on_message(filters.command("stats") & filters.private)
-async def stats_command(client: Client, message: Message):
-    """Handle /stats command (admin only)"""
-    try:
-        user_id = message.from_user.id
-        
-        if not config.is_admin(user_id):
-            await message.reply("❌ This command is only for admins.")
-            return
-        
-        # Get statistics
-        bot_stats = storage.get_bot_stats()
-        db = await db_manager.get_database()
-        total_files = await db.get_total_files()
-        channel_stats = await db.get_channel_stats()
-        file_type_stats = await db.get_file_type_stats()
-        banned_users = storage.get_banned_users()
-        
-        # Create stats message
-        stats_text = f"""📊 **Bot Statistics**
-
-👥 **Users**: {bot_stats.get('total_users', 0)}
-🔍 **Total Queries**: {bot_stats.get('total_queries', 0)}
-📁 **Indexed Files**: {total_files}
-🚫 **Banned Users**: {len(banned_users)}
-
-📺 **Files by Channel**:"""
-        
-        for channel_id, count in channel_stats.items():
-            stats_text += f"\n• Channel {channel_id}: {count} files"
-        
-        stats_text += "\n\n📄 **Files by Type**:"
-        for file_type, count in file_type_stats.items():
-            stats_text += f"\n• {file_type.title()}: {count} files"
-        
-        if bot_stats.get('start_time'):
-            stats_text += f"\n\n⏰ **Bot Started**: {bot_stats['start_time'][:19]}"
-        
-        await message.reply(stats_text)
-        
-    except Exception as e:
-        logger.error(f"Error in stats command: {e}")
-        await message.reply("❌ Error retrieving statistics.")
-
-@Client.on_message(filters.command("ban") & filters.private)
-async def ban_command(client: Client, message: Message):
-    """Handle /ban command (admin only)"""
-    try:
-        user_id = message.from_user.id
-        
-        if not config.is_admin(user_id):
-            await message.reply("❌ This command is only for admins.")
-            return
-        
-        # Get user ID to ban
-        if len(message.command) < 2:
-            await message.reply("❌ Please provide a user ID to ban.\nUsage: `/ban <user_id>`")
-            return
-        
+        user_id_to_ban = int(context.args[0])
+        reason = " ".join(context.args[1:]) or "No reason provided"
+        user_mention = f"User ID: {user_id_to_ban}"
         try:
-            target_user_id = int(message.command[1])
-        except ValueError:
-            await message.reply("❌ Invalid user ID. Please provide a numeric user ID.")
-            return
-        
-        # Don't allow banning admins
-        if config.is_admin(target_user_id):
-            await message.reply("❌ Cannot ban an admin.")
-            return
-        
-        # Ban the user
-        if await storage.ban_user(target_user_id):
-            await message.reply(f"✅ User {target_user_id} has been banned.")
-        else:
-            await message.reply(f"⚠️ User {target_user_id} is already banned.")
-        
-    except Exception as e:
-        logger.error(f"Error in ban command: {e}")
-        await message.reply("❌ Error banning user.")
+            banned_user = await context.bot.ban_chat_member(
+                chat_id=update.effective_chat.id, user_id=user_id_to_ban
+            )
 
-@Client.on_message(filters.command("unban") & filters.private)
-async def unban_command(client: Client, message: Message):
-    """Handle /unban command (admin only)"""
-    try:
-        user_id = message.from_user.id
-        
-        if not config.is_admin(user_id):
-            await message.reply("❌ This command is only for admins.")
-            return
-        
-        # Get user ID to unban
-        if len(message.command) < 2:
-            await message.reply("❌ Please provide a user ID to unban.\nUsage: `/unban <user_id>`")
-            return
-        
-        try:
-            target_user_id = int(message.command[1])
-        except ValueError:
-            await message.reply("❌ Invalid user ID. Please provide a numeric user ID.")
-            return
-        
-        # Unban the user
-        if await storage.unban_user(target_user_id):
-            await message.reply(f"✅ User {target_user_id} has been unbanned.")
-        else:
-            await message.reply(f"⚠️ User {target_user_id} is not banned.")
-        
-    except Exception as e:
-        logger.error(f"Error in unban command: {e}")
-        await message.reply("❌ Error unbanning user.")
-
-@Client.on_message(filters.command("broadcast") & filters.private)
-async def broadcast_command(client: Client, message: Message):
-    """Handle /broadcast command (admin only)"""
-    try:
-        user_id = message.from_user.id
-        
-        if not config.is_admin(user_id):
-            await message.reply("❌ This command is only for admins.")
-            return
-        
-        # Get broadcast message
-        if len(message.text.split(None, 1)) < 2:
-            await message.reply("❌ Please provide a message to broadcast.\nUsage: `/broadcast <message>`")
-            return
-        
-        broadcast_text = message.text.split(None, 1)[1]
-        
-        # This is a simplified broadcast - in a full implementation,
-        # you would need to maintain a list of all users who have used the bot
-        await message.reply("📢 Broadcast feature is available but requires user database implementation.")
-        
-        # TODO: Implement user collection and broadcast functionality
-        # For now, just confirm the command was received
-        logger.info(f"Broadcast requested by admin {user_id}: {broadcast_text[:50]}...")
-        
-    except Exception as e:
-        logger.error(f"Error in broadcast command: {e}")
-        await message.reply("❌ Error processing broadcast.")
-
-@Client.on_message(filters.command("total") & filters.private)
-async def total_command(client: Client, message: Message):
-    """Handle /total command (admin only)"""
-    try:
-        user_id = message.from_user.id
-        
-        if not config.is_admin(user_id):
-            await message.reply("❌ This command is only for admins.")
-            return
-        
-        db = await db_manager.get_database()
-        total_files = await db.get_total_files()
-        await message.reply(f"📊 **Total Indexed Files**: {total_files}")
-        
-    except Exception as e:
-        logger.error(f"Error in total command: {e}")
-        await message.reply("❌ Error getting file count.")
-
-@Client.on_message(filters.command("test") & filters.private)
-async def test_command(client: Client, message: Message):
-    """Handle /test command (admin only) - Test channel access and database"""
-    try:
-        user_id = message.from_user.id
-        
-        if not config.is_admin(user_id):
-            await message.reply("❌ This command is only for admins.")
-            return
-        
-        test_msg = await message.reply("🔍 Testing bot status...")
-        
-        results = []
-        
-        # Test database connection
-        try:
-            db = await db_manager.get_database()
-            total_files = await db.get_total_files()
-            results.append("✅ **Database Status**")
-            results.append(f"   • Connection: Active")
-            results.append(f"   • Total Files: {total_files}")
+            target_user_id = user_id_to_ban
+            await update.message.reply(
+                f"✅ User Banned Successfully\n\n"
+                f"User: {user_mention}\n"
+                f"ID: {target_user_id}\n"
+                f"Banned by: {message.from_user.first_name}\n"
+                f"Time: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}"
+            )
+            logger.info(f"User {user_id_to_ban} banned by {update.effective_user.id}")
         except Exception as e:
-            results.append("❌ **Database Status**")
-            results.append(f"   • Error: {str(e)}")
-        
-        results.append("")
-        
-        # Test channel access
-        for channel_id in config.CHANNELS:
-            try:
-                chat = await client.get_chat(channel_id)
-                member = await client.get_chat_member(channel_id, "me")
-                
-                results.append(f"✅ **{chat.title}**")
-                results.append(f"   • ID: `{channel_id}`")
-                results.append(f"   • Type: {chat.type}")
-                results.append(f"   • Bot Status: {member.status}")
-                results.append(f"   • Can Read: {'✅' if member.privileges and member.privileges.can_read_messages else '❌'}")
-                
-            except Exception as e:
-                results.append(f"❌ **Channel {channel_id}**")
-                results.append(f"   • Error: {str(e)}")
-        
-        if not config.CHANNELS:
-            results.append("⚠️ No channels configured")
-        
-        response = "🔍 **Bot Status Test**\n\n" + "\n".join(results)
-        await test_msg.edit_text(response)
-        
-    except Exception as e:
-        logger.error(f"Error in test command: {e}")
-        await message.reply("❌ Error testing bot status.")
+            logger.error(f"Error banning user {user_id_to_ban}: {e}")
+            await update.message.reply_text(f"Error banning user: {e}")
 
-@Client.on_message(filters.command("delete") & filters.private)
-async def delete_command(client: Client, message: Message):
-    """Handle /delete command (admin only)"""
+    except (IndexError, ValueError):
+        await update.message.reply_text(
+            "Usage: /ban <user_id> [reason]\n"
+            "Example: /ban 123456789 Spamming"
+        )
+
+
+async def unban_user(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    """Unban a user."""
     try:
-        user_id = message.from_user.id
-        
-        if not config.is_admin(user_id):
-            await message.reply("❌ This command is only for admins.")
-            return
-        
-        if len(message.command) < 2:
-            await message.reply("❌ Please provide a file ID to delete.\nUsage: `/delete <file_id>`")
-            return
-        
-        file_id = message.command[1]
-        
-        db = await db_manager.get_database()
-        if await db.delete_file(file_id):
-            await message.reply(f"✅ File {file_id} deleted successfully.")
-        else:
-            await message.reply(f"❌ File {file_id} not found.")
-        
-    except Exception as e:
-        logger.error(f"Error in delete command: {e}")
-        await message.reply("❌ Error deleting file.")
+        user_id_to_unban = int(context.args[0])
+        user_mention = f"User ID: {user_id_to_unban}"
+        try:
+            await context.bot.unban_chat_member(
+                chat_id=update.effective_chat.id, user_id=user_id_to_unban
+            )
+            await update.message.reply_text(f"✅ User {user_mention} unbanned successfully.")
+            logger.info(f"User {user_id_to_unban} unbanned by {update.effective_user.id}")
+        except Exception as e:
+            logger.error(f"Error unbanning user {user_id_to_unban}: {e}")
+            await update.message.reply_text(f"Error unbanning user: {e}")
 
-@Client.on_message(filters.command("logger") & filters.private)
-async def logger_command(client: Client, message: Message):
-    """Handle /logger command (admin only)"""
-    try:
-        user_id = message.from_user.id
-        
-        if not config.is_admin(user_id):
-            await message.reply("❌ This command is only for admins.")
-            return
-        
-        # Send log file if it exists
-        if os.path.exists("bot.log"):
-            await message.reply_document("bot.log", caption="📋 Bot Log File")
-        else:
-            await message.reply("❌ Log file not found.")
-        
-    except Exception as e:
-        logger.error(f"Error in logger command: {e}")
-        await message.reply("❌ Error sending log file.")
+    except (IndexError, ValueError):
+        await update.message.reply_text(
+            "Usage: /unban <user_id>\n"
+            "Example: /unban 123456789"
+        )
 
-# Callback query handlers
-@Client.on_callback_query(filters.regex("show_stats"))
-async def show_public_stats(client: Client, callback_query):
-    """Show public statistics"""
-    try:
-        db = await db_manager.get_database()
-        total_files = await db.get_total_files()
-        file_type_stats = await db.get_file_type_stats()
-        
-        stats_text = f"""📊 **Public Statistics**
 
-📁 **Total Files**: {total_files}
+async def broadcast(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    """Send a message to all users."""
+    if update.effective_user.id != ADMIN_ID:
+        await update.message.reply_text("You are not authorized to use this command.")
+        return
 
-📄 **File Types**:"""
-        
-        for file_type, count in file_type_stats.items():
-            stats_text += f"\n• {file_type.title()}: {count}"
-        
-        await callback_query.answer()
-        await callback_query.message.edit_text(stats_text)
-        
-    except Exception as e:
-        logger.error(f"Error showing public stats: {e}")
-        await callback_query.answer("❌ Error loading statistics", show_alert=True)
+    broadcast_message = " ".join(context.args)
+    if not broadcast_message:
+        await update.message.reply_text("Usage: /broadcast <message>")
+        return
 
-@Client.on_callback_query(filters.regex("show_help"))
-async def show_help(client: Client, callback_query):
-    """Show help information"""
-    try:
-        me = await client.get_me()
-        help_text = f"""❓ **How to Use {me.first_name}**
+    keyboard = [[InlineKeyboardButton("Confirm", callback_data="confirm_broadcast")]]
+    reply_markup = InlineKeyboardMarkup(keyboard)
 
-🔍 **Search for Files:**
-• Type `@{me.username} <search term>` in any chat
-• Example: `@{me.username} python tutorial`
-• You can search by filename or caption
+    preview_text = (
+        f"📢 Broadcast Preview\n\n"
+        f"{broadcast_message[:500]}{'...' if len(broadcast_message) > 500 else ''}\n\n"
+        f"Confirm to send this message to all bot users?"
+    )
+    await update.message.reply_text(preview_text, reply_markup=reply_markup)
 
-📁 **Supported File Types:**
-• Documents (.pdf, .doc, .zip, etc.)
-• Videos (.mp4, .avi, .mkv, etc.)
-• Audio (.mp3, .wav, .flac, etc.)
-• Photos (.jpg, .png, .gif, etc.)
 
-🔎 **Search Tips:**
-• Use specific keywords for better results
-• Try different variations of your search term
-• You can search using `filename | filetype` format
+async def broadcast_confirm(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    """Confirm and send broadcast message."""
+    query = update.callback_query
+    await query.answer()
 
-**Example**: `Avengers | video`
+    # Retrieve broadcast message from user data
+    broadcast_message = context.user_data.get("broadcast_message")
 
-Need more help? Contact the bot administrators."""
-        
-        await callback_query.answer()
-        await callback_query.message.edit_text(help_text)
-        
-    except Exception as e:
-        logger.error(f"Error showing help: {e}")
-        await callback_query.answer("❌ Error loading help", show_alert=True)
+    if not broadcast_message:
+        await query.edit_message_text("Broadcast message not found. Please try again.")
+        return
+
+    # Get all user IDs from the database
+    # Replace this with your actual database query to get user IDs
+    user_ids = [ADMIN_ID]  # Example: just the admin for now
+
+    sent_count = 0
+    for user_id in user_ids:
+        try:
+            await context.bot.send_message(chat_id=user_id, text=broadcast_message)
+            sent_count += 1
+            # Add a small delay to avoid hitting rate limits
+            await asyncio.sleep(0.1)
+        except Exception as e:
+            logger.error(f"Failed to send broadcast to {user_id}: {e}")
+
+    await query.edit_message_text(
+        f"Broadcast sent to {sent_count} users.\n"
+        f"Original message: {broadcast_message}"
+    )
+    # Clear the broadcast message from user data
+    context.user_data.pop("broadcast_message", None)
+
+
+async def stats(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    """Show bot statistics."""
+    # Replace this with your actual database query to get statistics
+    total_users = 100  # Example statistics
+    active_users = 50
+
+    stats_text = f"Bot Statistics:\n\nTotal Users: {total_users}\nActive Users: {active_users}"
+    await update.message.reply_text(stats_text)
+
+
+async def inline_query(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    """Handle inline queries."""
+    query = update.inline_query.query
+
+    if not query:
+        return
+
+    results = [
+        InlineQueryResultArticle(
+            id=query.upper(),
+            title="Search Results",
+            input_message_content=InputTextMessageContent(
+                f"Searching for: {query}"
+            ),
+        ),
+    ]
+
+    await update.inline_query.answer(results)
+
+
+async def error_handler(update: object, context: ContextTypes.DEFAULT_TYPE) -> None:
+    """Log Errors caused by Updates."""
+    logger.error(f"Update {update} caused error {context.error}")
+
+
+def main() -> None:
+    """Start the bot."""
+    application = Application.builder().token(TELEGRAM_BOT_TOKEN).build()
+
+    # Register handlers
+    application.add_handler(CommandHandler("start", start))
+    application.add_handler(CommandHandler("help", help_command))
+    application.add_handler(CommandHandler("ban", ban_user))
+    application.add_handler(CommandHandler("unban", unban_user))
+    application.add_handler(CommandHandler("broadcast", broadcast))
+    application.add_handler(CallbackQueryHandler(broadcast_confirm, pattern="^confirm_broadcast$"))
+    application.add_handler(CommandHandler("stats", stats))
+    application.add_handler(InlineQueryHandler(inline_query))
+
+    # Register error handler
+    application.add_error_handler(error_handler)
+
+    # Add a default keyboard for the start command
+    context.bot_data["keyboard"] = ReplyKeyboardMarkup(
+        [[KeyboardButton("/help"), KeyboardButton("/stats")]], resize_keyboard=True
+    )
+
+    # Start the Bot
+    application.run_polling(allowed_updates=Update.ALL_TYPES)
+
+
+if __name__ == "__main__":
+    main()
