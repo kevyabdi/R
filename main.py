@@ -43,7 +43,7 @@ class MediaSearchBot:
                 logger.error(f"Missing required config: {var}")
                 sys.exit(1)
 
-        # Initialize Pyrogram client
+        # Initialize Pyrogram client with in-memory session for Render
         self.app = Client(
             "MediaSearchBot",
             api_id=self.config.API_ID,
@@ -51,7 +51,8 @@ class MediaSearchBot:
             bot_token=self.config.BOT_TOKEN,
             workers=50,
             sleep_threshold=5,
-            max_concurrent_transmissions=10
+            max_concurrent_transmissions=10,
+            in_memory=True  # Use in-memory session for deployment
         )
 
     async def start(self):
