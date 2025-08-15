@@ -144,7 +144,7 @@ class MediaSearchHandlers:
     async def cleanup_session_files(self):
         """Clean up corrupted session files"""
         try:
-            session_patterns = ['.session', '.session-journal']
+            session_patterns = ['.session', '.session-journal', '.session-shm', '.session-wal']
             for pattern in session_patterns:
                 session_files = [f for f in os.listdir('.') if f.endswith(pattern)]
                 for session_file in session_files:
