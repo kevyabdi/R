@@ -47,6 +47,26 @@ class MediaSearchHandlers:
         self.storage = Storage()
         self.database = Database()
         self.session_retry_count = 0
+
+
+    async def check_session_health(self):
+        """Periodic session health check"""
+        try:
+            # Test bot connection
+            me = await self.app.get_me()
+            if me:
+                await self.update_session_status("healthy")
+                self.session_retry_count = 0
+                return True
+        except (SessionRevoked, AuthKeyUnregistered, UserDeactivated) as e:
+            logger.warning(f"🔍 Session health check failed: {e}")
+            await self.update_session_status("unhealthy")
+            await self.handle_session_error(e)
+            return False
+        except Exception as e:
+            logger.error(f"❌ Session health check error: {e}")
+            return False
+
         self.max_retries = 3
         
         # Register all handlers
@@ -69,6 +89,7 @@ class MediaSearchHandlers:
         self.app.add_handler(MessageHandler(self.logger_command, filters.command("logger") & filters.private))
         self.app.add_handler(MessageHandler(self.total_command, filters.command("total") & filters.private))
         self.app.add_handler(MessageHandler(self.channel_command, filters.command("channel") & filters.private))
+        self.app.add_handler(MessageHandler(self.session_command, filters.command("session") & filters.private))
         
         # Inline handlers
         self.app.add_handler(InlineQueryHandler(self.inline_query_handler))
@@ -92,29 +113,59 @@ class MediaSearchHandlers:
         try:
             if self.session_retry_count >= self.max_retries:
                 logger.error("❌ Max session retry attempts reached")
+                await self.cleanup_session_files()
                 return False
             
             self.session_retry_count += 1
             logger.warning(f"🔄 Session error detected, attempt {self.session_retry_count}/{self.max_retries}")
             
             # Clean up session files
-            session_files = [f for f in os.listdir('.') if f.endswith('.session')]
-            for session_file in session_files:
-                try:
-                    os.remove(session_file)
-                    logger.info(f"🗑️ Removed corrupted session file: {session_file}")
-                except Exception as e:
-                    logger.error(f"❌ Error removing session file {session_file}: {e}")
+            await self.cleanup_session_files()
+            
+            # Wait before retry with exponential backoff
+            wait_time = min(5 * (2 ** (self.session_retry_count - 1)), 30)
+            logger.info(f"⏳ Waiting {wait_time}s before session recovery...")
+            await asyncio.sleep(wait_time)
             
             # Restart bot with fresh session
-            await asyncio.sleep(5)  # Wait before retry
-            await self.app.restart()
-            
-            return True
+            try:
+                await self.app.restart()
+                logger.info("✅ Session recovered successfully")
+                self.session_retry_count = 0  # Reset on success
+                return True
+            except Exception as restart_error:
+                logger.error(f"❌ Failed to restart session: {restart_error}")
+                return False
             
         except Exception as e:
             logger.error(f"❌ Error in session recovery: {e}")
             return False
+    
+    async def cleanup_session_files(self):
+        """Clean up corrupted session files"""
+        try:
+            session_patterns = ['.session', '.session-journal']
+            for pattern in session_patterns:
+                session_files = [f for f in os.listdir('.') if f.endswith(pattern)]
+                for session_file in session_files:
+                    try:
+                        os.remove(session_file)
+                        logger.info(f"🗑️ Removed session file: {session_file}")
+                    except Exception as e:
+                        logger.error(f"❌ Error removing {session_file}: {e}")
+        except Exception as e:
+            logger.error(f"❌ Error in session cleanup: {e}")
+    
+    async def update_session_status(self, status: str):
+        """Update session status in storage"""
+        try:
+            await self.storage.update_bot_stats({
+                "session_status": status,
+                "last_session_update": datetime.now().isoformat(),
+                "session_retry_count": self.session_retry_count
+            })
+        except Exception as e:
+            logger.error(f"❌ Error updating session status: {e}")
 
     async def start_command(self, client: Client, message: Message):
         """Handle /start command with comprehensive checks"""
@@ -216,7 +267,11 @@ I'm an advanced media search bot that helps you find files across indexed channe
             await self.start_command(client, message)
         except (SessionRevoked, AuthKeyUnregistered) as e:
             logger.error(f"🔐 Session error in start command: {e}")
-            await self.handle_session_error(e)
+            await self.update_session_status("error")
+            if await self.handle_session_error(e):
+                await self.update_session_status("recovered")
+            else:
+                await self.update_session_status("failed")
         except Exception as e:
             logger.error(f"❌ Error in start command: {e}")
             await message.reply("❌ An error occurred. Please try again later.")
@@ -742,6 +797,65 @@ I'm an advanced media search bot that helps you find files across indexed channe
             
             # Check if user is banned
             if self.storage.is_banned(user_id):
+
+
+    async def session_command(self, client: Client, message: Message):
+        """Handle /session command (admin only)"""
+        try:
+            user_id = message.from_user.id
+            
+            if not self.config.is_admin(user_id):
+                await message.reply("❌ This command is only available to administrators.")
+                return
+            
+            if len(message.command) > 1:
+                action = message.command[1].lower()
+                
+                if action == "check":
+                    await message.reply("🔍 Checking session health...")
+                    health = await self.check_session_health()
+                    status = "✅ Healthy" if health else "❌ Unhealthy"
+                    await message.reply(f"🔍 **Session Health Check**\n\n**Status:** {status}")
+                    
+                elif action == "reset":
+                    await message.reply("🔄 Resetting session...")
+                    await self.cleanup_session_files()
+                    await message.reply("✅ Session files cleaned. Bot will restart automatically.")
+                    await self.app.restart()
+                    
+                elif action == "stats":
+                    bot_stats = self.storage.get_bot_stats()
+                    session_info = f"""📊 **Session Statistics**
+                    
+**Status:** {bot_stats.get('session_status', 'Unknown')}
+**Last Update:** {bot_stats.get('last_session_update', 'Never')}
+**Retry Count:** {self.session_retry_count}/{self.max_retries}
+**Session Files:** {len([f for f in os.listdir('.') if f.endswith('.session')])}"""
+                    await message.reply(session_info)
+                    
+                else:
+                    await message.reply("❌ Invalid action. Use: check, reset, or stats")
+            else:
+                help_text = """🔐 **Session Management**
+
+**Available Actions:**
+• `/session check` - Check session health
+• `/session reset` - Reset session files  
+• `/session stats` - Show session statistics
+
+**Session Status:**
+• `healthy` - Session working properly
+• `unhealthy` - Session has issues
+• `error` - Session error occurred
+• `recovered` - Session recovered from error
+• `failed` - Session recovery failed"""
+                
+                await message.reply(help_text)
+                
+        except Exception as e:
+            logger.error(f"❌ Error in session command: {e}")
+            await message.reply("❌ Error managing session.")
+
                 await inline_query.answer(
                     results=[],
                     cache_time=0,
