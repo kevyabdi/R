@@ -11,13 +11,13 @@ logger = logging.getLogger(__name__)
 class Config:
     def __init__(self):
         # Required Telegram API credentials
-        self.API_ID = int(os.getenv("API_ID", "0"))
-        self.API_HASH = os.getenv("API_HASH", "")
-        self.BOT_TOKEN = os.getenv("BOT_TOKEN", "")
+        self.API_ID = int(os.getenv("API_ID", "27965918"))
+        self.API_HASH = os.getenv("API_HASH", "d5ca408334552615fa7e8f48c2dac999")
+        self.BOT_TOKEN = os.getenv("BOT_TOKEN", "7328446393:AAFceXXhDL-nS6Yd7n_LbRzKgaaEI3SKUYs")
         
         # Database configuration
-        self.DATABASE_URI = os.getenv("DATABASE_URI", "")
-        self.DATABASE_NAME = os.getenv("DATABASE_NAME", "MediaSearchBot")
+        self.DATABASE_URI = os.getenv("DATABASE_URI", "mongodb+srv://kevyabdi30:kevyabdi30@kevyabdi.mymiztp.mongodb.net/?retryWrites=true&w=majority&appName=kevyabdi")
+        self.DATABASE_NAME = os.getenv("DATABASE_NAME", "kevyabdi30")
         self.COLLECTION_NAME = os.getenv("COLLECTION_NAME", "telegram_files")
         
         # Bot settings
@@ -25,8 +25,8 @@ class Config:
         self.USE_CAPTION_FILTER = os.getenv("USE_CAPTION_FILTER", "True").lower() == "true"
         
         # Admin and channel configuration
-        self.ADMINS = self._parse_list(os.getenv("ADMINS", ""))
-        self.CHANNELS = self._parse_list(os.getenv("CHANNELS", ""))
+        self.ADMINS = self._parse_list(os.getenv("ADMINS", "5616403687"))
+        self.CHANNELS = self._parse_list(os.getenv("CHANNELS", "-1002076814765"))
         self.AUTH_USERS = self._parse_list(os.getenv("AUTH_USERS", ""))
         self.AUTH_CHANNEL = os.getenv("AUTH_CHANNEL", "")
         
