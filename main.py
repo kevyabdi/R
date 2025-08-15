@@ -50,7 +50,6 @@ class MediaSearchBot:
             api_hash=self.config.API_HASH,
             bot_token=self.config.BOT_TOKEN,
             workers=50,
-            plugins={"root": "plugins"},
             sleep_threshold=5,
             max_concurrent_transmissions=10
         )
@@ -68,16 +67,17 @@ class MediaSearchBot:
             await self.app.start()
 
             # Initialize database
-            if asyncio.iscoroutinefunction(self.database.initialize):
-                await self.database.initialize()
-            else:
-                self.database.initialize()
+            await self.database.initialize()
 
             # Load storage data
-            if asyncio.iscoroutinefunction(self.storage.load_data):
-                await self.storage.load_data()
-            else:
-                self.storage.load_data()
+            await self.storage.load_data()
+
+            # Register handlers
+            from handlers import MediaSearchHandlers
+            self.handlers = MediaSearchHandlers(self.app)
+            self.handlers.storage = self.storage
+            self.handlers.config = self.config
+            self.handlers.database = self.database
 
             # Get bot info
             me = await self.app.get_me()
