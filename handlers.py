@@ -23,10 +23,20 @@ from pyrogram.errors import (
 from config import Config
 from storage import Storage  
 from database import Database
-from Utils.helpers import (
-    format_file_size, format_duration, extract_search_terms,
-    get_file_emoji, validate_user_id, query_rate_limiter
-)
+try:
+    # Case-sensitive environments (Linux/Render) may require lowercase package names
+    from Utils.helpers import (
+        format_file_size, format_duration, extract_search_terms,
+        get_file_emoji, validate_user_id, query_rate_limiter
+    )
+except ModuleNotFoundError:
+    from utils.helpers import (
+        format_file_size, format_duration, extract_search_terms,
+        get_file_emoji, validate_user_id, query_rate_limiter
+    )
+
+import logging
+logging.basicConfig(level=logging.INFO)
 
 logger = logging.getLogger(__name__)
 
