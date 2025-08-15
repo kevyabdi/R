@@ -45,8 +45,9 @@ class MediaSearchBot:
         try:
             logger.info("Starting Media Search Bot...")
             
-            # Start keep-alive server
-            keep_alive()
+            # Start keep-alive server in background thread
+            from threading import Thread
+            Thread(target=keep_alive, daemon=True).start()
             
             # Start Pyrogram client
             await self.app.start()
