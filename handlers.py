@@ -765,49 +765,15 @@ I'm an advanced media search bot that helps you find files across indexed channe
                 except Exception as e:
                     logger.error(f"Error checking channel subscription: {e}")
             
-            # Handle empty query - show all videos
+            # Handle empty query
             if not query:
-                try:
-                    # Get all video files from database
-                    files = await self.database.search_files("", file_type="video", limit=50)
-                    
-                    if not files:
-                        await inline_query.answer(
-                            results=[],
-                            cache_time=0,
-                            switch_pm_text="📹 No videos found",
-                            switch_pm_parameter="no_videos"
-                        )
-                        return
-                    
-                    # Create inline results for videos
-                    results = []
-                    for i, file_data in enumerate(files[:50]):
-                        try:
-                            result = await self._create_inline_result(i, file_data)
-                            if result:
-                                results.append(result)
-                        except Exception as e:
-                            logger.error(f"Error creating inline result: {e}")
-                            continue
-                    
-                    await inline_query.answer(
-                        results=results,
-                        cache_time=self.config.CACHE_TIME,
-                        switch_pm_text=f"📹 {len(results)} videos available",
-                        switch_pm_parameter="all_videos"
-                    )
-                    return
-                    
-                except Exception as e:
-                    logger.error(f"Error fetching all videos: {e}")
-                    await inline_query.answer(
-                        results=[],
-                        cache_time=0,
-                        switch_pm_text="❌ Error loading videos",
-                        switch_pm_parameter="error"
-                    )
-                    return
+                await inline_query.answer(
+                    results=[],
+                    cache_time=0,
+                    switch_pm_text="🔍 Type to search files...",
+                    switch_pm_parameter="help"
+                )
+                return
             
             # Extract search terms and file type
             search_terms, file_type = extract_search_terms(query)
@@ -1168,3 +1134,4 @@ def register_handlers(app: Client, storage: Storage, config: Config):
     handlers.storage = storage
     handlers.config = config
     logger.info("✅ Media Search Bot handlers registered successfully")
+
