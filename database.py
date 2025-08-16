@@ -97,16 +97,33 @@ class Database:
             search_filter = {}
 
             if query.strip():
-                # Use text search if caption filter is enabled, otherwise regex search
-                if self.config.USE_CAPTION_FILTER:
-                    search_filter["$text"] = {"$search": query}
+                # Use regex search for better partial matching
+                # This will match any part of the filename, case-insensitive
+                search_conditions = []
+                
+                # Search in file_name
+                search_conditions.append({"file_name": {"$regex": query, "$options": "i"}})
+                
+                # Also search in caption if USE_CAPTION_FILTER is enabled
+                if hasattr(self.config, 'USE_CAPTION_FILTER') and self.config.USE_CAPTION_FILTER:
+                    search_conditions.append({"caption": {"$regex": query, "$options": "i"}})
+                
+                # Use $or to search in multiple fields
+                if len(search_conditions) > 1:
+                    search_filter["$or"] = search_conditions
                 else:
-                    search_filter["file_name"] = {"$regex": query, "$options": "i"}
+                    search_filter = search_conditions[0]
 
             if file_type:
-                search_filter["file_type"] = file_type
+                if "$or" in search_filter:
+                    search_filter = {"$and": [search_filter, {"file_type": file_type}]}
+                else:
+                    search_filter["file_type"] = file_type
 
             # Execute search with projection to limit returned fields
+            # Sort by date (newest first) when no specific query
+            sort_order = [("date", -1)] if not query.strip() else [("_id", 1)]
+            
             cursor = self.collection.find(
                 search_filter,
                 {
@@ -120,7 +137,7 @@ class Database:
                     "channel_id": 1,
                     "message_id": 1
                 }
-            ).limit(limit)
+            ).sort(sort_order).limit(limit)
 
             results = await cursor.to_list(length=limit)
             logger.debug(f"🔍 Search '{query}' returned {len(results)} results")
