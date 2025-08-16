@@ -1,89 +1,66 @@
 #!/usr/bin/env python3
 """
 Media Search Bot - Telegram bot for indexing and searching media files
-Optimized for Render hosting with built-in keep-alive
+Optimized for Render hosting with Flask keep-alive server
 """
 
 import asyncio
 import logging
+import logging.config
 import os
 import sys
 from threading import Thread
-from pyrogram import Client, __version__
+from pyrogram.client import Client
+from pyrogram import __version__
 from pyrogram.raw.all import layer
 from config import Config
 from database import Database
 from storage import Storage
+from keep_alive import keep_alive
 
-# Logging setup (No logging.conf required)
-logging.basicConfig(
-    level=logging.INFO,
-    format="%(asctime)s [%(levelname)s] %(name)s - %(message)s"
-)
+# Configure logging
+logging.config.fileConfig('logging.conf', disable_existing_loggers=False)
 logger = logging.getLogger(__name__)
-
-# Optional keep_alive import
-try:
-    from keep_alive import keep_alive
-    HAS_KEEP_ALIVE = True
-except ImportError:
-    HAS_KEEP_ALIVE = False
-    logger.warning("keep_alive.py not found. Bot may sleep on free hosting without it.")
 
 class MediaSearchBot:
     def __init__(self):
         self.config = Config()
         self.storage = Storage()
         self.database = Database()
-
-        # Ensure required environment variables are set
-        required_env = ["API_ID", "API_HASH", "BOT_TOKEN"]
-        for var in required_env:
-            if not getattr(self.config, var, None):
-                logger.error(f"Missing required config: {var}")
-                sys.exit(1)
-
-        # Initialize Pyrogram client with in-memory session for Render
+        
+        # Initialize Pyrogram client
         self.app = Client(
             "MediaSearchBot",
             api_id=self.config.API_ID,
             api_hash=self.config.API_HASH,
             bot_token=self.config.BOT_TOKEN,
             workers=50,
+            plugins={"root": "plugins"},
             sleep_threshold=5,
-            max_concurrent_transmissions=10,
-            in_memory=True  # Use in-memory session for deployment
+            max_concurrent_transmissions=10
         )
 
     async def start(self):
-        """Start the bot"""
+        """Start the bot and initialize components"""
         try:
             logger.info("Starting Media Search Bot...")
-
-            # Start keep-alive thread if available
-            if HAS_KEEP_ALIVE:
-                Thread(target=keep_alive, daemon=True).start()
-
-            # Start bot
+            
+            # Start keep-alive server
+            keep_alive()
+            
+            # Start Pyrogram client
             await self.app.start()
-
+            
             # Initialize database
             await self.database.initialize()
-
+            
             # Load storage data
             await self.storage.load_data()
-
-            # Register handlers
-            from handlers import MediaSearchHandlers
-            self.handlers = MediaSearchHandlers(self.app)
-            self.handlers.storage = self.storage
-            self.handlers.config = self.config
-            self.handlers.database = self.database
-
-            # Get bot info
+            
+            # Get bot information
             me = await self.app.get_me()
-            self.username = f"@{me.username}"
-
+            self.username = f'@{me.username}'
+            
             logger.info(
                 f"🚀 {me.first_name} started successfully!\n"
                 f"📊 Pyrogram v{__version__} (Layer {layer})\n"
@@ -92,44 +69,41 @@ class MediaSearchBot:
                 f"👥 Admins: {len(self.config.ADMINS)}\n"
                 f"📺 Channels: {len(self.config.CHANNELS)}"
             )
-
+            
             # Update bot stats
-            if hasattr(self.storage, "update_bot_stats"):
-                await self.storage.update_bot_stats({
-                    "bot_started": True,
-                    "username": me.username,
-                    "start_time": asyncio.get_event_loop().time()
-                })
-
-            # Keep running
+            await self.storage.update_bot_stats({
+                'bot_started': True,
+                'username': me.username,
+                'start_time': asyncio.get_event_loop().time()
+            })
+            
+            # Keep the bot running
             await asyncio.Event().wait()
-
+            
         except Exception as e:
-            logger.exception("❌ Failed to start bot")
+            logger.error(f"❌ Failed to start bot: {e}")
             sys.exit(1)
 
     async def stop(self):
         """Stop the bot gracefully"""
         try:
             logger.info("🛑 Stopping Media Search Bot...")
-            if hasattr(self.storage, "save_data"):
-                if asyncio.iscoroutinefunction(self.storage.save_data):
-                    await self.storage.save_data()
-                else:
-                    self.storage.save_data()
+            await self.storage.save_data()
             await self.app.stop()
             logger.info("✅ Bot stopped successfully")
         except Exception as e:
-            logger.exception("❌ Error during bot shutdown")
+            logger.error(f"❌ Error during bot shutdown: {e}")
 
 async def main():
+    """Main function to run the bot"""
     bot = MediaSearchBot()
+    
     try:
         await bot.start()
     except KeyboardInterrupt:
         logger.info("🔄 Received shutdown signal")
-    except Exception:
-        logger.exception("💥 Unexpected error")
+    except Exception as e:
+        logger.error(f"💥 Unexpected error: {e}")
     finally:
         await bot.stop()
 
@@ -138,6 +112,6 @@ if __name__ == "__main__":
         asyncio.run(main())
     except KeyboardInterrupt:
         logger.info("👋 Bot shutdown completed")
-    except Exception:
-        logger.exception("💥 Fatal error")
+    except Exception as e:
+        logger.error(f"💥 Fatal error: {e}")
         sys.exit(1)
