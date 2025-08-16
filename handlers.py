@@ -1,4 +1,5 @@
 """
+Enhanced"""
 Enhanced handlers for Media Search Bot
 Integrates all bot functionality with proper error handling and session management
 """
