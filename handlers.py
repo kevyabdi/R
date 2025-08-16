@@ -1,5 +1,4 @@
 """
-Enhanced"""
 Enhanced handlers for Media Search Bot
 Integrates all bot functionality with proper error handling and session management
 """
@@ -117,7 +116,7 @@ class MediaSearchHandlers:
             # Check if user is banned
             if self.storage.is_banned(user_id):
                 await message.reply(
-                    "**Access Denied**\n\n"
+                    "❌ **Access Denied**\n\n"
                     "You have been banned from using this bot.\n"
                     "Contact administrators if you think this is a mistake."
                 )
@@ -126,7 +125,7 @@ class MediaSearchHandlers:
             # Check authorization if AUTH_USERS is set
             if self.config.AUTH_USERS and not self.config.is_auth_user(user_id):
                 await message.reply(
-                    "**Unauthorized Access**\n\n"
+                    "❌ **Unauthorized Access**\n\n"
                     "You are not authorized to use this bot.\n"
                     "Contact administrators for access."
                 )
@@ -146,7 +145,7 @@ class MediaSearchHandlers:
                         ])
                         
                         await message.reply(
-                            f"**Channel Subscription Required**\n\n"
+                            f"📢 **Channel Subscription Required**\n\n"
                             f"{self.config.INVITE_MSG}\n\n"
                             f"Please join the required channel and click 'Check Again'.",
                             reply_markup=keyboard
@@ -159,38 +158,38 @@ class MediaSearchHandlers:
             me = await client.get_me()
             
             # Create welcome message
-            welcome_text = f"""**Welcome to {me.first_name}, {user_name}!**
+            welcome_text = f"""🔍 **Welcome to {me.first_name}, {user_name}!**
 
 I'm an advanced media search bot that helps you find files across indexed channels.
 
-**How to Search:**
+**🔎 How to Search:**
 • Type `@{me.username} <search term>` in any chat
 • Example: `@{me.username} python tutorial`
 • Advanced: `@{me.username} avengers | video`
 
-**Supported File Types:**
-• Documents (PDF, DOC, ZIP, etc.)
-• Videos (MP4, AVI, MKV, etc.) 
-• Audio (MP3, WAV, FLAC, etc.)
-• Photos (JPG, PNG, GIF, etc.)
+**📁 Supported File Types:**
+• 📄 Documents (PDF, DOC, ZIP, etc.)
+• 🎥 Videos (MP4, AVI, MKV, etc.) 
+• 🎵 Audio (MP3, WAV, FLAC, etc.)
+• 🖼️ Photos (JPG, PNG, GIF, etc.)
 
-**Features:**
+**✨ Features:**
 • Lightning-fast inline search
 • Caption and filename search
 • File type filtering
 • Real-time indexing
 
-**Made with love using Pyrogram**"""
+**Made with ❤️ using Pyrogram**"""
             
             # Create inline keyboard
             keyboard = InlineKeyboardMarkup([
                 [
-                    InlineKeyboardButton("Try Search", switch_inline_query_current_chat=""),
-                    InlineKeyboardButton("Bot Stats", callback_data="public_stats")
+                    InlineKeyboardButton("🔍 Try Search", switch_inline_query_current_chat=""),
+                    InlineKeyboardButton("📊 Bot Stats", callback_data="public_stats")
                 ],
                 [
-                    InlineKeyboardButton("Help & Tips", callback_data="show_help"),
-                    InlineKeyboardButton("Share Bot", switch_inline_query="")
+                    InlineKeyboardButton("❓ Help & Tips", callback_data="show_help"),
+                    InlineKeyboardButton("🔗 Share Bot", switch_inline_query="")
                 ]
             ])
             
@@ -200,7 +199,7 @@ I'm an advanced media search bot that helps you find files across indexed channe
             await self.storage.increment_stat("start_commands")
             await self.storage.track_user_query(user_id, "/start")
             
-            logger.info(f"Start command by user {user_id} ({user_name})")
+            logger.info(f"👋 Start command by user {user_id} ({user_name})")
             
         except FloodWait as e:
             logger.warning(f"⏱️ FloodWait: {e.value} seconds")
@@ -218,31 +217,31 @@ I'm an advanced media search bot that helps you find files across indexed channe
         try:
             me = await client.get_me()
             
-            help_text = f"""**{me.first_name} - Help & Guide**
+            help_text = f"""❓ **{me.first_name} - Help & Guide**
 
-**Search Commands:**
+**🔍 Search Commands:**
 • `@{me.username} <term>` - Search files
 • `@{me.username} python | document` - Search documents only
 • `@{me.username} movie | video` - Search videos only
 
-**Search Tips:**
+**🎯 Search Tips:**
 • Use specific keywords for better results
 • Try different search terms if no results
 • File type filters: document, video, audio, photo
 • Search works on filenames and captions
 
-**File Type Examples:**
+**📁 File Type Examples:**
 • `music | audio` - Find audio files
 • `tutorial | document` - Find documents  
 • `movie | video` - Find video files
 • `wallpaper | photo` - Find images
 
-**Quick Actions:**
+**⚡ Quick Actions:**
 • Forward found files to save them
 • Share search results with friends
 • Use inline mode in any chat
 
-**Admin Commands** (Admins only):
+**🛠️ Admin Commands** (Admins only):
 • `/stats` - View detailed statistics
 • `/ban <user_id>` - Ban user from bot
 • `/unban <user_id>` - Unban user
@@ -253,8 +252,8 @@ I'm an advanced media search bot that helps you find files across indexed channe
 **Need more help?** Contact the bot administrators."""
 
             keyboard = InlineKeyboardMarkup([
-                [InlineKeyboardButton("Try Search Now", switch_inline_query_current_chat="")],
-                [InlineKeyboardButton("Back to Start", callback_data="back_to_start")]
+                [InlineKeyboardButton("🔍 Try Search Now", switch_inline_query_current_chat="")],
+                [InlineKeyboardButton("🏠 Back to Start", callback_data="back_to_start")]
             ])
             
             await message.reply(help_text, reply_markup=keyboard)
@@ -299,23 +298,23 @@ I'm an advanced media search bot that helps you find files across indexed channe
                     logger.error(f"Error calculating uptime: {e}")
             
             # Create detailed stats message
-            stats_text = f"""**Advanced Bot Statistics**
+            stats_text = f"""📊 **Advanced Bot Statistics**
 
-**User Activity:**
+**👥 User Activity:**
 • Total Users: `{bot_stats.get('total_users', 0)}`
 • Start Commands: `{bot_stats.get('start_commands', 0)}`
 • Search Queries: `{bot_stats.get('total_queries', 0)}`  
 • Files Shared: `{bot_stats.get('files_shared', 0)}`
 
-**Database Stats:**
+**📁 Database Stats:**
 • Indexed Files: `{total_files:,}`
 • Banned Users: `{len(banned_users)}`
 • Manual Indexes: `{bot_stats.get('manual_index_runs', 0)}`
 
-**System Info:**
+**⏰ System Info:**
 • Bot Uptime: `{uptime}`
-• Database: `{'Connected' if self.database.is_connected() else 'Disconnected'}`
-• Status: `{'Online' if bot_stats.get('bot_started') else 'Starting'}`"""
+• Database: `{'✅ Connected' if self.database.is_connected() else '❌ Disconnected'}`
+• Status: `{'🟢 Online' if bot_stats.get('bot_started') else '🟡 Starting'}`"""
 
             if channel_stats:
                 stats_text += "\n\n**📺 Channel Statistics:**"
