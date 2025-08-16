@@ -1,5 +1,3 @@
-import logging
-logging.basicConfig(level=logging.INFO)
 """
 Channel post handler for Media Search Bot
 Handles automatic indexing of media files from configured channels
@@ -23,7 +21,7 @@ def extract_file_info(message: Message):
     """Extract file information from message"""
     file_info = None
     file_type = None
-
+    
     if message.document:
         file_info = message.document
         file_type = "document"
@@ -48,7 +46,7 @@ def extract_file_info(message: Message):
     elif message.sticker:
         file_info = message.sticker
         file_type = "sticker"
-
+    
     return file_info, file_type
 
 def create_file_document(message: Message, file_info, file_type: str):
@@ -69,7 +67,7 @@ def create_file_document(message: Message, file_info, file_type: str):
                 file_name = f"animation_{message.id}.gif"
             else:
                 file_name = f"file_{message.id}"
-
+        
         # Create document
         document = {
             "file_id": file_info.file_id,
@@ -85,7 +83,7 @@ def create_file_document(message: Message, file_info, file_type: str):
             "date": message.date,
             "indexed_at": datetime.now()
         }
-
+        
         # Add type-specific information
         if file_type == "video":
             document.update({
@@ -110,9 +108,9 @@ def create_file_document(message: Message, file_info, file_type: str):
                 document["file_id"] = largest.file_id
                 document["file_unique_id"] = largest.file_unique_id
                 document["file_size"] = largest.file_size
-
+        
         return document
-
+        
     except Exception as e:
         logger.error(f"❌ Error creating file document: {e}")
         return None
@@ -130,25 +128,25 @@ async def channel_media_handler(client: Client, message: Message):
     """Handle media files posted in configured channels"""
     try:
         logger.info(f"📥 Received message from channel {message.chat.id} ({message.chat.title})")
-
+        
         # Extract file information
         file_info, file_type = extract_file_info(message)
-
+        
         if not file_info or not file_type:
             logger.warning(f"⚠️ No media found in message {message.id} from {message.chat.title}")
             return
-
-        logger.info(f"📁 Found {file_type} in message {message.id}")
-
+        
+        logger.info(f"🔍 Found {file_type} in message {message.id}")
+        
         # Create file document
         file_document = create_file_document(message, file_info, file_type)
-
+        
         if not file_document:
             logger.error(f"❌ Failed to create document for message {message.id}")
             return
-
-        logger.info(f"📄 Created document for {file_document['file_name']}")
-
+        
+        logger.info(f"📝 Created document for {file_document['file_name']}")
+        
         # Save to database
         db = await db_manager.get_database()
         if await db.save_file(file_document):
@@ -156,7 +154,7 @@ async def channel_media_handler(client: Client, message: Message):
             await storage.increment_stat("total_files")
         else:
             logger.warning(f"🔄 File already indexed: {file_document['file_name']}")
-
+        
     except Exception as e:
         logger.error(f"❌ Error handling channel media: {e}", exc_info=True)
 
@@ -165,11 +163,11 @@ async def manual_index_command(client: Client, message: Message):
     """Handle manual indexing command (admin only)"""
     try:
         user_id = message.from_user.id
-
+        
         if not config.is_admin(user_id):
             await message.reply("❌ This command is only for admins.")
             return
-
+        
         # Get channel ID if specified
         channel_id = None
         if len(message.command) > 1:
@@ -181,35 +179,34 @@ async def manual_index_command(client: Client, message: Message):
             except ValueError:
                 await message.reply("❌ Invalid channel ID.")
                 return
-
+        
         status_msg = await message.reply("🔄 Starting manual indexing...")
-
+        
         indexed_count = 0
         channels_to_index = [channel_id] if channel_id else config.CHANNELS
-
+        
         for channel in channels_to_index:
             try:
                 await status_msg.edit_text(f"🔄 Indexing channel {channel}...")
-
+                
                 # Get recent messages from channel
-                db = await db_manager.get_database()
                 async for msg in client.get_chat_history(channel, limit=100):
                     if msg.media:
                         file_info, file_type = extract_file_info(msg)
-
+                        
                         if file_info and file_type:
                             file_document = create_file_document(msg, file_info, file_type)
-
-                            if file_document and await db.save_file(file_document):
+                            
+                            if file_document and await database.save_file(file_document):
                                 indexed_count += 1
-
+                
             except Exception as e:
                 logger.error(f"❌ Error indexing channel {channel}: {e}")
                 continue
-
+        
         await status_msg.edit_text(f"✅ Manual indexing completed!\n📊 Indexed {indexed_count} new files.")
         await storage.increment_stat("manual_index_runs")
-
+        
     except Exception as e:
         logger.error(f"❌ Error in manual index command: {e}")
         await message.reply("❌ Error during manual indexing.")
@@ -220,32 +217,31 @@ async def channel_info_command(client: Client, message: Message):
     """Handle channel info command (admin only)"""
     try:
         user_id = message.from_user.id
-
+        
         if not config.is_admin(user_id):
             await message.reply("❌ This command is only for admins.")
             return
-
-        db = await db_manager.get_database()
-        channel_stats = await db.get_channel_stats()
-
+        
+        channel_stats = await database.get_channel_stats()
+        
         info_text = "📺 **Channel Information**\n\n"
-
+        
         for channel_id in config.CHANNELS:
             try:
                 chat = await client.get_chat(channel_id)
                 file_count = channel_stats.get(str(channel_id), 0)
-
+                
                 info_text += f"**{chat.title}**\n"
                 info_text += f"• ID: `{channel_id}`\n"
                 info_text += f"• Files: {file_count}\n"
                 info_text += f"• Type: {chat.type}\n\n"
-
+                
             except Exception as e:
                 info_text += f"**Channel {channel_id}**\n"
                 info_text += f"• Error: {str(e)}\n\n"
-
+        
         await message.reply(info_text)
-
+        
     except Exception as e:
         logger.error(f"❌ Error in channel info command: {e}")
         await message.reply("❌ Error retrieving channel information.")
