@@ -17,6 +17,7 @@ from config import Config
 from database import Database
 from storage import Storage
 from keep_alive import keep_alive
+from handlers import MediaSearchHandlers
 
 # Configure logging
 logging.config.fileConfig('logging.conf', disable_existing_loggers=False)
@@ -28,16 +29,17 @@ class MediaSearchBot:
         self.storage = Storage()
         self.database = Database()
         
-        # Initialize Pyrogram client
+        # Initialize Pyrogram client with better session handling
         self.app = Client(
             "MediaSearchBot",
             api_id=self.config.API_ID,
             api_hash=self.config.API_HASH,
             bot_token=self.config.BOT_TOKEN,
             workers=50,
-            plugins={"root": "plugins"},
+            plugins={"root": "Plugins"},
             sleep_threshold=5,
-            max_concurrent_transmissions=10
+            max_concurrent_transmissions=10,
+            no_updates=False
         )
 
     async def start(self):
@@ -48,6 +50,15 @@ class MediaSearchBot:
             # Start keep-alive server
             keep_alive()
             
+            # Clean up any existing session files on startup
+            session_files = [f for f in os.listdir('.') if f.endswith('.session') or f.endswith('.session-journal')]
+            for session_file in session_files:
+                try:
+                    os.remove(session_file)
+                    logger.info(f"🗑️ Removed old session file: {session_file}")
+                except Exception as e:
+                    logger.warning(f"Could not remove {session_file}: {e}")
+            
             # Start Pyrogram client
             await self.app.start()
             
@@ -56,6 +67,12 @@ class MediaSearchBot:
             
             # Load storage data
             await self.storage.load_data()
+            
+            # Register handlers
+            self.handlers = MediaSearchHandlers(self.app)
+            self.handlers.storage = self.storage
+            self.handlers.config = self.config
+            self.handlers.database = self.database
             
             # Get bot information
             me = await self.app.get_me()
@@ -89,7 +106,13 @@ class MediaSearchBot:
         try:
             logger.info("🛑 Stopping Media Search Bot...")
             await self.storage.save_data()
-            await self.app.stop()
+            
+            # Check if client is still running before stopping
+            if hasattr(self.app, 'is_initialized') and self.app.is_initialized:
+                await self.app.stop()
+            elif not getattr(self.app, 'is_terminated', False):
+                await self.app.stop()
+            
             logger.info("✅ Bot stopped successfully")
         except Exception as e:
             logger.error(f"❌ Error during bot shutdown: {e}")
