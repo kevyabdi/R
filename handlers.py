@@ -24,11 +24,10 @@ from config import Config
 from storage import Storage  
 from database import Database
 try:
-    # Case-sensitive environments (Linux/Render) may require lowercase package names
     from Utils.helpers import (
-        format_file_size, format_duration, extract_search_terms,
-        get_file_emoji, validate_user_id, query_rate_limiter
-    )
+    format_file_size, format_duration, extract_search_terms,
+    get_file_emoji, validate_user_id, query_rate_limiter
+)
 except ModuleNotFoundError:
     from utils.helpers import (
         format_file_size, format_duration, extract_search_terms,
@@ -37,7 +36,6 @@ except ModuleNotFoundError:
 
 import logging
 logging.basicConfig(level=logging.INFO)
-
 logger = logging.getLogger(__name__)
 
 class MediaSearchHandlers:
@@ -47,26 +45,6 @@ class MediaSearchHandlers:
         self.storage = Storage()
         self.database = Database()
         self.session_retry_count = 0
-
-
-    async def check_session_health(self):
-        """Periodic session health check"""
-        try:
-            # Test bot connection
-            me = await self.app.get_me()
-            if me:
-                await self.update_session_status("healthy")
-                self.session_retry_count = 0
-                return True
-        except (SessionRevoked, AuthKeyUnregistered, UserDeactivated) as e:
-            logger.warning(f"🔍 Session health check failed: {e}")
-            await self.update_session_status("unhealthy")
-            await self.handle_session_error(e)
-            return False
-        except Exception as e:
-            logger.error(f"❌ Session health check error: {e}")
-            return False
-
         self.max_retries = 3
         
         # Register all handlers
@@ -89,7 +67,6 @@ class MediaSearchHandlers:
         self.app.add_handler(MessageHandler(self.logger_command, filters.command("logger") & filters.private))
         self.app.add_handler(MessageHandler(self.total_command, filters.command("total") & filters.private))
         self.app.add_handler(MessageHandler(self.channel_command, filters.command("channel") & filters.private))
-        self.app.add_handler(MessageHandler(self.session_command, filters.command("session") & filters.private))
         
         # Inline handlers
         self.app.add_handler(InlineQueryHandler(self.inline_query_handler))
@@ -106,66 +83,36 @@ class MediaSearchHandlers:
              filters.photo | filters.animation | filters.voice)
         ))
         
-        logger.info("✅ All handlers registered successfully")
+        logger.info("âœ… All handlers registered successfully")
 
     async def handle_session_error(self, error: Exception):
         """Handle session-related errors with recovery"""
         try:
             if self.session_retry_count >= self.max_retries:
-                logger.error("❌ Max session retry attempts reached")
-                await self.cleanup_session_files()
+                logger.error("âŒ Max session retry attempts reached")
                 return False
             
             self.session_retry_count += 1
-            logger.warning(f"🔄 Session error detected, attempt {self.session_retry_count}/{self.max_retries}")
+            logger.warning(f"ðŸ”„ Session error detected, attempt {self.session_retry_count}/{self.max_retries}")
             
             # Clean up session files
-            await self.cleanup_session_files()
-            
-            # Wait before retry with exponential backoff
-            wait_time = min(5 * (2 ** (self.session_retry_count - 1)), 30)
-            logger.info(f"⏳ Waiting {wait_time}s before session recovery...")
-            await asyncio.sleep(wait_time)
+            session_files = [f for f in os.listdir('.') if f.endswith('.session')]
+            for session_file in session_files:
+                try:
+                    os.remove(session_file)
+                    logger.info(f"ðŸ—‘ï¸ Removed corrupted session file: {session_file}")
+                except Exception as e:
+                    logger.error(f"âŒ Error removing session file {session_file}: {e}")
             
             # Restart bot with fresh session
-            try:
-                await self.app.restart()
-                logger.info("✅ Session recovered successfully")
-                self.session_retry_count = 0  # Reset on success
-                return True
-            except Exception as restart_error:
-                logger.error(f"❌ Failed to restart session: {restart_error}")
-                return False
+            await asyncio.sleep(5)  # Wait before retry
+            await self.app.restart()
+            
+            return True
             
         except Exception as e:
-            logger.error(f"❌ Error in session recovery: {e}")
+            logger.error(f"âŒ Error in session recovery: {e}")
             return False
-    
-    async def cleanup_session_files(self):
-        """Clean up corrupted session files"""
-        try:
-            session_patterns = ['.session', '.session-journal', '.session-shm', '.session-wal']
-            for pattern in session_patterns:
-                session_files = [f for f in os.listdir('.') if f.endswith(pattern)]
-                for session_file in session_files:
-                    try:
-                        os.remove(session_file)
-                        logger.info(f"🗑️ Removed session file: {session_file}")
-                    except Exception as e:
-                        logger.error(f"❌ Error removing {session_file}: {e}")
-        except Exception as e:
-            logger.error(f"❌ Error in session cleanup: {e}")
-    
-    async def update_session_status(self, status: str):
-        """Update session status in storage"""
-        try:
-            await self.storage.update_bot_stats({
-                "session_status": status,
-                "last_session_update": datetime.now().isoformat(),
-                "session_retry_count": self.session_retry_count
-            })
-        except Exception as e:
-            logger.error(f"❌ Error updating session status: {e}")
 
     async def start_command(self, client: Client, message: Message):
         """Handle /start command with comprehensive checks"""
@@ -176,7 +123,7 @@ class MediaSearchHandlers:
             # Check if user is banned
             if self.storage.is_banned(user_id):
                 await message.reply(
-                    "❌ **Access Denied**\n\n"
+                    "âŒ **Access Denied**\n\n"
                     "You have been banned from using this bot.\n"
                     "Contact administrators if you think this is a mistake."
                 )
@@ -185,7 +132,7 @@ class MediaSearchHandlers:
             # Check authorization if AUTH_USERS is set
             if self.config.AUTH_USERS and not self.config.is_auth_user(user_id):
                 await message.reply(
-                    "❌ **Unauthorized Access**\n\n"
+                    "âŒ **Unauthorized Access**\n\n"
                     "You are not authorized to use this bot.\n"
                     "Contact administrators for access."
                 )
@@ -198,58 +145,58 @@ class MediaSearchHandlers:
                     if member.status in ["left", "kicked"]:
                         keyboard = InlineKeyboardMarkup([
                             [InlineKeyboardButton(
-                                "📢 Join Required Channel", 
+                                "ðŸ“¢ Join Required Channel", 
                                 url=f"https://t.me/{self.config.AUTH_CHANNEL.replace('@', '')}"
                             )],
-                            [InlineKeyboardButton("🔄 Check Again", callback_data="check_subscription")]
+                            [InlineKeyboardButton("ðŸ”„ Check Again", callback_data="check_subscription")]
                         ])
                         
                         await message.reply(
-                            f"📢 **Channel Subscription Required**\n\n"
+                            f"ðŸ“¢ **Channel Subscription Required**\n\n"
                             f"{self.config.INVITE_MSG}\n\n"
                             f"Please join the required channel and click 'Check Again'.",
                             reply_markup=keyboard
                         )
                         return
                 except Exception as e:
-                    logger.error(f"❌ Error checking channel subscription: {e}")
+                    logger.error(f"âŒ Error checking channel subscription: {e}")
             
             # Get bot info
             me = await client.get_me()
             
             # Create welcome message
-            welcome_text = f"""🔍 **Welcome to {me.first_name}, {user_name}!**
+            welcome_text = f"""ðŸ” **Welcome to {me.first_name}, {user_name}!**
 
 I'm an advanced media search bot that helps you find files across indexed channels.
 
-**🔎 How to Search:**
-• Type `@{me.username} <search term>` in any chat
-• Example: `@{me.username} python tutorial`
-• Advanced: `@{me.username} avengers | video`
+**ðŸ”Ž How to Search:**
+â€¢ Type `@{me.username} <search term>` in any chat
+â€¢ Example: `@{me.username} python tutorial`
+â€¢ Advanced: `@{me.username} avengers | video`
 
-**📁 Supported File Types:**
-• 📄 Documents (PDF, DOC, ZIP, etc.)
-• 🎥 Videos (MP4, AVI, MKV, etc.) 
-• 🎵 Audio (MP3, WAV, FLAC, etc.)
-• 🖼️ Photos (JPG, PNG, GIF, etc.)
+**ðŸ“ Supported File Types:**
+â€¢ ðŸ“„ Documents (PDF, DOC, ZIP, etc.)
+â€¢ ðŸŽ¥ Videos (MP4, AVI, MKV, etc.) 
+â€¢ ðŸŽµ Audio (MP3, WAV, FLAC, etc.)
+â€¢ ðŸ–¼ï¸ Photos (JPG, PNG, GIF, etc.)
 
-**✨ Features:**
-• Lightning-fast inline search
-• Caption and filename search
-• File type filtering
-• Real-time indexing
+**âœ¨ Features:**
+â€¢ Lightning-fast inline search
+â€¢ Caption and filename search
+â€¢ File type filtering
+â€¢ Real-time indexing
 
-**Made with ❤️ using Pyrogram**"""
+**Made with â¤ï¸ using Pyrogram**"""
             
             # Create inline keyboard
             keyboard = InlineKeyboardMarkup([
                 [
-                    InlineKeyboardButton("🔍 Try Search", switch_inline_query_current_chat=""),
-                    InlineKeyboardButton("📊 Bot Stats", callback_data="public_stats")
+                    InlineKeyboardButton("ðŸ” Try Search", switch_inline_query_current_chat=""),
+                    InlineKeyboardButton("ðŸ“Š Bot Stats", callback_data="public_stats")
                 ],
                 [
-                    InlineKeyboardButton("❓ Help & Tips", callback_data="show_help"),
-                    InlineKeyboardButton("🔗 Share Bot", switch_inline_query="")
+                    InlineKeyboardButton("â“ Help & Tips", callback_data="show_help"),
+                    InlineKeyboardButton("ðŸ”— Share Bot", switch_inline_query="")
                 ]
             ])
             
@@ -259,72 +206,68 @@ I'm an advanced media search bot that helps you find files across indexed channe
             await self.storage.increment_stat("start_commands")
             await self.storage.track_user_query(user_id, "/start")
             
-            logger.info(f"👋 Start command by user {user_id} ({user_name})")
+            logger.info(f"ðŸ‘‹ Start command by user {user_id} ({user_name})")
             
         except FloodWait as e:
-            logger.warning(f"⏱️ FloodWait: {e.value} seconds")
+            logger.warning(f"â±ï¸ FloodWait: {e.value} seconds")
             await asyncio.sleep(e.value)
             await self.start_command(client, message)
         except (SessionRevoked, AuthKeyUnregistered) as e:
-            logger.error(f"🔐 Session error in start command: {e}")
-            await self.update_session_status("error")
-            if await self.handle_session_error(e):
-                await self.update_session_status("recovered")
-            else:
-                await self.update_session_status("failed")
+            logger.error(f"ðŸ” Session error in start command: {e}")
+            await self.handle_session_error(e)
         except Exception as e:
-            logger.error(f"❌ Error in start command: {e}")
-            await message.reply("❌ An error occurred. Please try again later.")
+            logger.error(f"âŒ Error in start command: {e}")
+            await message.reply("âŒ An error occurred. Please try again later.")
 
     async def help_command(self, client: Client, message: Message):
         """Handle /help command"""
         try:
             me = await client.get_me()
             
-            help_text = f"""❓ **{me.first_name} - Help & Guide**
+            help_text = f"""â“ **{me.first_name} - Help & Guide**
 
-**🔍 Search Commands:**
-• `@{me.username} <term>` - Search files
-• `@{me.username} python | document` - Search documents only
-• `@{me.username} movie | video` - Search videos only
+**ðŸ” Search Commands:**
+â€¢ `@{me.username} <term>` - Search files
+â€¢ `@{me.username} python | document` - Search documents only
+â€¢ `@{me.username} movie | video` - Search videos only
 
-**🎯 Search Tips:**
-• Use specific keywords for better results
-• Try different search terms if no results
-• File type filters: document, video, audio, photo
-• Search works on filenames and captions
+**ðŸŽ¯ Search Tips:**
+â€¢ Use specific keywords for better results
+â€¢ Try different search terms if no results
+â€¢ File type filters: document, video, audio, photo
+â€¢ Search works on filenames and captions
 
-**📁 File Type Examples:**
-• `music | audio` - Find audio files
-• `tutorial | document` - Find documents  
-• `movie | video` - Find video files
-• `wallpaper | photo` - Find images
+**ðŸ“ File Type Examples:**
+â€¢ `music | audio` - Find audio files
+â€¢ `tutorial | document` - Find documents  
+â€¢ `movie | video` - Find video files
+â€¢ `wallpaper | photo` - Find images
 
-**⚡ Quick Actions:**
-• Forward found files to save them
-• Share search results with friends
-• Use inline mode in any chat
+**âš¡ Quick Actions:**
+â€¢ Forward found files to save them
+â€¢ Share search results with friends
+â€¢ Use inline mode in any chat
 
-**🛠️ Admin Commands** (Admins only):
-• `/stats` - View detailed statistics
-• `/ban <user_id>` - Ban user from bot
-• `/unban <user_id>` - Unban user
-• `/broadcast <message>` - Send message to all users
-• `/index` - Force re-index channels
-• `/total` - Show total file count
+**ðŸ› ï¸ Admin Commands** (Admins only):
+â€¢ `/stats` - View detailed statistics
+â€¢ `/ban <user_id>` - Ban user from bot
+â€¢ `/unban <user_id>` - Unban user
+â€¢ `/broadcast <message>` - Send message to all users
+â€¢ `/index` - Force re-index channels
+â€¢ `/total` - Show total file count
 
 **Need more help?** Contact the bot administrators."""
 
             keyboard = InlineKeyboardMarkup([
-                [InlineKeyboardButton("🔍 Try Search Now", switch_inline_query_current_chat="")],
-                [InlineKeyboardButton("🏠 Back to Start", callback_data="back_to_start")]
+                [InlineKeyboardButton("ðŸ” Try Search Now", switch_inline_query_current_chat="")],
+                [InlineKeyboardButton("ðŸ  Back to Start", callback_data="back_to_start")]
             ])
             
             await message.reply(help_text, reply_markup=keyboard)
             
         except Exception as e:
-            logger.error(f"❌ Error in help command: {e}")
-            await message.reply("❌ Error loading help information.")
+            logger.error(f"âŒ Error in help command: {e}")
+            await message.reply("âŒ Error loading help information.")
 
     async def stats_command(self, client: Client, message: Message):
         """Handle /stats command (admin only)"""
@@ -332,7 +275,7 @@ I'm an advanced media search bot that helps you find files across indexed channe
             user_id = message.from_user.id
             
             if not self.config.is_admin(user_id):
-                await message.reply("❌ This command is only available to administrators.")
+                await message.reply("âŒ This command is only available to administrators.")
                 return
             
             # Get comprehensive statistics
@@ -362,51 +305,51 @@ I'm an advanced media search bot that helps you find files across indexed channe
                     logger.error(f"Error calculating uptime: {e}")
             
             # Create detailed stats message
-            stats_text = f"""📊 **Advanced Bot Statistics**
+            stats_text = f"""ðŸ“Š **Advanced Bot Statistics**
 
-**👥 User Activity:**
-• Total Users: `{bot_stats.get('total_users', 0)}`
-• Start Commands: `{bot_stats.get('start_commands', 0)}`
-• Search Queries: `{bot_stats.get('total_queries', 0)}`  
-• Files Shared: `{bot_stats.get('files_shared', 0)}`
+**ðŸ‘¥ User Activity:**
+â€¢ Total Users: `{bot_stats.get('total_users', 0)}`
+â€¢ Start Commands: `{bot_stats.get('start_commands', 0)}`
+â€¢ Search Queries: `{bot_stats.get('total_queries', 0)}`  
+â€¢ Files Shared: `{bot_stats.get('files_shared', 0)}`
 
-**📁 Database Stats:**
-• Indexed Files: `{total_files:,}`
-• Banned Users: `{len(banned_users)}`
-• Manual Indexes: `{bot_stats.get('manual_index_runs', 0)}`
+**ðŸ“ Database Stats:**
+â€¢ Indexed Files: `{total_files:,}`
+â€¢ Banned Users: `{len(banned_users)}`
+â€¢ Manual Indexes: `{bot_stats.get('manual_index_runs', 0)}`
 
-**⏰ System Info:**
-• Bot Uptime: `{uptime}`
-• Database: `{'✅ Connected' if self.database.is_connected() else '❌ Disconnected'}`
-• Status: `{'🟢 Online' if bot_stats.get('bot_started') else '🟡 Starting'}`"""
+**â° System Info:**
+â€¢ Bot Uptime: `{uptime}`
+â€¢ Database: `{'âœ… Connected' if self.database.is_connected() else 'âŒ Disconnected'}`
+â€¢ Status: `{'ðŸŸ¢ Online' if bot_stats.get('bot_started') else 'ðŸŸ¡ Starting'}`"""
 
             if channel_stats:
-                stats_text += "\n\n**📺 Channel Statistics:**"
+                stats_text += "\n\n**ðŸ“º Channel Statistics:**"
                 for channel_id, count in sorted(channel_stats.items(), key=lambda x: x[1], reverse=True):
                     try:
                         chat = await client.get_chat(int(channel_id))
-                        stats_text += f"\n• {chat.title}: `{count:,}` files"
+                        stats_text += f"\nâ€¢ {chat.title}: `{count:,}` files"
                     except:
-                        stats_text += f"\n• Channel {channel_id}: `{count:,}` files"
+                        stats_text += f"\nâ€¢ Channel {channel_id}: `{count:,}` files"
 
             if file_type_stats:
-                stats_text += "\n\n**📄 File Types:**"
+                stats_text += "\n\n**ðŸ“„ File Types:**"
                 for file_type, count in sorted(file_type_stats.items(), key=lambda x: x[1], reverse=True):
                     emoji = get_file_emoji(file_type)
-                    stats_text += f"\n• {emoji} {file_type.title()}: `{count:,}`"
+                    stats_text += f"\nâ€¢ {emoji} {file_type.title()}: `{count:,}`"
 
             keyboard = InlineKeyboardMarkup([
-                [InlineKeyboardButton("🔄 Refresh Stats", callback_data="refresh_stats")],
-                [InlineKeyboardButton("📋 Export Logs", callback_data="export_logs")]
+                [InlineKeyboardButton("ðŸ”„ Refresh Stats", callback_data="refresh_stats")],
+                [InlineKeyboardButton("ðŸ“‹ Export Logs", callback_data="export_logs")]
             ])
             
             await message.reply(stats_text, reply_markup=keyboard)
             
-            logger.info(f"📊 Stats requested by admin {user_id}")
+            logger.info(f"ðŸ“Š Stats requested by admin {user_id}")
             
         except Exception as e:
-            logger.error(f"❌ Error in stats command: {e}")
-            await message.reply("❌ Error retrieving statistics.")
+            logger.error(f"âŒ Error in stats command: {e}")
+            await message.reply("âŒ Error retrieving statistics.")
 
     async def ban_command(self, client: Client, message: Message):
         """Handle /ban command (admin only)"""
@@ -414,26 +357,26 @@ I'm an advanced media search bot that helps you find files across indexed channe
             user_id = message.from_user.id
             
             if not self.config.is_admin(user_id):
-                await message.reply("❌ This command is only available to administrators.")
+                await message.reply("âŒ This command is only available to administrators.")
                 return
             
             if len(message.command) < 2:
                 await message.reply(
-                    "❌ **Invalid Usage**\n\n"
+                    "âŒ **Invalid Usage**\n\n"
                     "**Usage:** `/ban <user_id>`\n"
                     "**Example:** `/ban 123456789`\n\n"
-                    "💡 **Tip:** Forward a message from the user to get their ID."
+                    "ðŸ’¡ **Tip:** Forward a message from the user to get their ID."
                 )
                 return
             
             target_user_id = validate_user_id(message.command[1])
             if not target_user_id:
-                await message.reply("❌ Invalid user ID. Please provide a valid numeric user ID.")
+                await message.reply("âŒ Invalid user ID. Please provide a valid numeric user ID.")
                 return
             
             # Prevent banning admins
             if self.config.is_admin(target_user_id):
-                await message.reply("❌ Cannot ban an administrator.")
+                await message.reply("âŒ Cannot ban an administrator.")
                 return
             
             # Ban the user
@@ -443,22 +386,22 @@ I'm an advanced media search bot that helps you find files across indexed channe
                     user = await client.get_users(target_user_id)
                     user_mention = f"[{user.first_name}](tg://user?id={target_user_id})"
                     await message.reply(
-                        f"✅ **User Banned Successfully**\n\n"
+                        f"âœ… **User Banned Successfully**\n\n"
                         f"**User:** {user_mention}\n"
                         f"**ID:** `{target_user_id}`\n"
                         f"**Banned by:** {message.from_user.mention}\n"
                         f"**Time:** {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}"
                     )
                 except:
-                    await message.reply(f"✅ User `{target_user_id}` has been banned successfully.")
+                    await message.reply(f"âœ… User `{target_user_id}` has been banned successfully.")
             else:
-                await message.reply(f"⚠️ User `{target_user_id}` is already banned.")
+                await message.reply(f"âš ï¸ User `{target_user_id}` is already banned.")
             
-            logger.info(f"🚫 User {target_user_id} banned by admin {user_id}")
+            logger.info(f"ðŸš« User {target_user_id} banned by admin {user_id}")
             
         except Exception as e:
-            logger.error(f"❌ Error in ban command: {e}")
-            await message.reply("❌ Error banning user.")
+            logger.error(f"âŒ Error in ban command: {e}")
+            await message.reply("âŒ Error banning user.")
 
     async def unban_command(self, client: Client, message: Message):
         """Handle /unban command (admin only)"""
@@ -466,12 +409,12 @@ I'm an advanced media search bot that helps you find files across indexed channe
             user_id = message.from_user.id
             
             if not self.config.is_admin(user_id):
-                await message.reply("❌ This command is only available to administrators.")
+                await message.reply("âŒ This command is only available to administrators.")
                 return
             
             if len(message.command) < 2:
                 await message.reply(
-                    "❌ **Invalid Usage**\n\n"
+                    "âŒ **Invalid Usage**\n\n"
                     "**Usage:** `/unban <user_id>`\n"
                     "**Example:** `/unban 123456789`"
                 )
@@ -479,7 +422,7 @@ I'm an advanced media search bot that helps you find files across indexed channe
             
             target_user_id = validate_user_id(message.command[1])
             if not target_user_id:
-                await message.reply("❌ Invalid user ID. Please provide a valid numeric user ID.")
+                await message.reply("âŒ Invalid user ID. Please provide a valid numeric user ID.")
                 return
             
             # Unban the user
@@ -489,22 +432,22 @@ I'm an advanced media search bot that helps you find files across indexed channe
                     user = await client.get_users(target_user_id)
                     user_mention = f"[{user.first_name}](tg://user?id={target_user_id})"
                     await message.reply(
-                        f"✅ **User Unbanned Successfully**\n\n"
+                        f"âœ… **User Unbanned Successfully**\n\n"
                         f"**User:** {user_mention}\n"
                         f"**ID:** `{target_user_id}`\n"
                         f"**Unbanned by:** {message.from_user.mention}\n"
                         f"**Time:** {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}"
                     )
                 except:
-                    await message.reply(f"✅ User `{target_user_id}` has been unbanned successfully.")
+                    await message.reply(f"âœ… User `{target_user_id}` has been unbanned successfully.")
             else:
-                await message.reply(f"⚠️ User `{target_user_id}` is not banned.")
+                await message.reply(f"âš ï¸ User `{target_user_id}` is not banned.")
             
-            logger.info(f"✅ User {target_user_id} unbanned by admin {user_id}")
+            logger.info(f"âœ… User {target_user_id} unbanned by admin {user_id}")
             
         except Exception as e:
-            logger.error(f"❌ Error in unban command: {e}")
-            await message.reply("❌ Error unbanning user.")
+            logger.error(f"âŒ Error in unban command: {e}")
+            await message.reply("âŒ Error unbanning user.")
 
     async def broadcast_command(self, client: Client, message: Message):
         """Handle /broadcast command (admin only)"""
@@ -512,15 +455,15 @@ I'm an advanced media search bot that helps you find files across indexed channe
             user_id = message.from_user.id
             
             if not self.config.is_admin(user_id):
-                await message.reply("❌ This command is only available to administrators.")
+                await message.reply("âŒ This command is only available to administrators.")
                 return
             
             if len(message.text.split(None, 1)) < 2:
                 await message.reply(
-                    "❌ **Invalid Usage**\n\n"
+                    "âŒ **Invalid Usage**\n\n"
                     "**Usage:** `/broadcast <message>`\n"
                     "**Example:** `/broadcast Hello everyone! New features added.`\n\n"
-                    "💡 **Note:** The message will be sent to all users who have used the bot."
+                    "ðŸ’¡ **Note:** The message will be sent to all users who have used the bot."
                 )
                 return
             
@@ -529,12 +472,12 @@ I'm an advanced media search bot that helps you find files across indexed channe
             # Simple broadcast confirmation
             keyboard = InlineKeyboardMarkup([
                 [
-                    InlineKeyboardButton("✅ Confirm Broadcast", callback_data=f"confirm_broadcast"),
-                    InlineKeyboardButton("❌ Cancel", callback_data="cancel_broadcast")
+                    InlineKeyboardButton("âœ… Confirm Broadcast", callback_data=f"confirm_broadcast"),
+                    InlineKeyboardButton("âŒ Cancel", callback_data="cancel_broadcast")
                 ]
             ])
             
-            preview_text = f"📢 **Broadcast Preview**\n\n{broadcast_message[:500]}{'...' if len(broadcast_message) > 500 else ''}\n\n**Confirm to send this message to all bot users?**"
+            preview_text = f"ðŸ“¢ **Broadcast Preview**\n\n{broadcast_message[:500]}{'...' if len(broadcast_message) > 500 else ''}\n\n**Confirm to send this message to all bot users?**"
             
             await message.reply(preview_text, reply_markup=keyboard)
             
@@ -542,8 +485,8 @@ I'm an advanced media search bot that helps you find files across indexed channe
             await self.storage.update_bot_stats({"pending_broadcast": broadcast_message})
             
         except Exception as e:
-            logger.error(f"❌ Error in broadcast command: {e}")
-            await message.reply("❌ Error preparing broadcast.")
+            logger.error(f"âŒ Error in broadcast command: {e}")
+            await message.reply("âŒ Error preparing broadcast.")
 
     async def index_command(self, client: Client, message: Message):
         """Handle manual /index command (admin only)"""
@@ -551,7 +494,7 @@ I'm an advanced media search bot that helps you find files across indexed channe
             user_id = message.from_user.id
             
             if not self.config.is_admin(user_id):
-                await message.reply("❌ This command is only available to administrators.")
+                await message.reply("âŒ This command is only available to administrators.")
                 return
             
             # Parse command arguments
@@ -562,10 +505,10 @@ I'm an advanced media search bot that helps you find files across indexed channe
                 try:
                     channel_id = int(message.command[1])
                     if channel_id not in self.config.CHANNELS:
-                        await message.reply("❌ Channel ID not in configured channels list.")
+                        await message.reply("âŒ Channel ID not in configured channels list.")
                         return
                 except ValueError:
-                    await message.reply("❌ Invalid channel ID format.")
+                    await message.reply("âŒ Invalid channel ID format.")
                     return
             
             if len(message.command) > 2:
@@ -574,7 +517,7 @@ I'm an advanced media search bot that helps you find files across indexed channe
                 except ValueError:
                     limit = 100
             
-            status_msg = await message.reply("🔄 **Starting manual indexing...**\n\nThis may take a few moments.")
+            status_msg = await message.reply("ðŸ”„ **Starting manual indexing...**\n\nThis may take a few moments.")
             
             indexed_count = 0
             error_count = 0
@@ -585,7 +528,7 @@ I'm an advanced media search bot that helps you find files across indexed channe
                     # Get channel info
                     chat = await client.get_chat(channel)
                     await status_msg.edit_text(
-                        f"🔄 **Indexing Channel**\n\n"
+                        f"ðŸ”„ **Indexing Channel**\n\n"
                         f"**Channel:** {chat.title}\n"
                         f"**ID:** `{channel}`\n"
                         f"**Progress:** Processing messages..."
@@ -608,7 +551,7 @@ I'm an advanced media search bot that helps you find files across indexed channe
                         # Update progress every 20 messages
                         if message_count % 20 == 0:
                             await status_msg.edit_text(
-                                f"🔄 **Indexing Channel**\n\n"
+                                f"ðŸ”„ **Indexing Channel**\n\n"
                                 f"**Channel:** {chat.title}\n"
                                 f"**Processed:** {message_count} messages\n"
                                 f"**Indexed:** {indexed_count} files\n"
@@ -621,21 +564,21 @@ I'm an advanced media search bot that helps you find files across indexed channe
             
             # Final status update
             await status_msg.edit_text(
-                f"✅ **Manual Indexing Complete**\n\n"
-                f"**📊 Results:**\n"
-                f"• **New Files Indexed:** `{indexed_count}`\n"
-                f"• **Channels Processed:** `{len(channels_to_index)}`\n"
-                f"• **Errors:** `{error_count}`\n"
-                f"• **Time:** {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n\n"
-                f"**💡 Tip:** Files are automatically indexed when posted to configured channels."
+                f"âœ… **Manual Indexing Complete**\n\n"
+                f"**ðŸ“Š Results:**\n"
+                f"â€¢ **New Files Indexed:** `{indexed_count}`\n"
+                f"â€¢ **Channels Processed:** `{len(channels_to_index)}`\n"
+                f"â€¢ **Errors:** `{error_count}`\n"
+                f"â€¢ **Time:** {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n\n"
+                f"**ðŸ’¡ Tip:** Files are automatically indexed when posted to configured channels."
             )
             
             await self.storage.increment_stat("manual_index_runs")
-            logger.info(f"📥 Manual index completed by admin {user_id}: {indexed_count} files indexed")
+            logger.info(f"ðŸ“¥ Manual index completed by admin {user_id}: {indexed_count} files indexed")
             
         except Exception as e:
-            logger.error(f"❌ Error in index command: {e}")
-            await message.reply("❌ Error during manual indexing.")
+            logger.error(f"âŒ Error in index command: {e}")
+            await message.reply("âŒ Error during manual indexing.")
 
     async def delete_command(self, client: Client, message: Message):
         """Handle /delete command (admin only)"""
@@ -643,12 +586,12 @@ I'm an advanced media search bot that helps you find files across indexed channe
             user_id = message.from_user.id
             
             if not self.config.is_admin(user_id):
-                await message.reply("❌ This command is only available to administrators.")
+                await message.reply("âŒ This command is only available to administrators.")
                 return
             
             if len(message.command) < 2:
                 await message.reply(
-                    "❌ **Invalid Usage**\n\n"
+                    "âŒ **Invalid Usage**\n\n"
                     "**Usage:** `/delete <file_id>`\n"
                     "**Example:** `/delete BAADBAADrwADBxG2CQAB`"
                 )
@@ -658,18 +601,18 @@ I'm an advanced media search bot that helps you find files across indexed channe
             
             if await self.database.delete_file(file_id):
                 await message.reply(
-                    f"✅ **File Deleted Successfully**\n\n"
+                    f"âœ… **File Deleted Successfully**\n\n"
                     f"**File ID:** `{file_id}`\n"
                     f"**Deleted by:** {message.from_user.mention}\n"
                     f"**Time:** {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}"
                 )
-                logger.info(f"🗑️ File {file_id} deleted by admin {user_id}")
+                logger.info(f"ðŸ—‘ï¸ File {file_id} deleted by admin {user_id}")
             else:
-                await message.reply(f"❌ File with ID `{file_id}` not found in database.")
+                await message.reply(f"âŒ File with ID `{file_id}` not found in database.")
             
         except Exception as e:
-            logger.error(f"❌ Error in delete command: {e}")
-            await message.reply("❌ Error deleting file.")
+            logger.error(f"âŒ Error in delete command: {e}")
+            await message.reply("âŒ Error deleting file.")
 
     async def logger_command(self, client: Client, message: Message):
         """Handle /logger command (admin only)"""
@@ -677,7 +620,7 @@ I'm an advanced media search bot that helps you find files across indexed channe
             user_id = message.from_user.id
             
             if not self.config.is_admin(user_id):
-                await message.reply("❌ This command is only available to administrators.")
+                await message.reply("âŒ This command is only available to administrators.")
                 return
             
             if os.path.exists("bot.log"):
@@ -687,18 +630,18 @@ I'm an advanced media search bot that helps you find files across indexed channe
                 
                 await message.reply_document(
                     "bot.log",
-                    caption=f"📋 **Bot Log File**\n\n"
+                    caption=f"ðŸ“‹ **Bot Log File**\n\n"
                            f"**Size:** {size_str}\n"
                            f"**Generated:** {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n"
                            f"**Requested by:** {message.from_user.mention}"
                 )
-                logger.info(f"📋 Log file sent to admin {user_id}")
+                logger.info(f"ðŸ“‹ Log file sent to admin {user_id}")
             else:
-                await message.reply("❌ Log file not found.")
+                await message.reply("âŒ Log file not found.")
             
         except Exception as e:
-            logger.error(f"❌ Error in logger command: {e}")
-            await message.reply("❌ Error sending log file.")
+            logger.error(f"âŒ Error in logger command: {e}")
+            await message.reply("âŒ Error sending log file.")
 
     async def total_command(self, client: Client, message: Message):
         """Handle /total command (admin only)"""
@@ -706,28 +649,28 @@ I'm an advanced media search bot that helps you find files across indexed channe
             user_id = message.from_user.id
             
             if not self.config.is_admin(user_id):
-                await message.reply("❌ This command is only available to administrators.")
+                await message.reply("âŒ This command is only available to administrators.")
                 return
             
             total_files = await self.database.get_total_files()
             file_type_stats = await self.database.get_file_type_stats()
             
-            total_text = f"📊 **Total File Statistics**\n\n**📁 Total Indexed Files:** `{total_files:,}`\n\n"
+            total_text = f"ðŸ“Š **Total File Statistics**\n\n**ðŸ“ Total Indexed Files:** `{total_files:,}`\n\n"
             
             if file_type_stats:
-                total_text += "**📄 Breakdown by Type:**\n"
+                total_text += "**ðŸ“„ Breakdown by Type:**\n"
                 for file_type, count in sorted(file_type_stats.items(), key=lambda x: x[1], reverse=True):
                     emoji = get_file_emoji(file_type)
                     percentage = (count / total_files * 100) if total_files > 0 else 0
-                    total_text += f"• {emoji} **{file_type.title()}:** `{count:,}` ({percentage:.1f}%)\n"
+                    total_text += f"â€¢ {emoji} **{file_type.title()}:** `{count:,}` ({percentage:.1f}%)\n"
             
-            total_text += f"\n**📅 Last Updated:** {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}"
+            total_text += f"\n**ðŸ“… Last Updated:** {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}"
             
             await message.reply(total_text)
             
         except Exception as e:
-            logger.error(f"❌ Error in total command: {e}")
-            await message.reply("❌ Error retrieving file count.")
+            logger.error(f"âŒ Error in total command: {e}")
+            await message.reply("âŒ Error retrieving file count.")
 
     async def channel_command(self, client: Client, message: Message):
         """Handle /channel command (admin only)"""
@@ -735,19 +678,19 @@ I'm an advanced media search bot that helps you find files across indexed channe
             user_id = message.from_user.id
             
             if not self.config.is_admin(user_id):
-                await message.reply("❌ This command is only available to administrators.")
+                await message.reply("âŒ This command is only available to administrators.")
                 return
             
             channel_stats = await self.database.get_channel_stats()
             
-            info_text = "📺 **Channel Information & Statistics**\n\n"
+            info_text = "ðŸ“º **Channel Information & Statistics**\n\n"
             
             total_channels = len(self.config.CHANNELS)
             active_channels = len([ch for ch in channel_stats if channel_stats[ch] > 0])
             
-            info_text += f"**📊 Overview:**\n"
-            info_text += f"• **Configured Channels:** `{total_channels}`\n"
-            info_text += f"• **Active Channels:** `{active_channels}`\n\n"
+            info_text += f"**ðŸ“Š Overview:**\n"
+            info_text += f"â€¢ **Configured Channels:** `{total_channels}`\n"
+            info_text += f"â€¢ **Active Channels:** `{active_channels}`\n\n"
             
             for channel_id in self.config.CHANNELS:
                 try:
@@ -757,26 +700,26 @@ I'm an advanced media search bot that helps you find files across indexed channe
                     # Get bot status in channel
                     try:
                         bot_member = await client.get_chat_member(channel_id, "me")
-                        status = "✅ Active" if bot_member.status == "administrator" else f"⚠️ {bot_member.status.title()}"
+                        status = "âœ… Active" if bot_member.status == "administrator" else f"âš ï¸ {bot_member.status.title()}"
                     except:
-                        status = "❌ No Access"
+                        status = "âŒ No Access"
                     
-                    info_text += f"**📺 {chat.title}**\n"
-                    info_text += f"• **ID:** `{channel_id}`\n"
-                    info_text += f"• **Type:** {chat.type.title()}\n"
-                    info_text += f"• **Files:** `{file_count:,}`\n"
-                    info_text += f"• **Status:** {status}\n\n"
+                    info_text += f"**ðŸ“º {chat.title}**\n"
+                    info_text += f"â€¢ **ID:** `{channel_id}`\n"
+                    info_text += f"â€¢ **Type:** {chat.type.title()}\n"
+                    info_text += f"â€¢ **Files:** `{file_count:,}`\n"
+                    info_text += f"â€¢ **Status:** {status}\n\n"
                     
                 except Exception as e:
                     info_text += f"**Channel {channel_id}**\n"
-                    info_text += f"• **Error:** {str(e)[:50]}...\n"
-                    info_text += f"• **Files:** `{channel_stats.get(str(channel_id), 0):,}`\n\n"
+                    info_text += f"â€¢ **Error:** {str(e)[:50]}...\n"
+                    info_text += f"â€¢ **Files:** `{channel_stats.get(str(channel_id), 0):,}`\n\n"
             
             await message.reply(info_text)
             
         except Exception as e:
-            logger.error(f"❌ Error in channel command: {e}")
-            await message.reply("❌ Error retrieving channel information.")
+            logger.error(f"âŒ Error in channel command: {e}")
+            await message.reply("âŒ Error retrieving channel information.")
 
     async def inline_query_handler(self, client: Client, inline_query: InlineQuery):
         """Handle inline search queries with advanced features"""
@@ -790,76 +733,17 @@ I'm an advanced media search bot that helps you find files across indexed channe
                 await inline_query.answer(
                     results=[],
                     cache_time=0,
-                    switch_pm_text=f"⏱️ Rate limited ({reset_time}s)",
+                    switch_pm_text=f"â±ï¸ Rate limited ({reset_time}s)",
                     switch_pm_parameter="rate_limited"
                 )
                 return
             
             # Check if user is banned
             if self.storage.is_banned(user_id):
-
-
-    async def session_command(self, client: Client, message: Message):
-        """Handle /session command (admin only)"""
-        try:
-            user_id = message.from_user.id
-            
-            if not self.config.is_admin(user_id):
-                await message.reply("❌ This command is only available to administrators.")
-                return
-            
-            if len(message.command) > 1:
-                action = message.command[1].lower()
-                
-                if action == "check":
-                    await message.reply("🔍 Checking session health...")
-                    health = await self.check_session_health()
-                    status = "✅ Healthy" if health else "❌ Unhealthy"
-                    await message.reply(f"🔍 **Session Health Check**\n\n**Status:** {status}")
-                    
-                elif action == "reset":
-                    await message.reply("🔄 Resetting session...")
-                    await self.cleanup_session_files()
-                    await message.reply("✅ Session files cleaned. Bot will restart automatically.")
-                    await self.app.restart()
-                    
-                elif action == "stats":
-                    bot_stats = self.storage.get_bot_stats()
-                    session_info = f"""📊 **Session Statistics**
-                    
-**Status:** {bot_stats.get('session_status', 'Unknown')}
-**Last Update:** {bot_stats.get('last_session_update', 'Never')}
-**Retry Count:** {self.session_retry_count}/{self.max_retries}
-**Session Files:** {len([f for f in os.listdir('.') if f.endswith('.session')])}"""
-                    await message.reply(session_info)
-                    
-                else:
-                    await message.reply("❌ Invalid action. Use: check, reset, or stats")
-            else:
-                help_text = """🔐 **Session Management**
-
-**Available Actions:**
-• `/session check` - Check session health
-• `/session reset` - Reset session files  
-• `/session stats` - Show session statistics
-
-**Session Status:**
-• `healthy` - Session working properly
-• `unhealthy` - Session has issues
-• `error` - Session error occurred
-• `recovered` - Session recovered from error
-• `failed` - Session recovery failed"""
-                
-                await message.reply(help_text)
-                
-        except Exception as e:
-            logger.error(f"❌ Error in session command: {e}")
-            await message.reply("❌ Error managing session.")
-
                 await inline_query.answer(
                     results=[],
                     cache_time=0,
-                    switch_pm_text="❌ You are banned",
+                    switch_pm_text="âŒ You are banned",
                     switch_pm_parameter="banned"
                 )
                 return
@@ -869,7 +753,7 @@ I'm an advanced media search bot that helps you find files across indexed channe
                 await inline_query.answer(
                     results=[],
                     cache_time=0,
-                    switch_pm_text="❌ Not authorized",
+                    switch_pm_text="âŒ Not authorized",
                     switch_pm_parameter="unauthorized"
                 )
                 return
@@ -882,7 +766,7 @@ I'm an advanced media search bot that helps you find files across indexed channe
                         await inline_query.answer(
                             results=[],
                             cache_time=0,
-                            switch_pm_text="📢 Join Channel First",
+                            switch_pm_text="ðŸ“¢ Join Channel First",
                             switch_pm_parameter="join_channel"
                         )
                         return
@@ -894,7 +778,7 @@ I'm an advanced media search bot that helps you find files across indexed channe
                 await inline_query.answer(
                     results=[],
                     cache_time=0,
-                    switch_pm_text="🔍 Type to search files...",
+                    switch_pm_text="ðŸ” Type to search files...",
                     switch_pm_parameter="help"
                 )
                 return
@@ -912,7 +796,7 @@ I'm an advanced media search bot that helps you find files across indexed channe
                 await inline_query.answer(
                     results=[],
                     cache_time=5,
-                    switch_pm_text="❌ No files found",
+                    switch_pm_text="âŒ No files found",
                     switch_pm_parameter="no_results"
                 )
                 return
@@ -933,22 +817,22 @@ I'm an advanced media search bot that helps you find files across indexed channe
             await inline_query.answer(
                 results=results,
                 cache_time=self.config.CACHE_TIME,
-                switch_pm_text=f"📊 {len(results)} results",
+                switch_pm_text=f"ðŸ“Š {len(results)} results",
                 switch_pm_parameter="search_results"
             )
             
-            logger.info(f"🔍 Search '{query}' by user {user_id}: {len(results)} results")
+            logger.info(f"ðŸ” Search '{query}' by user {user_id}: {len(results)} results")
             
         except FloodWait as e:
             logger.warning(f"FloodWait in inline query: {e.value}s")
             await asyncio.sleep(e.value)
         except Exception as e:
-            logger.error(f"❌ Error in inline query handler: {e}")
+            logger.error(f"âŒ Error in inline query handler: {e}")
             try:
                 await inline_query.answer(
                     results=[],
                     cache_time=0,
-                    switch_pm_text="❌ Search error",
+                    switch_pm_text="âŒ Search error",
                     switch_pm_parameter="error"
                 )
             except:
@@ -962,10 +846,10 @@ I'm an advanced media search bot that helps you find files across indexed channe
             query = chosen_result.query
             
             await self.storage.increment_stat("files_shared")
-            logger.info(f"📤 User {user_id} selected result {result_id} for '{query}'")
+            logger.info(f"ðŸ“¤ User {user_id} selected result {result_id} for '{query}'")
             
         except Exception as e:
-            logger.error(f"❌ Error handling chosen result: {e}")
+            logger.error(f"âŒ Error handling chosen result: {e}")
 
     async def callback_query_handler(self, client: Client, callback_query: CallbackQuery):
         """Handle callback queries from inline keyboards"""
@@ -979,52 +863,52 @@ I'm an advanced media search bot that helps you find files across indexed channe
                 file_type_stats = await self.database.get_file_type_stats()
                 bot_stats = self.storage.get_bot_stats()
                 
-                stats_text = f"""📊 **Public Bot Statistics**
+                stats_text = f"""ðŸ“Š **Public Bot Statistics**
 
-**📁 Database:**
-• Total Files: `{total_files:,}`
-• Total Queries: `{bot_stats.get('total_queries', 0):,}`
-• Files Shared: `{bot_stats.get('files_shared', 0):,}`
+**ðŸ“ Database:**
+â€¢ Total Files: `{total_files:,}`
+â€¢ Total Queries: `{bot_stats.get('total_queries', 0):,}`
+â€¢ Files Shared: `{bot_stats.get('files_shared', 0):,}`
 
-**📄 File Types:**"""
+**ðŸ“„ File Types:**"""
                 
                 for file_type, count in sorted(file_type_stats.items(), key=lambda x: x[1], reverse=True)[:5]:
                     emoji = get_file_emoji(file_type)
-                    stats_text += f"\n• {emoji} {file_type.title()}: `{count:,}`"
+                    stats_text += f"\nâ€¢ {emoji} {file_type.title()}: `{count:,}`"
                 
                 keyboard = InlineKeyboardMarkup([
-                    [InlineKeyboardButton("🔍 Search Files", switch_inline_query_current_chat="")],
-                    [InlineKeyboardButton("🏠 Back to Start", callback_data="back_to_start")]
+                    [InlineKeyboardButton("ðŸ” Search Files", switch_inline_query_current_chat="")],
+                    [InlineKeyboardButton("ðŸ  Back to Start", callback_data="back_to_start")]
                 ])
                 
                 await callback_query.message.edit_text(stats_text, reply_markup=keyboard)
                 
             elif data == "show_help":
                 me = await client.get_me()
-                help_text = f"""❓ **Quick Help Guide**
+                help_text = f"""â“ **Quick Help Guide**
 
-**🔍 How to Search:**
+**ðŸ” How to Search:**
 Type `@{me.username} <search term>` in any chat
 
-**💡 Search Tips:**
-• Use specific keywords
-• Try: `movie name | video`
-• Search by filename or caption
+**ðŸ’¡ Search Tips:**
+â€¢ Use specific keywords
+â€¢ Try: `movie name | video`
+â€¢ Search by filename or caption
 
-**📁 File Types:**
-• `| document` - Documents only
-• `| video` - Videos only  
-• `| audio` - Audio files only
-• `| photo` - Images only
+**ðŸ“ File Types:**
+â€¢ `| document` - Documents only
+â€¢ `| video` - Videos only  
+â€¢ `| audio` - Audio files only
+â€¢ `| photo` - Images only
 
 **Example Searches:**
-• `@{me.username} python tutorial`
-• `@{me.username} movie | video`
-• `@{me.username} song name | audio`"""
+â€¢ `@{me.username} python tutorial`
+â€¢ `@{me.username} movie | video`
+â€¢ `@{me.username} song name | audio`"""
                 
                 keyboard = InlineKeyboardMarkup([
-                    [InlineKeyboardButton("🔍 Try Search", switch_inline_query_current_chat="")],
-                    [InlineKeyboardButton("🏠 Back to Start", callback_data="back_to_start")]
+                    [InlineKeyboardButton("ðŸ” Try Search", switch_inline_query_current_chat="")],
+                    [InlineKeyboardButton("ðŸ  Back to Start", callback_data="back_to_start")]
                 ])
                 
                 await callback_query.message.edit_text(help_text, reply_markup=keyboard)
@@ -1039,13 +923,13 @@ Type `@{me.username} <search term>` in any chat
                     try:
                         member = await client.get_chat_member(self.config.AUTH_CHANNEL, user_id)
                         if member.status not in ["left", "kicked"]:
-                            await callback_query.answer("✅ Subscription verified! You can now use the bot.", show_alert=True)
+                            await callback_query.answer("âœ… Subscription verified! You can now use the bot.", show_alert=True)
                             await self.start_command(client, callback_query.message)
                             return
                     except:
                         pass
                 
-                await callback_query.answer("❌ Please join the required channel first.", show_alert=True)
+                await callback_query.answer("âŒ Please join the required channel first.", show_alert=True)
                 
             elif data == "confirm_broadcast" and self.config.is_admin(user_id):
                 # Handle broadcast confirmation
@@ -1054,17 +938,17 @@ Type `@{me.username} <search term>` in any chat
                 
                 if broadcast_msg:
                     await callback_query.message.edit_text(
-                        "📢 **Broadcast sent!**\n\n"
+                        "ðŸ“¢ **Broadcast sent!**\n\n"
                         "The message has been scheduled for delivery to all users.\n"
                         "Note: This is a simplified implementation."
                     )
                     # TODO: Implement actual broadcast to all users
-                    logger.info(f"📢 Broadcast confirmed by admin {user_id}")
+                    logger.info(f"ðŸ“¢ Broadcast confirmed by admin {user_id}")
                 else:
-                    await callback_query.answer("❌ No pending broadcast found.", show_alert=True)
+                    await callback_query.answer("âŒ No pending broadcast found.", show_alert=True)
                     
             elif data == "cancel_broadcast":
-                await callback_query.message.edit_text("❌ **Broadcast cancelled.**")
+                await callback_query.message.edit_text("âŒ **Broadcast cancelled.**")
                 await self.storage.update_bot_stats({"pending_broadcast": None})
                 
             # Admin-only callbacks
@@ -1077,8 +961,8 @@ Type `@{me.username} <search term>` in any chat
             await callback_query.answer()
             
         except Exception as e:
-            logger.error(f"❌ Error in callback query handler: {e}")
-            await callback_query.answer("❌ An error occurred.", show_alert=True)
+            logger.error(f"âŒ Error in callback query handler: {e}")
+            await callback_query.answer("âŒ An error occurred.", show_alert=True)
 
     async def channel_media_handler(self, client: Client, message: Message):
         """Handle media files posted in configured channels"""
@@ -1087,20 +971,20 @@ Type `@{me.username} <search term>` in any chat
             
             if file_document and await self.database.save_file(file_document):
                 await self.storage.increment_stat("total_files")
-                logger.info(f"💾 Auto-indexed: {file_document['file_name']} from {message.chat.title}")
+                logger.info(f"ðŸ’¾ Auto-indexed: {file_document['file_name']} from {message.chat.title}")
                 
         except Exception as e:
-            logger.error(f"❌ Error in channel media handler: {e}")
+            logger.error(f"âŒ Error in channel media handler: {e}")
 
     async def global_error_handler(self, client: Client, message: Message):
         """Global error handler for session and other critical errors"""
         try:
             pass  # This handler runs last and catches unhandled messages
         except (SessionRevoked, AuthKeyUnregistered) as e:
-            logger.error(f"🔐 Session error in global handler: {e}")
+            logger.error(f"ðŸ” Session error in global handler: {e}")
             await self.handle_session_error(e)
         except Exception as e:
-            logger.error(f"❌ Unhandled error in global handler: {e}")
+            logger.error(f"âŒ Unhandled error in global handler: {e}")
 
     async def _create_file_document(self, message: Message) -> Optional[Dict[str, Any]]:
         """Create file document for database storage"""
@@ -1184,7 +1068,7 @@ Type `@{me.username} <search term>` in any chat
             return document
             
         except Exception as e:
-            logger.error(f"❌ Error creating file document: {e}")
+            logger.error(f"âŒ Error creating file document: {e}")
             return None
 
     async def _create_inline_result(self, index: int, file_data: Dict[str, Any]):
@@ -1205,31 +1089,31 @@ Type `@{me.username} <search term>` in any chat
             # Create description
             desc_parts = []
             if size_str != "Unknown":
-                desc_parts.append(f"📦 {size_str}")
+                desc_parts.append(f"ðŸ“¦ {size_str}")
             if duration_str:
-                desc_parts.append(f"⏱️ {duration_str}")
+                desc_parts.append(f"â±ï¸ {duration_str}")
             if file_type:
-                desc_parts.append(f"🔖 {file_type.title()}")
+                desc_parts.append(f"ðŸ”– {file_type.title()}")
             
-            description = " • ".join(desc_parts)
+            description = " â€¢ ".join(desc_parts)
             
             # Create message content
-            content_text = f"📁 **{file_name}**\n\n"
-            content_text += f"📦 **Size:** {size_str}\n"
-            content_text += f"🔖 **Type:** {file_type.title()}\n"
+            content_text = f"ðŸ“ **{file_name}**\n\n"
+            content_text += f"ðŸ“¦ **Size:** {size_str}\n"
+            content_text += f"ðŸ”– **Type:** {file_type.title()}\n"
             
             if duration_str:
-                content_text += f"⏱️ **Duration:** {duration_str}\n"
+                content_text += f"â±ï¸ **Duration:** {duration_str}\n"
             
             # Add caption preview
             if caption:
-                content_text += f"\n💬 **Description:**\n{caption[:300]}{'...' if len(caption) > 300 else ''}"
+                content_text += f"\nðŸ’¬ **Description:**\n{caption[:300]}{'...' if len(caption) > 300 else ''}"
             
             # Create Telegram link
             channel_id = abs(file_data.get('channel_id', 0))
             message_id = file_data.get('message_id', 0)
             telegram_link = f"https://t.me/c/{channel_id}/{message_id}"
-            content_text += f"\n\n🔗 [View File]({telegram_link})"
+            content_text += f"\n\nðŸ”— [View File]({telegram_link})"
             
             # Use InlineQueryResultArticle instead of InlineQueryResultDocument
             from pyrogram.types import InlineQueryResultArticle
@@ -1245,7 +1129,7 @@ Type `@{me.username} <search term>` in any chat
             )
             
         except Exception as e:
-            logger.error(f"❌ Error creating inline result: {e}")
+            logger.error(f"âŒ Error creating inline result: {e}")
             return None
 
 # Global handlers instance (will be initialized by main.py)
@@ -1257,5 +1141,4 @@ def register_handlers(app: Client, storage: Storage, config: Config):
     handlers = MediaSearchHandlers(app)
     handlers.storage = storage
     handlers.config = config
-    logger.info("✅ Media Search Bot handlers registered successfully")
-
+    logger.info("âœ… Media Search Bot handlers registered successfully")
